@@ -12,13 +12,16 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		ANTLRInputStream input = new ANTLRFileStream("code.lhc");
+		System.out.println(compile(input));
+		
+	}
+	public static String compile(ANTLRInputStream input){
 		LHCLexer lexer = new LHCLexer(input);
 		CommonTokenStream token = new CommonTokenStream(lexer);
 		LHCParser parser = new LHCParser(token);
 		
 		ParseTree tree = parser.exp1();
-		System.out.println(createJasminFile(new MyVisitor().visit(tree)));
-		
+		return createJasminFile(new MyVisitor().visit(tree));
 	}
 
 	private static String  createJasminFile(String instructions){
