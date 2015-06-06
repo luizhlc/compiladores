@@ -1,32 +1,56 @@
 grammar LHC;
 
-
 	options {language = Java; }
+
+program: Init Begin stmt End;
+
+stmt: exp | (print Semicolon)+;
+
+print: Print ParBeg argument=exp ParEnd;
 	
-exp1: left=exp1 '|' right=exp2	#Or_rule
-    | exit=exp2	#NextAnd
+exp : expLogic | expArit;
+
+expArit : left=expArit Times right=expArit #Times_rule
+		| left=expArit Divide right=expArit #Divide_rule
+		| left=expArit Plus right=expArit #Plus_rule
+		| left=expArit Minus right=expArit #Minus_rule
+		| Num #Num_rule
+		;
+
+expLogic : expAnd;
+
+expAnd: left=expAnd Or right=expOr	#Or_rule
+    | exit=expOr	#NextAnd
     ;	
-exp2: left=exp2 '&' right=BOOL #And_rule
+expOr: left=expOr And right=BOOL #And_rule
 	| bool=BOOL #Bool
-	| '(' cont=exp1 ')'  #NextOr
+	| ParBeg cont=expAnd ParEnd  #NextOr
 	;
+	
 BOOL: 'true' | 'false';
 
   WS : ('\n'| '\t' | '\r' | ' ')+ -> skip ;
   
-  
-//  Init : 'LHC+-';
-//    Begin : '{'; 
-//    End : '}' ;
+  Print: 'print';
+  Init : 'LHC+-';
+  Begin : '{'; 
+  End : '}' ;
+  ParBeg : '(' ;
+  ParEnd : ')' ;
+  Semicolon : ';' ;
+  Plus : '+';
+  Minus : '-';
+  Times : '*';
+  Divide : '/';
+  Num : ('0' .. '9')+ ;
+  Or : '|' ;
+  And: '&' ;
 //  VectorBeg : '[' ;
 //  VectorEnd : ']' ;
-//  ParBeg : '(' ;
-//  ParEnd : ')' ;
 //  Comma : ',' ;
 //  Dot : '.' ;
 //  Class : 'class' ;
 //    Include : 'include';
-//  Semicolon : ';' ;
 //  Quote : '"' ;
 //  Equal : '=' ;
 //  TypeC : 'uint' | 'int' | 'double' | 'char' ;
@@ -34,10 +58,7 @@ BOOL: 'true' | 'false';
 //  Void : 'void';
 //  Control : 'break' | 'continue' ;
 //  Return : 'return';
-//  Opa1 : '+' | '-' ;
 //    Opa2 : '*' | '/' ;
-//  Or : '|' ;
-//  And: '&' ;
 //  Opl3: '!' ;//?????????
 //    Case : 'case' ;
 //  Default: 'default' ;
@@ -54,7 +75,6 @@ BOOL: 'true' | 'false';
 //  IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
 //    Double : Integer '.' Integer | '.' Integer | Integer '.' ;
 //    Integer : Num+;
-//    Num : ('0' .. '9') ;
 //
 //    program	: Init ID (inclusion)*  Begin (decl)* (method)* End ;
 //  	inclusion: Include ID  ;

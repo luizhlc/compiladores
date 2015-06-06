@@ -1,1 +1,3 @@
-true & false | (true & true)
+LHC+-{
+	print(2*3+5*2);
+}

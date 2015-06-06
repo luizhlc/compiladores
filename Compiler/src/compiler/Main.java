@@ -1,5 +1,10 @@
 package compiler;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -12,19 +17,40 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		ANTLRInputStream input = new ANTLRFileStream("code.lhc");
-		System.out.println(compile(input));
 		
+		String output = compile(input);
+		
+		System.out.println(output);
+		createProgram(output);
 	}
+	
 	public static String compile(ANTLRInputStream input){
 		LHCLexer lexer = new LHCLexer(input);
 		CommonTokenStream token = new CommonTokenStream(lexer);
 		LHCParser parser = new LHCParser(token);
 		
-		ParseTree tree = parser.exp1();
+		ParseTree tree = parser.program();
 		return createJasminFile(new MyVisitor().visit(tree));
 	}
+	
+	private static void createProgram(String program){
+		try {
+			File file = new File("./JCode.j");
+ 
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+ 
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write(program);
+			bw.close();
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-	private static String  createJasminFile(String instructions){
+	private static String createJasminFile(String instructions){
 		return ".class public JCode\n"+
 			   ".super java/lang/Object \n"+
 			   "\n"+
@@ -32,9 +58,7 @@ public class Main {
 		       "	.limit stack 100\n"+
 			   "	.limit locals 100\n"+
 			   "	\n"+
-			   "	getstatic java/lang/System/out Ljava/io/PrintStream;\n"+
 			    instructions +"\n"+
-			   "	invokevirtual java/io/PrintStream/println(I)V\n"+
 			   "	return\n"+
 			   "	\n"+
 			   ".end method\n";

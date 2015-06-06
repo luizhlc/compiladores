@@ -5,15 +5,15 @@
 	.limit stack 100
 	.limit locals 100
 	
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-ldc 1
-ldc 0
-iand
-ldc 1
-ldc 1
-iand
-ior
-	invokevirtual java/io/PrintStream/println(I)V
+getstatic java/lang/System/out Ljava/io/PrintStream;
+ldc 2
+ldc 3
+imul
+ldc 5
+ldc 2
+imul
+iadd
+invokevirtual java/io/PrintStream/println(I)V
 	return
 	
 .end method
