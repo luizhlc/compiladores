@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="4" passed="4">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="609" started-at="2015-06-07T21:05:58Z" finished-at="2015-06-07T21:05:58Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="609" started-at="2015-06-07T21:05:58Z" finished-at="2015-06-07T21:05:58Z">
+      <class name="Aula6.TestCompiler">
+        <test-method status="PASS" signature="createTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="createTempDir" is-config="true" duration-ms="5" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTempDir -->
+        <test-method status="PASS" signature="runningCode_outputsExpectedText(java.lang.String, java.lang.String)[pri:0, instance:Aula6.TestCompiler@387c703b]" name="runningCode_outputsExpectedText" duration-ms="288" started-at="2015-06-07T18:05:58Z" data-provider="provide_code_expectedText" finished-at="2015-06-07T18:05:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[LHC+-{print(2*3+5*2);}]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[16
+]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runningCode_outputsExpectedText -->
+        <test-method status="PASS" signature="deleteTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="deleteTempDir" is-config="true" duration-ms="1" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- deleteTempDir -->
+        <test-method status="PASS" signature="createTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="createTempDir" is-config="true" duration-ms="0" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTempDir -->
+        <test-method status="PASS" signature="runningCode_outputsExpectedText(java.lang.String, java.lang.String)[pri:0, instance:Aula6.TestCompiler@387c703b]" name="runningCode_outputsExpectedText" duration-ms="91" started-at="2015-06-07T18:05:58Z" data-provider="provide_code_expectedText" finished-at="2015-06-07T18:05:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[LHC+-{print((2*3+5*2==16));}]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[1
+]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runningCode_outputsExpectedText -->
+        <test-method status="PASS" signature="createTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="createTempDir" is-config="true" duration-ms="1" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTempDir -->
+        <test-method status="PASS" signature="deleteTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="deleteTempDir" is-config="true" duration-ms="0" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- deleteTempDir -->
+        <test-method status="PASS" signature="runningCode_outputsExpectedText(java.lang.String, java.lang.String)[pri:0, instance:Aula6.TestCompiler@387c703b]" name="runningCode_outputsExpectedText" duration-ms="107" started-at="2015-06-07T18:05:58Z" data-provider="provide_code_expectedText" finished-at="2015-06-07T18:05:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[LHC+-{print((false | false ));}]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[0
+]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runningCode_outputsExpectedText -->
+        <test-method status="PASS" signature="deleteTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="deleteTempDir" is-config="true" duration-ms="0" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- deleteTempDir -->
+        <test-method status="PASS" signature="createTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="createTempDir" is-config="true" duration-ms="1" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTempDir -->
+        <test-method status="PASS" signature="runningCode_outputsExpectedText(java.lang.String, java.lang.String)[pri:0, instance:Aula6.TestCompiler@387c703b]" name="runningCode_outputsExpectedText" duration-ms="86" started-at="2015-06-07T18:05:58Z" data-provider="provide_code_expectedText" finished-at="2015-06-07T18:05:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[LHC+-{print((false | false ));}]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[0
+]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runningCode_outputsExpectedText -->
+        <test-method status="PASS" signature="deleteTempDir()[pri:0, instance:Aula6.TestCompiler@387c703b]" name="deleteTempDir" is-config="true" duration-ms="1" started-at="2015-06-07T18:05:58Z" finished-at="2015-06-07T18:05:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- deleteTempDir -->
+      </class> <!-- Aula6.TestCompiler -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

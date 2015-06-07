@@ -2,30 +2,28 @@ grammar LHC;
 
 	options {language = Java; }
 
-program: Init Begin stmt End;
+program: Init Begin (stmt)* End;
 
 stmt: exp | (print Semicolon)+;
 
 print: Print ParBeg argument=exp ParEnd;
 	
-exp : expLogic | expArit;
 
-expArit : left=expArit Times right=expArit #Times_rule
-		| left=expArit Divide right=expArit #Divide_rule
-		| left=expArit Plus right=expArit #Plus_rule
-		| left=expArit Minus right=expArit #Minus_rule
-		| Num #Num_rule
-		;
-
-expLogic : expAnd;
-
-expAnd: left=expAnd Or right=expOr	#Or_rule
-    | exit=expOr	#NextAnd
-    ;	
-expOr: left=expOr And right=BOOL #And_rule
-	| bool=BOOL #Bool
-	| ParBeg cont=expAnd ParEnd  #NextOr
-	;
+exp :  ParBeg exp ParEnd #ParExp_rule    
+	|  left=exp Or right=exp #Or_rule
+	|  left=exp And right=exp #And_rule
+	|  left=exp Times right=exp #Times_rule
+	|  left=exp Divide right=exp #Divide_rule
+	|  left=exp Plus right=exp #Plus_rule
+	|  left=exp Minus right=exp #Minus_rule
+	|  left=exp Equal right=exp #Equal_rule
+    |  left=exp NEqual right=exp #NEqual__rule
+    |  left=exp Less right=exp #Less_rule
+	|  left=exp Greater right=exp #Greater_rule
+	|  left=exp LessE right=exp #LessE_rule
+	|  left=exp GreaterE right=exp #GreaterE_rule
+	|  BOOL #Bool
+	|  Num #Num_rule;
 	
 BOOL: 'true' | 'false';
 
@@ -45,6 +43,13 @@ BOOL: 'true' | 'false';
   Num : ('0' .. '9')+ ;
   Or : '|' ;
   And: '&' ;
+  Equal: '=''=';
+  NEqual: '!''=';
+  Less: '<';
+  LessE: '<''=';
+  Greater: '>';
+  GreaterE: '>''=';
+  Not: '!';
 //  VectorBeg : '[' ;
 //  VectorEnd : ']' ;
 //  Comma : ',' ;

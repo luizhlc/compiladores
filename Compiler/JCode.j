@@ -13,6 +13,13 @@ ldc 5
 ldc 2
 imul
 iadd
+ldc 16
+if_icmpeq Label0
+ldc 0
+goto Exit0
+Label0:
+ldc 1
+Exit0:
 invokevirtual java/io/PrintStream/println(I)V
 	return
 	
