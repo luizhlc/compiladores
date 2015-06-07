@@ -19,13 +19,11 @@ import aula3.LHCParser.Times_ruleContext;
 
 public class MyVisitor extends LHCBaseVisitor<String> {
 	int label=0;
-	@Override
 	public String visitPrint(PrintContext ctx) {
 		String child = visit(ctx.argument);
 		String retorno = "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
 				+ child + "\n"
 				+ "invokevirtual java/io/PrintStream/println(I)V";
-		System.out.println(retorno+"\n\n");
 		return retorno;
 	}
 	//EXP_BEGIN
@@ -44,11 +42,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	public String visitEqual_rule(Equal_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
-				"if_acmpeq Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				"if_icmpeq Label"+label +"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -56,11 +54,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	public String visitNEqual__rule(NEqual__ruleContext ctx) {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
-				"if_acmpne Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				"if_icmpne Label"+label +"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -69,10 +67,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
 				"if_icmplt Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -81,10 +79,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
 				"if_icmpgt Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -93,10 +91,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
 				"if_icmple Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -105,10 +103,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visitChildren(ctx);
 		String retorno = child+"\n"+
 				"if_icmpge Label"+label +"\n"
-				+ "bipush 0" +"\n"
-				+"jsr Exit"+label+"\n"
+				+ "ldc 0" +"\n"
+				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
-				+"bipush 1"+"\n"
+				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 		return retorno;
 	}
@@ -148,7 +146,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String retorno = "ldc " + ctx.Num().getText();
 		return retorno;
 	}
-	
 	@Override
 	public String visitBool(BoolContext ctx) {
 		String retorno = "ldc 0";
@@ -157,14 +154,14 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return retorno;
 	}
 	//EXP_END
-//	@Override
-//	protected String aggregateResult(String aggregate, String nextResult) {
-//		if (aggregate == null) {
-//			return nextResult;
-//		}
-//		if (nextResult == null) {
-//			return aggregate;
-//		}
-//		return aggregate + "\n" + nextResult;
-//	}
+	@Override
+	protected String aggregateResult(String aggregate, String nextResult) {
+		if (aggregate == null) {
+			return nextResult;
+		}
+		if (nextResult == null) {
+			return aggregate;
+		}
+		return aggregate + "\n" + nextResult;
+	}
 }

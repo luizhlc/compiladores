@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="testCompiler"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Parser"/>
 	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jasmin.jar"/>
 	<classpathentry kind="lib" path="D:/meus documentos/documentos/Aulas/Projetos/ferramentas/antlr-4.2-complete.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Parser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -426,26 +426,6 @@ public class LHCParser extends Parser {
 			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitTimes_rule(this);
 		}
 	}
-	public static class Greater_ruleContext extends ExpContext {
-		public ExpContext left;
-		public ExpContext right;
-		public List<ExpContext> exp() {
-			return getRuleContexts(ExpContext.class);
-		}
-		public TerminalNode Greater() { return getToken(LHCParser.Greater, 0); }
-		public ExpContext exp(int i) {
-			return getRuleContext(ExpContext.class,i);
-		}
-		public Greater_ruleContext(ExpContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterGreater_rule(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitGreater_rule(this);
-		}
-	}
 	public static class Minus_ruleContext extends ExpContext {
 		public ExpContext left;
 		public ExpContext right;
@@ -464,6 +444,26 @@ public class LHCParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitMinus_rule(this);
+		}
+	}
+	public static class Greater_ruleContext extends ExpContext {
+		public ExpContext left;
+		public ExpContext right;
+		public List<ExpContext> exp() {
+			return getRuleContexts(ExpContext.class);
+		}
+		public TerminalNode Greater() { return getToken(LHCParser.Greater, 0); }
+		public ExpContext exp(int i) {
+			return getRuleContext(ExpContext.class,i);
+		}
+		public Greater_ruleContext(ExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterGreater_rule(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitGreater_rule(this);
 		}
 	}
 	public static class Divide_ruleContext extends ExpContext {
@@ -591,9 +591,9 @@ public class LHCParser extends Parser {
 						((Or_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(42);
-						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
 						setState(43); match(Or);
-						setState(44); ((Or_ruleContext)_localctx).right = exp(16);
+						setState(44); ((Or_ruleContext)_localctx).right = exp(15);
 						}
 						break;
 
@@ -603,129 +603,129 @@ public class LHCParser extends Parser {
 						((And_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(45);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(46); match(And);
-						setState(47); ((And_ruleContext)_localctx).right = exp(15);
+						setState(47); ((And_ruleContext)_localctx).right = exp(14);
 						}
 						break;
 
 					case 3:
 						{
-						_localctx = new Equal_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Equal_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Times_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Times_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(48);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(49); match(Equal);
-						setState(50); ((Equal_ruleContext)_localctx).right = exp(14);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(49); match(Times);
+						setState(50); ((Times_ruleContext)_localctx).right = exp(13);
 						}
 						break;
 
 					case 4:
 						{
-						_localctx = new NEqual__ruleContext(new ExpContext(_parentctx, _parentState));
-						((NEqual__ruleContext)_localctx).left = _prevctx;
+						_localctx = new Divide_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Divide_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(51);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(52); match(NEqual);
-						setState(53); ((NEqual__ruleContext)_localctx).right = exp(13);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						setState(52); match(Divide);
+						setState(53); ((Divide_ruleContext)_localctx).right = exp(12);
 						}
 						break;
 
 					case 5:
 						{
-						_localctx = new Less_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Less_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Plus_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Plus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(54);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(55); match(Less);
-						setState(56); ((Less_ruleContext)_localctx).right = exp(12);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(55); match(Plus);
+						setState(56); ((Plus_ruleContext)_localctx).right = exp(11);
 						}
 						break;
 
 					case 6:
 						{
-						_localctx = new Greater_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Greater_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Minus_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Minus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(57);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(58); match(Greater);
-						setState(59); ((Greater_ruleContext)_localctx).right = exp(11);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(58); match(Minus);
+						setState(59); ((Minus_ruleContext)_localctx).right = exp(10);
 						}
 						break;
 
 					case 7:
 						{
-						_localctx = new LessE_ruleContext(new ExpContext(_parentctx, _parentState));
-						((LessE_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Equal_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Equal_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(60);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(61); match(LessE);
-						setState(62); ((LessE_ruleContext)_localctx).right = exp(10);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(61); match(Equal);
+						setState(62); ((Equal_ruleContext)_localctx).right = exp(9);
 						}
 						break;
 
 					case 8:
 						{
-						_localctx = new GreaterE_ruleContext(new ExpContext(_parentctx, _parentState));
-						((GreaterE_ruleContext)_localctx).left = _prevctx;
+						_localctx = new NEqual__ruleContext(new ExpContext(_parentctx, _parentState));
+						((NEqual__ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(63);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(64); match(GreaterE);
-						setState(65); ((GreaterE_ruleContext)_localctx).right = exp(9);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(64); match(NEqual);
+						setState(65); ((NEqual__ruleContext)_localctx).right = exp(8);
 						}
 						break;
 
 					case 9:
 						{
-						_localctx = new Times_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Times_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Less_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Less_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(66);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(67); match(Times);
-						setState(68); ((Times_ruleContext)_localctx).right = exp(8);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(67); match(Less);
+						setState(68); ((Less_ruleContext)_localctx).right = exp(7);
 						}
 						break;
 
 					case 10:
 						{
-						_localctx = new Divide_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Divide_ruleContext)_localctx).left = _prevctx;
+						_localctx = new Greater_ruleContext(new ExpContext(_parentctx, _parentState));
+						((Greater_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(69);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(70); match(Divide);
-						setState(71); ((Divide_ruleContext)_localctx).right = exp(7);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(70); match(Greater);
+						setState(71); ((Greater_ruleContext)_localctx).right = exp(6);
 						}
 						break;
 
 					case 11:
 						{
-						_localctx = new Plus_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Plus_ruleContext)_localctx).left = _prevctx;
+						_localctx = new LessE_ruleContext(new ExpContext(_parentctx, _parentState));
+						((LessE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(72);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(73); match(Plus);
-						setState(74); ((Plus_ruleContext)_localctx).right = exp(6);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(73); match(LessE);
+						setState(74); ((LessE_ruleContext)_localctx).right = exp(5);
 						}
 						break;
 
 					case 12:
 						{
-						_localctx = new Minus_ruleContext(new ExpContext(_parentctx, _parentState));
-						((Minus_ruleContext)_localctx).left = _prevctx;
+						_localctx = new GreaterE_ruleContext(new ExpContext(_parentctx, _parentState));
+						((GreaterE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
 						setState(75);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(76); match(Minus);
-						setState(77); ((Minus_ruleContext)_localctx).right = exp(5);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(76); match(GreaterE);
+						setState(77); ((GreaterE_ruleContext)_localctx).right = exp(4);
 						}
 						break;
 					}
@@ -756,29 +756,29 @@ public class LHCParser extends Parser {
 	}
 	private boolean exp_sempred(ExpContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return precpred(_ctx, 15);
+		case 0: return precpred(_ctx, 14);
 
-		case 1: return precpred(_ctx, 14);
+		case 1: return precpred(_ctx, 13);
 
-		case 2: return precpred(_ctx, 13);
+		case 2: return precpred(_ctx, 12);
 
-		case 3: return precpred(_ctx, 12);
+		case 3: return precpred(_ctx, 11);
 
-		case 4: return precpred(_ctx, 11);
+		case 4: return precpred(_ctx, 10);
 
-		case 5: return precpred(_ctx, 10);
+		case 5: return precpred(_ctx, 9);
 
-		case 6: return precpred(_ctx, 9);
+		case 6: return precpred(_ctx, 8);
 
-		case 7: return precpred(_ctx, 8);
+		case 7: return precpred(_ctx, 7);
 
-		case 8: return precpred(_ctx, 7);
+		case 8: return precpred(_ctx, 6);
 
-		case 9: return precpred(_ctx, 6);
+		case 9: return precpred(_ctx, 5);
 
-		case 10: return precpred(_ctx, 5);
+		case 10: return precpred(_ctx, 4);
 
-		case 11: return precpred(_ctx, 4);
+		case 11: return precpred(_ctx, 3);
 		}
 		return true;
 	}
@@ -798,15 +798,15 @@ public class LHCParser extends Parser {
 		"\2\2\2\34\30\3\2\2\2\35\5\3\2\2\2\36\37\7\5\2\2\37 \7\t\2\2 !\5\b\5\2"+
 		"!\"\7\n\2\2\"\7\3\2\2\2#$\b\5\1\2$%\7\t\2\2%&\5\b\5\2&\'\7\n\2\2\'+\3"+
 		"\2\2\2(+\7\3\2\2)+\7\20\2\2*#\3\2\2\2*(\3\2\2\2*)\3\2\2\2+R\3\2\2\2,-"+
-		"\f\21\2\2-.\7\21\2\2.Q\5\b\5\22/\60\f\20\2\2\60\61\7\22\2\2\61Q\5\b\5"+
-		"\21\62\63\f\17\2\2\63\64\7\23\2\2\64Q\5\b\5\20\65\66\f\16\2\2\66\67\7"+
-		"\24\2\2\67Q\5\b\5\1789\f\r\2\29:\7\25\2\2:Q\5\b\5\16;<\f\f\2\2<=\7\27"+
-		"\2\2=Q\5\b\5\r>?\f\13\2\2?@\7\26\2\2@Q\5\b\5\fAB\f\n\2\2BC\7\30\2\2CQ"+
-		"\5\b\5\13DE\f\t\2\2EF\7\16\2\2FQ\5\b\5\nGH\f\b\2\2HI\7\17\2\2IQ\5\b\5"+
-		"\tJK\f\7\2\2KL\7\f\2\2LQ\5\b\5\bMN\f\6\2\2NO\7\r\2\2OQ\5\b\5\7P,\3\2\2"+
-		"\2P/\3\2\2\2P\62\3\2\2\2P\65\3\2\2\2P8\3\2\2\2P;\3\2\2\2P>\3\2\2\2PA\3"+
-		"\2\2\2PD\3\2\2\2PG\3\2\2\2PJ\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3"+
-		"\2\2\2S\t\3\2\2\2TR\3\2\2\2\b\17\32\34*PR";
+		"\f\20\2\2-.\7\21\2\2.Q\5\b\5\21/\60\f\17\2\2\60\61\7\22\2\2\61Q\5\b\5"+
+		"\20\62\63\f\16\2\2\63\64\7\16\2\2\64Q\5\b\5\17\65\66\f\r\2\2\66\67\7\17"+
+		"\2\2\67Q\5\b\5\1689\f\f\2\29:\7\f\2\2:Q\5\b\5\r;<\f\13\2\2<=\7\r\2\2="+
+		"Q\5\b\5\f>?\f\n\2\2?@\7\23\2\2@Q\5\b\5\13AB\f\t\2\2BC\7\24\2\2CQ\5\b\5"+
+		"\nDE\f\b\2\2EF\7\25\2\2FQ\5\b\5\tGH\f\7\2\2HI\7\27\2\2IQ\5\b\5\bJK\f\6"+
+		"\2\2KL\7\26\2\2LQ\5\b\5\7MN\f\5\2\2NO\7\30\2\2OQ\5\b\5\6P,\3\2\2\2P/\3"+
+		"\2\2\2P\62\3\2\2\2P\65\3\2\2\2P8\3\2\2\2P;\3\2\2\2P>\3\2\2\2PA\3\2\2\2"+
+		"PD\3\2\2\2PG\3\2\2\2PJ\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2"+
+		"S\t\3\2\2\2TR\3\2\2\2\b\17\32\34*PR";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

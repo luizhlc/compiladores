@@ -61,25 +61,11 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParExp_rule(@NotNull LHCParser.ParExp_ruleContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp4}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp4(@NotNull LHCParser.NextExp4Context ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link LHCParser#Num_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNum_rule(@NotNull LHCParser.Num_ruleContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp5}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp5(@NotNull LHCParser.NextExp5Context ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#print}.
@@ -89,32 +75,11 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitPrint(@NotNull LHCParser.PrintContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp2(@NotNull LHCParser.NextExp2Context ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp3}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp3(@NotNull LHCParser.NextExp3Context ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link LHCParser#Bool}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBool(@NotNull LHCParser.BoolContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp6}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp6(@NotNull LHCParser.NextExp6Context ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#NEqual__rule}.
@@ -124,13 +89,6 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitNEqual__rule(@NotNull LHCParser.NEqual__ruleContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#NextExp7}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextExp7(@NotNull LHCParser.NextExp7Context ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link LHCParser#Times_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -138,18 +96,18 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#Greater_rule}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link LHCParser#Minus_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Greater_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#Divide_rule}.

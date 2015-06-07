@@ -172,19 +172,6 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -192,6 +179,19 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -5,7 +5,7 @@
     <classes>
       <class name="Aula6.TestCompiler">
         <methods>
-          <include name="runningCode_outputsExpectedText" invocation-numbers="0 1"/>
+          <include name="runningCode_outputsExpectedText" invocation-numbers="1"/>
           <include name="deleteTempDir"/>
           <include name="createTempDir"/>
         </methods>

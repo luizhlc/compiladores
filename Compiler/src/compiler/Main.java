@@ -17,7 +17,6 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		ANTLRInputStream input = new ANTLRFileStream("code.lhc");
-		
 		String output = compile(input);
 		
 		System.out.println(output);

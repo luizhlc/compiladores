@@ -140,17 +140,6 @@ public interface LHCListener extends ParseTreeListener {
 	void exitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link LHCParser#Greater_rule}.
-	 * @param ctx the parse tree
-	 */
-	void enterGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LHCParser#Greater_rule}.
-	 * @param ctx the parse tree
-	 */
-	void exitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link LHCParser#Minus_rule}.
 	 * @param ctx the parse tree
 	 */
@@ -160,6 +149,17 @@ public interface LHCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link LHCParser#Greater_rule}.
+	 * @param ctx the parse tree
+	 */
+	void enterGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#Greater_rule}.
+	 * @param ctx the parse tree
+	 */
+	void exitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link LHCParser#Divide_rule}.

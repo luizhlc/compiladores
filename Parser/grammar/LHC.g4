@@ -9,19 +9,19 @@ stmt: exp | (print Semicolon)+;
 print: Print ParBeg argument=exp ParEnd;
 	
 
-exp :  left=exp Or right=exp #Or_rule    
+exp :  ParBeg exp ParEnd #ParExp_rule    
+	|  left=exp Or right=exp #Or_rule
 	|  left=exp And right=exp #And_rule
+	|  left=exp Times right=exp #Times_rule
+	|  left=exp Divide right=exp #Divide_rule
+	|  left=exp Plus right=exp #Plus_rule
+	|  left=exp Minus right=exp #Minus_rule
 	|  left=exp Equal right=exp #Equal_rule
     |  left=exp NEqual right=exp #NEqual__rule
     |  left=exp Less right=exp #Less_rule
 	|  left=exp Greater right=exp #Greater_rule
 	|  left=exp LessE right=exp #LessE_rule
 	|  left=exp GreaterE right=exp #GreaterE_rule
-	|  left=exp Times right=exp #Times_rule
-	|  left=exp Divide right=exp #Divide_rule
-	|  left=exp Plus right=exp #Plus_rule
-	|  left=exp Minus right=exp #Minus_rule
-	|  ParBeg exp ParEnd #ParExp_rule
 	|  BOOL #Bool
 	|  Num #Num_rule;
 	

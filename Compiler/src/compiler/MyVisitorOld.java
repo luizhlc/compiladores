@@ -17,7 +17,7 @@ import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.Times_ruleContext;
 
-public class CopyOfMyVisitor extends LHCBaseVisitor<String> {
+public class MyVisitorOld extends LHCBaseVisitor<String> {
 	int label=0;
 	@Override
 	public String visitPrint(PrintContext ctx) {
@@ -157,14 +157,14 @@ public class CopyOfMyVisitor extends LHCBaseVisitor<String> {
 		return retorno;
 	}
 	//EXP_END
-//	@Override
-//	protected String aggregateResult(String aggregate, String nextResult) {
-//		if (aggregate == null) {
-//			return nextResult;
-//		}
-//		if (nextResult == null) {
-//			return aggregate;
-//		}
-//		return aggregate + "\n" + nextResult;
-//	}
+	@Override
+	protected String aggregateResult(String aggregate, String nextResult) {
+		if (aggregate == null) {
+			return nextResult;
+		}
+		if (nextResult == null) {
+			return aggregate;
+		}
+		return aggregate + "\n" + nextResult;
+	}
 }

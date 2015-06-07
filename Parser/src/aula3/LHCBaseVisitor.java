@@ -74,23 +74,7 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNextExp4(@NotNull LHCParser.NextExp4Context ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitNum_rule(@NotNull LHCParser.Num_ruleContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitNextExp5(@NotNull LHCParser.NextExp5Context ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -106,31 +90,7 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNextExp2(@NotNull LHCParser.NextExp2Context ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitNextExp3(@NotNull LHCParser.NextExp3Context ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitBool(@NotNull LHCParser.BoolContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitNextExp6(@NotNull LHCParser.NextExp6Context ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -146,14 +106,6 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNextExp7(@NotNull LHCParser.NextExp7Context ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -162,7 +114,7 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -170,7 +122,7 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

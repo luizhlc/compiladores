@@ -1,4 +1,4 @@
-grammar CopyLHC;
+grammar LHCOld;
 
 	options {language = Java; }
 
