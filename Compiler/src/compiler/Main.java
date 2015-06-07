@@ -30,7 +30,8 @@ public class Main {
 		LHCParser parser = new LHCParser(token);
 		
 		ParseTree tree = parser.program();
-		return createJasminFile(new MyVisitor().visit(tree));
+		String instructions = new MyVisitor().visit(tree);
+		return createJasminFile(instructions);
 	}
 	
 	private static void createProgram(String program){

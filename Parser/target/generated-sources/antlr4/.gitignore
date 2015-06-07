@@ -4,3 +4,9 @@
 /LHCLexer.tokens
 /LHCListener.java
 /LHCParser.java
+/CopyLHC.tokens
+/CopyLHCBaseListener.java
+/CopyLHCLexer.java
+/CopyLHCLexer.tokens
+/CopyLHCListener.java
+/CopyLHCParser.java

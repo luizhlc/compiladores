@@ -1,4 +1,4 @@
-// Generated from LHC.g4 by ANTLR 4.5
+// Generated from LHC.g4 by ANTLR 4.2
 package aula3;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -12,103 +12,170 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link LHCParser#LessE_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessE_rule(@NotNull LHCParser.LessE_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Less_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLess_rule(@NotNull LHCParser.Less_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Equal_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqual_rule(@NotNull LHCParser.Equal_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Plus_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlus_rule(@NotNull LHCParser.Plus_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#And_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd_rule(@NotNull LHCParser.And_ruleContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link LHCParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProgram(LHCParser.ProgramContext ctx);
+	T visitProgram(@NotNull LHCParser.ProgramContext ctx);
+
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#stmt}.
+	 * Visit a parse tree produced by {@link LHCParser#ParExp_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStmt(LHCParser.StmtContext ctx);
+	T visitParExp_rule(@NotNull LHCParser.ParExp_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#NextExp4}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNextExp4(@NotNull LHCParser.NextExp4Context ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Num_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNum_rule(@NotNull LHCParser.Num_ruleContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#NextExp5}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNextExp5(@NotNull LHCParser.NextExp5Context ctx);
+
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#print}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrint(LHCParser.PrintContext ctx);
+	T visitPrint(@NotNull LHCParser.PrintContext ctx);
+
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#exp}.
+	 * Visit a parse tree produced by {@link LHCParser#NextExp2}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExp(LHCParser.ExpContext ctx);
+	T visitNextExp2(@NotNull LHCParser.NextExp2Context ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Num_rule}
-	 * labeled alternative in {@link LHCParser#expArit}.
+	 * Visit a parse tree produced by {@link LHCParser#NextExp3}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNum_rule(LHCParser.Num_ruleContext ctx);
+	T visitNextExp3(@NotNull LHCParser.NextExp3Context ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Times_rule}
-	 * labeled alternative in {@link LHCParser#expArit}.
+	 * Visit a parse tree produced by {@link LHCParser#Bool}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTimes_rule(LHCParser.Times_ruleContext ctx);
+	T visitBool(@NotNull LHCParser.BoolContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Plus_rule}
-	 * labeled alternative in {@link LHCParser#expArit}.
+	 * Visit a parse tree produced by {@link LHCParser#NextExp6}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPlus_rule(LHCParser.Plus_ruleContext ctx);
+	T visitNextExp6(@NotNull LHCParser.NextExp6Context ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Minus_rule}
-	 * labeled alternative in {@link LHCParser#expArit}.
+	 * Visit a parse tree produced by {@link LHCParser#NEqual__rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMinus_rule(LHCParser.Minus_ruleContext ctx);
+	T visitNEqual__rule(@NotNull LHCParser.NEqual__ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Divide_rule}
-	 * labeled alternative in {@link LHCParser#expArit}.
+	 * Visit a parse tree produced by {@link LHCParser#NextExp7}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDivide_rule(LHCParser.Divide_ruleContext ctx);
+	T visitNextExp7(@NotNull LHCParser.NextExp7Context ctx);
+
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#expLogic}.
+	 * Visit a parse tree produced by {@link LHCParser#Times_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpLogic(LHCParser.ExpLogicContext ctx);
+	T visitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code NextAnd}
-	 * labeled alternative in {@link LHCParser#expAnd}.
+	 * Visit a parse tree produced by {@link LHCParser#Greater_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNextAnd(LHCParser.NextAndContext ctx);
+	T visitGreater_rule(@NotNull LHCParser.Greater_ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Or_rule}
-	 * labeled alternative in {@link LHCParser#expAnd}.
+	 * Visit a parse tree produced by {@link LHCParser#Minus_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOr_rule(LHCParser.Or_ruleContext ctx);
+	T visitMinus_rule(@NotNull LHCParser.Minus_ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code Bool}
-	 * labeled alternative in {@link LHCParser#expOr}.
+	 * Visit a parse tree produced by {@link LHCParser#Divide_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBool(LHCParser.BoolContext ctx);
+	T visitDivide_rule(@NotNull LHCParser.Divide_ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code NextOr}
-	 * labeled alternative in {@link LHCParser#expOr}.
+	 * Visit a parse tree produced by {@link LHCParser#Or_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNextOr(LHCParser.NextOrContext ctx);
+	T visitOr_rule(@NotNull LHCParser.Or_ruleContext ctx);
+
 	/**
-	 * Visit a parse tree produced by the {@code And_rule}
-	 * labeled alternative in {@link LHCParser#expOr}.
+	 * Visit a parse tree produced by {@link LHCParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAnd_rule(LHCParser.And_ruleContext ctx);
+	T visitStmt(@NotNull LHCParser.StmtContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#GreaterE_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterE_rule(@NotNull LHCParser.GreaterE_ruleContext ctx);
 }
