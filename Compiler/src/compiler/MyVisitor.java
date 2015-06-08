@@ -1,7 +1,17 @@
 package compiler;
 
+import java.util.HashMap;
+
+
+
+
+import java.util.List;
+
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import aula3.LHCBaseVisitor;
 import aula3.LHCParser.And_ruleContext;
+import aula3.LHCParser.AssignmentContext;
 import aula3.LHCParser.BoolContext;
 import aula3.LHCParser.Divide_ruleContext;
 import aula3.LHCParser.Equal_ruleContext;
@@ -16,9 +26,69 @@ import aula3.LHCParser.Or_ruleContext;
 import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.Times_ruleContext;
+import aula3.LHCParser.VarDeclContext;
+import aula3.LHCParser.VarMultDeclContext;
+import aula3.LHCParser.VariableContext;
 
 public class MyVisitor extends LHCBaseVisitor<String> {
+	
 	int label=0;
+	
+	private HashMap<String, Integer> variables = new HashMap<>();
+	private HashMap<String, Type> types = new HashMap<>();
+	
+	@Override
+	public String visitVarDecl(VarDeclContext ctx) {
+		if(variables.get(ctx.varName.getText()) == null){
+			variables.put(ctx.varName.getText(), variables.size());
+			storeType(ctx.type_.getText(), ctx.varName.getText());
+		}else{
+			try {
+				throw new Exception("'" + ctx.varName.getText() + "' has already been declared, genius.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+	
+	//TODO finish
+	@Override
+	public String visitVarMultDecl(VarMultDeclContext ctx) {
+		List<TerminalNode> l = ctx.ID();
+		for (TerminalNode terminalNode : l) {
+			String varName = terminalNode.getText();
+			
+			if(variables.get(varName) == null){
+				variables.put(varName, variables.size());
+				storeType(ctx.type_.getText(), ctx.varName.getText());
+			}else{
+				try {
+					throw new Exception("'" + ctx.varName.getText() + "' has already been declared, genius.");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return "";
+	}
+	
+	@Override
+	public String visitAssignment(AssignmentContext ctx) {
+		if(ctx.type_ != null){
+			variables.put(ctx.varName.getText(), variables.size());
+			storeType(ctx.type_.getText(), ctx.varName.getText());
+		}else if(ctx.type_ == null && variables.get(ctx.varName.getText()) == null){
+			try {
+				throw new Exception("You must declare your variable '" + ctx.varName.getText() + "' before using it, genius.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return visit(ctx.rightSide_) + "\n" +
+		"istore " + variables.get(ctx.varName.getText());
+	}
+	
 	public String visitPrint(PrintContext ctx) {
 		String child = visit(ctx.argument);
 		String retorno = "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
@@ -26,18 +96,25 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+ "invokevirtual java/io/PrintStream/println(I)V";
 		return retorno;
 	}
-	//EXP_BEGIN
+	
+	@Override
+	public String visitVariable(VariableContext ctx) {
+		return "iload " + variables.get(ctx.varName.getText());
+	}
+	
 	@Override
 	public String visitOr_rule(Or_ruleContext ctx) {
 		String retorno = visitChildren(ctx) + "\n" + "ior";
 		return retorno;
 	}
+	
 	@Override
 	public String visitAnd_rule(And_ruleContext ctx) {
 		String retorno = visitChildren(ctx) + "\n" + "iand";
 		return retorno;
 		
 	}
+	
 	@Override
 	public String visitEqual_rule(Equal_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -50,6 +127,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitNEqual__rule(NEqual__ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -62,6 +140,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitLess_rule(Less_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -74,6 +153,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitGreater_rule(Greater_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -86,6 +166,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitLessE_rule(LessE_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -98,6 +179,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitGreaterE_rule(GreaterE_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -110,6 +192,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Exit"+label++ +":";
 		return retorno;
 	}
+	
 	@Override
 	public String visitTimes_rule(Times_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -117,6 +200,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+ "imul";
 		return retorno;
 	}
+	
 	@Override
 	public String visitDivide_rule(Divide_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -146,6 +230,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String retorno = "ldc " + ctx.Num().getText();
 		return retorno;
 	}
+	
 	@Override
 	public String visitBool(BoolContext ctx) {
 		String retorno = "ldc 0";
@@ -153,7 +238,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			retorno =  "ldc 1";
 		return retorno;
 	}
-	//EXP_END
+
 	@Override
 	protected String aggregateResult(String aggregate, String nextResult) {
 		if (aggregate == null) {
@@ -163,5 +248,21 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return aggregate;
 		}
 		return aggregate + "\n" + nextResult;
+	}
+	
+	private void storeType(String type, String varName) {
+		switch (type) {
+		case "int":
+			types.put(varName, Type.Integer);
+			break;
+		case "double":
+			types.put(varName, Type.Double);
+			break;
+		case "string":
+			types.put(varName, Type.String);
+			break;	
+		default:
+			break;
+		}
 	}
 }

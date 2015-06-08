@@ -10,3 +10,7 @@
 /LHCOldLexer.tokens
 /LHCOldListener.java
 /LHCOldParser.java
+/LHC.tokens
+/LHCBaseListener.java
+/LHCListener.java
+/LHCParser.java

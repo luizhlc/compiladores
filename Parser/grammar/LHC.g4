@@ -4,11 +4,21 @@ grammar LHC;
 
 program: Init Begin (stmt)* End;
 
-stmt: exp | (print Semicolon)+;
+  	stmt	: exp 
+      		| print 
+      		| attr
+      		| decl;
+//      		| case1 	
+//      		| switch1 	
+//      		| loop 	
+//      		| methodCall 	
+//      		| objAcc
+//      		| control ;
+//      		| vector 
+//      		| obj ;
 
-print: Print ParBeg argument=exp ParEnd;
+print: Print ParBeg argument=exp ParEnd Semicolon;
 	
-
 exp :  ParBeg exp ParEnd #ParExp_rule    
 	|  left=exp Or right=exp #Or_rule
 	|  left=exp And right=exp #And_rule
@@ -22,15 +32,34 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  left=exp Greater right=exp #Greater_rule
 	|  left=exp LessE right=exp #LessE_rule
 	|  left=exp GreaterE right=exp #GreaterE_rule
+	|  varName=ID #Variable
 	|  BOOL #Bool
 	|  Num #Num_rule;
 	
-BOOL: 'true' | 'false';
+    decl	: type_=type varName=ID Semicolon #VarDecl
+    			| type_=type (varName=ID Comma)* varName=ID Semicolon #VarMultDecl;
+    			
+    attr	: (type_=type)? varName=ID Gets rightSide_=rightSide Semicolon #Assignment;
+//    			| VectorBeg Integer VectorEnd rightSIDe Semicolon;
 
-  WS : ('\n'| '\t' | '\r' | ' ')+ -> skip ;
+  	rightSide	: exp | value | Quote String Quote;
+  	
+	value 	: Integer  
+      		| Double 
+      		| String
+      		| Char;
+      		
+  type : StringType | IntegerType | DoubleType;
+  StringType : 'string';
+  IntegerType : 'int';
+  DoubleType : 'double';
   
+  WS : ('\n'| '\t' | '\r' | ' ')+ -> skip ;
   Print: 'print';
   Init : 'LHC+-';
+  BOOL: 'true' | 'false';
+  Char : SQuote '\u0000'..'\uFFFE' SQuote;
+  String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
   Begin : '{'; 
   End : '}' ;
   ParBeg : '(' ;
@@ -50,62 +79,38 @@ BOOL: 'true' | 'false';
   Greater: '>';
   GreaterE: '>''=';
   Not: '!';
+  Gets : '=' ;
+  Quote : '"' ;
+  SQuote : '\'';
+  Comma : ',' ;
+  Dot : '.' ;
+  ID : IDChar (Num | IDChar)*; 
+  IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
+  Double : Integer '.' Integer | '.' Integer | Integer '.' ;
+  Integer : Num+;
+  
 //  VectorBeg : '[' ;
 //  VectorEnd : ']' ;
-//  Comma : ',' ;
-//  Dot : '.' ;
 //  Class : 'class' ;
 //    Include : 'include';
-//  Quote : '"' ;
-//  Equal : '=' ;
-//  TypeC : 'uint' | 'int' | 'double' | 'char' ;
-//  TypeNC: 'bool' | 'string';
 //  Void : 'void';
 //  Control : 'break' | 'continue' ;
 //  Return : 'return';
-//    Opa2 : '*' | '/' ;
-//  Opl3: '!' ;//?????????
 //    Case : 'case' ;
 //  Default: 'default' ;
 //  Loop : 'for' ;
 //  Switch : 'switch' ;
-//  Bool : 'true' | 'false' ;
-//    OpcEq :  '=' '=' | '!' '=' ;
-//    OpcI: '<' | '>' | '<' '=' | '>' '=' ;
 //    Increment : '++';
 //    Decrement : '--';
-//    String : '"' ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* '"';
-//  Char : '\'' '\u0000'..'\uFFFE' '\'';
-//  ID : IDChar (Num | IDChar)* ; 
-//  IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
-//    Double : Integer '.' Integer | '.' Integer | Integer '.' ;
-//    Integer : Num+;
 //
 //    program	: Init ID (inclusion)*  Begin (decl)* (method)* End ;
 //  	inclusion: Include ID  ;
 // 	method	: (Void | (TypeC | TypeNC)) ID ParBeg (paramList)? ParEnd (( Begin (stmt)* End)| Semicolon) ;
 //  	paramList 	: (TypeC | TypeNC) ID ( Comma paramList )?;   	  		 
-//  	stmt	: decl 
-//      		| attr 
-//      		| case1 	
-//      		| switch1 	
-//      		| loop 	
-//      		| methodCall 	
-//      		| objAcc
-//      		| bigExp7 Semicolon
-//      		| control ;
-//     decl	: variable 
-//      		| vector 
-//      		| obj ;
-//    variable	: (TypeC | TypeNC) ID (rightSIDe)? Semicolon ;
 //    vector	: (TypeC | TypeNC) ID VectorBeg Integer VectorEnd (rightSIDe)? Semicolon ;
 //    obj	: ID ID (rightSIDe)? Semicolon ;
-//    attr	: ID ( rightSIDe Semicolon 
-//    			| VectorBeg Integer VectorEnd rightSIDe Semicolon
 //    );
 //   //permite fazer int id = "temp";sintaticamente correto?
-//  	rightSIDe	: Equal (bigExp1|type2
-//  						|Quote String Quote);
 //    case1 : Case ParBeg bigExp1 ParEnd Begin (stmt)* End (default1)?;
 //  	default1 : Default Begin (stmt)* End ;
 //  	switch1 : Switch Begin (case1)+ End ;
@@ -117,10 +122,6 @@ BOOL: 'true' | 'false';
 //  	control : Control Semicolon 
 //      		| Return  (type2)? Semicolon ;
 //      		
-//  	type2 	: Integer 
-//      		| Double 
-//      		| String
-//      		| Char;
 // 
 //
 //    bigExp1: bigExp1 Or bigExp2 	
