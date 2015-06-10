@@ -49,10 +49,11 @@ exp :  ParBeg exp ParEnd #ParExp_rule
       		| String
       		| Char;
       		
-  type : StringType | IntegerType | DoubleType;
+  type : StringType | IntegerType | DoubleType | BooleanType;
   StringType : 'string';
   IntegerType : 'int';
   DoubleType : 'double';
+  BooleanType : 'bool';
   
   WS : ('\n'| '\t' | '\r' | ' ')+ -> skip ;
   Print: 'print';

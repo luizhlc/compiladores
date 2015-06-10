@@ -44,7 +44,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			storeType(ctx.type_.getText(), ctx.varName.getText());
 		}else{
 			try {
-				throw new Exception("'" + ctx.varName.getText() + "' has already been declared, genius.");
+				throw new Exception("line:" + ctx.varName.getLine() + " '" + ctx.varName.getText() + "' has already been declared, genius.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -52,7 +52,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return "";
 	}
 	
-	//TODO finish
 	@Override
 	public String visitVarMultDecl(VarMultDeclContext ctx) {
 		List<TerminalNode> l = ctx.ID();
@@ -64,7 +63,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				storeType(ctx.type_.getText(), ctx.varName.getText());
 			}else{
 				try {
-					throw new Exception("'" + ctx.varName.getText() + "' has already been declared, genius.");
+					throw new Exception("line:" + ctx.varName.getLine() + " '" + ctx.varName.getText() + "' has already been declared, genius.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -80,7 +79,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			storeType(ctx.type_.getText(), ctx.varName.getText());
 		}else if(ctx.type_ == null && variables.get(ctx.varName.getText()) == null){
 			try {
-				throw new Exception("You must declare your variable '" + ctx.varName.getText() + "' before using it, genius.");
+				throw new Exception("line:" + ctx.varName.getLine() + " You must declare your variable '" + ctx.varName.getText() + "' before using it, genius.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

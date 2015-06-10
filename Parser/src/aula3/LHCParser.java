@@ -17,11 +17,12 @@ public class LHCParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		StringType=1, IntegerType=2, DoubleType=3, WS=4, Print=5, Init=6, BOOL=7, 
-		Char=8, String=9, Begin=10, End=11, ParBeg=12, ParEnd=13, Semicolon=14, 
-		Plus=15, Minus=16, Times=17, Divide=18, Num=19, Or=20, And=21, Equal=22, 
-		NEqual=23, Less=24, LessE=25, Greater=26, GreaterE=27, Not=28, Gets=29, 
-		Quote=30, SQuote=31, Comma=32, Dot=33, ID=34, IDChar=35, Double=36, Integer=37;
+		StringType=1, IntegerType=2, DoubleType=3, BooleanType=4, WS=5, Print=6, 
+		Init=7, BOOL=8, Char=9, String=10, Begin=11, End=12, ParBeg=13, ParEnd=14, 
+		Semicolon=15, Plus=16, Minus=17, Times=18, Divide=19, Num=20, Or=21, And=22, 
+		Equal=23, NEqual=24, Less=25, LessE=26, Greater=27, GreaterE=28, Not=29, 
+		Gets=30, Quote=31, SQuote=32, Comma=33, Dot=34, ID=35, IDChar=36, Double=37, 
+		Integer=38;
 	public static final int
 		RULE_program = 0, RULE_stmt = 1, RULE_print = 2, RULE_exp = 3, RULE_decl = 4, 
 		RULE_attr = 5, RULE_rightSide = 6, RULE_value = 7, RULE_type = 8;
@@ -31,17 +32,17 @@ public class LHCParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'string'", "'int'", "'double'", null, "'print'", "'LHC+-'", null, 
-		null, null, "'{'", "'}'", "'('", "')'", "';'", "'+'", "'-'", "'*'", "'/'", 
-		null, "'|'", "'&'", null, null, "'<'", null, "'>'", null, "'!'", "'='", 
-		"'\"'", "'''", "','", "'.'"
+		null, "'string'", "'int'", "'double'", "'bool'", null, "'print'", "'LHC+-'", 
+		null, null, null, "'{'", "'}'", "'('", "')'", "';'", "'+'", "'-'", "'*'", 
+		"'/'", null, "'|'", "'&'", null, null, "'<'", null, "'>'", null, "'!'", 
+		"'='", "'\"'", "'''", "','", "'.'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "StringType", "IntegerType", "DoubleType", "WS", "Print", "Init", 
-		"BOOL", "Char", "String", "Begin", "End", "ParBeg", "ParEnd", "Semicolon", 
-		"Plus", "Minus", "Times", "Divide", "Num", "Or", "And", "Equal", "NEqual", 
-		"Less", "LessE", "Greater", "GreaterE", "Not", "Gets", "Quote", "SQuote", 
-		"Comma", "Dot", "ID", "IDChar", "Double", "Integer"
+		null, "StringType", "IntegerType", "DoubleType", "BooleanType", "WS", 
+		"Print", "Init", "BOOL", "Char", "String", "Begin", "End", "ParBeg", "ParEnd", 
+		"Semicolon", "Plus", "Minus", "Times", "Divide", "Num", "Or", "And", "Equal", 
+		"NEqual", "Less", "LessE", "Greater", "GreaterE", "Not", "Gets", "Quote", 
+		"SQuote", "Comma", "Dot", "ID", "IDChar", "Double", "Integer"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -127,7 +128,7 @@ public class LHCParser extends Parser {
 			setState(23);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType) | (1L << Print) | (1L << BOOL) | (1L << ParBeg) | (1L << Num) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << BOOL) | (1L << ParBeg) | (1L << Num) | (1L << ID))) != 0)) {
 				{
 				{
 				setState(20);
@@ -931,7 +932,7 @@ public class LHCParser extends Parser {
 			{
 			setState(109);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) {
 				{
 				setState(108);
 				((AssignmentContext)_localctx).type_ = type();
@@ -1081,6 +1082,7 @@ public class LHCParser extends Parser {
 		public TerminalNode StringType() { return getToken(LHCParser.StringType, 0); }
 		public TerminalNode IntegerType() { return getToken(LHCParser.IntegerType, 0); }
 		public TerminalNode DoubleType() { return getToken(LHCParser.DoubleType, 0); }
+		public TerminalNode BooleanType() { return getToken(LHCParser.BooleanType, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1101,7 +1103,7 @@ public class LHCParser extends Parser {
 			{
 			setState(125);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << StringType) | (1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			} else {
 				consume();
@@ -1157,7 +1159,7 @@ public class LHCParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\'\u0082\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3(\u0082\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2"+
 		"\3\2\7\2\30\n\2\f\2\16\2\33\13\2\3\2\3\2\3\3\3\3\3\3\3\3\5\3#\n\3\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5\63\n\5\3\5\3"+
@@ -1166,29 +1168,29 @@ public class LHCParser extends Parser {
 		"\5Y\n\5\f\5\16\5\\\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6e\n\6\f\6\16\6"+
 		"h\13\6\3\6\3\6\3\6\5\6m\n\6\3\7\5\7p\n\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3"+
 		"\b\3\b\3\b\5\b|\n\b\3\t\3\t\3\n\3\n\3\n\2\3\b\13\2\4\6\b\n\f\16\20\22"+
-		"\2\4\4\2\n\13&\'\3\2\3\5\u0090\2\24\3\2\2\2\4\"\3\2\2\2\6$\3\2\2\2\b\62"+
+		"\2\4\4\2\13\f\'(\3\2\3\6\u0090\2\24\3\2\2\2\4\"\3\2\2\2\6$\3\2\2\2\b\62"+
 		"\3\2\2\2\nl\3\2\2\2\fo\3\2\2\2\16{\3\2\2\2\20}\3\2\2\2\22\177\3\2\2\2"+
-		"\24\25\7\b\2\2\25\31\7\f\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2"+
-		"\31\27\3\2\2\2\31\32\3\2\2\2\32\34\3\2\2\2\33\31\3\2\2\2\34\35\7\r\2\2"+
-		"\35\3\3\2\2\2\36#\5\b\5\2\37#\5\6\4\2 #\5\f\7\2!#\5\n\6\2\"\36\3\2\2\2"+
-		"\"\37\3\2\2\2\" \3\2\2\2\"!\3\2\2\2#\5\3\2\2\2$%\7\7\2\2%&\7\16\2\2&\'"+
-		"\5\b\5\2\'(\7\17\2\2()\7\20\2\2)\7\3\2\2\2*+\b\5\1\2+,\7\16\2\2,-\5\b"+
-		"\5\2-.\7\17\2\2.\63\3\2\2\2/\63\7$\2\2\60\63\7\t\2\2\61\63\7\25\2\2\62"+
-		"*\3\2\2\2\62/\3\2\2\2\62\60\3\2\2\2\62\61\3\2\2\2\63Z\3\2\2\2\64\65\f"+
-		"\21\2\2\65\66\7\26\2\2\66Y\5\b\5\22\678\f\20\2\289\7\27\2\29Y\5\b\5\21"+
-		":;\f\17\2\2;<\7\23\2\2<Y\5\b\5\20=>\f\16\2\2>?\7\24\2\2?Y\5\b\5\17@A\f"+
-		"\r\2\2AB\7\21\2\2BY\5\b\5\16CD\f\f\2\2DE\7\22\2\2EY\5\b\5\rFG\f\13\2\2"+
-		"GH\7\30\2\2HY\5\b\5\fIJ\f\n\2\2JK\7\31\2\2KY\5\b\5\13LM\f\t\2\2MN\7\32"+
-		"\2\2NY\5\b\5\nOP\f\b\2\2PQ\7\34\2\2QY\5\b\5\tRS\f\7\2\2ST\7\33\2\2TY\5"+
-		"\b\5\bUV\f\6\2\2VW\7\35\2\2WY\5\b\5\7X\64\3\2\2\2X\67\3\2\2\2X:\3\2\2"+
-		"\2X=\3\2\2\2X@\3\2\2\2XC\3\2\2\2XF\3\2\2\2XI\3\2\2\2XL\3\2\2\2XO\3\2\2"+
-		"\2XR\3\2\2\2XU\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[\t\3\2\2\2\\Z\3"+
-		"\2\2\2]^\5\22\n\2^_\7$\2\2_`\7\20\2\2`m\3\2\2\2af\5\22\n\2bc\7$\2\2ce"+
-		"\7\"\2\2db\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi\3\2\2\2hf\3\2\2\2i"+
-		"j\7$\2\2jk\7\20\2\2km\3\2\2\2l]\3\2\2\2la\3\2\2\2m\13\3\2\2\2np\5\22\n"+
-		"\2on\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7$\2\2rs\7\37\2\2st\5\16\b\2tu\7\20"+
-		"\2\2u\r\3\2\2\2v|\5\b\5\2w|\5\20\t\2xy\7 \2\2yz\7\13\2\2z|\7 \2\2{v\3"+
-		"\2\2\2{w\3\2\2\2{x\3\2\2\2|\17\3\2\2\2}~\t\2\2\2~\21\3\2\2\2\177\u0080"+
+		"\24\25\7\t\2\2\25\31\7\r\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2"+
+		"\31\27\3\2\2\2\31\32\3\2\2\2\32\34\3\2\2\2\33\31\3\2\2\2\34\35\7\16\2"+
+		"\2\35\3\3\2\2\2\36#\5\b\5\2\37#\5\6\4\2 #\5\f\7\2!#\5\n\6\2\"\36\3\2\2"+
+		"\2\"\37\3\2\2\2\" \3\2\2\2\"!\3\2\2\2#\5\3\2\2\2$%\7\b\2\2%&\7\17\2\2"+
+		"&\'\5\b\5\2\'(\7\20\2\2()\7\21\2\2)\7\3\2\2\2*+\b\5\1\2+,\7\17\2\2,-\5"+
+		"\b\5\2-.\7\20\2\2.\63\3\2\2\2/\63\7%\2\2\60\63\7\n\2\2\61\63\7\26\2\2"+
+		"\62*\3\2\2\2\62/\3\2\2\2\62\60\3\2\2\2\62\61\3\2\2\2\63Z\3\2\2\2\64\65"+
+		"\f\21\2\2\65\66\7\27\2\2\66Y\5\b\5\22\678\f\20\2\289\7\30\2\29Y\5\b\5"+
+		"\21:;\f\17\2\2;<\7\24\2\2<Y\5\b\5\20=>\f\16\2\2>?\7\25\2\2?Y\5\b\5\17"+
+		"@A\f\r\2\2AB\7\22\2\2BY\5\b\5\16CD\f\f\2\2DE\7\23\2\2EY\5\b\5\rFG\f\13"+
+		"\2\2GH\7\31\2\2HY\5\b\5\fIJ\f\n\2\2JK\7\32\2\2KY\5\b\5\13LM\f\t\2\2MN"+
+		"\7\33\2\2NY\5\b\5\nOP\f\b\2\2PQ\7\35\2\2QY\5\b\5\tRS\f\7\2\2ST\7\34\2"+
+		"\2TY\5\b\5\bUV\f\6\2\2VW\7\36\2\2WY\5\b\5\7X\64\3\2\2\2X\67\3\2\2\2X:"+
+		"\3\2\2\2X=\3\2\2\2X@\3\2\2\2XC\3\2\2\2XF\3\2\2\2XI\3\2\2\2XL\3\2\2\2X"+
+		"O\3\2\2\2XR\3\2\2\2XU\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[\t\3\2\2"+
+		"\2\\Z\3\2\2\2]^\5\22\n\2^_\7%\2\2_`\7\21\2\2`m\3\2\2\2af\5\22\n\2bc\7"+
+		"%\2\2ce\7#\2\2db\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi\3\2\2\2hf\3\2"+
+		"\2\2ij\7%\2\2jk\7\21\2\2km\3\2\2\2l]\3\2\2\2la\3\2\2\2m\13\3\2\2\2np\5"+
+		"\22\n\2on\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7%\2\2rs\7 \2\2st\5\16\b\2tu\7"+
+		"\21\2\2u\r\3\2\2\2v|\5\b\5\2w|\5\20\t\2xy\7!\2\2yz\7\f\2\2z|\7!\2\2{v"+
+		"\3\2\2\2{w\3\2\2\2{x\3\2\2\2|\17\3\2\2\2}~\t\2\2\2~\21\3\2\2\2\177\u0080"+
 		"\t\3\2\2\u0080\23\3\2\2\2\13\31\"\62XZflo{";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

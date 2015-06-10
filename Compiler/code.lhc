@@ -1,6 +1,8 @@
 LHC+-{
-	int a,b;
+	int a;
 	a = 2;
-	b = 3+2;
+	int b = 3+2;
+	bool c = 3+1 > 2+1;
 	print(a+b);
+	print(c);
 }
