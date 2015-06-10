@@ -2,16 +2,16 @@ grammar LHC;
 
 	options {language = Java; }
 
-program: Init Begin (stmt)* End;
+program: Init Begin (methodDef)* End;
 
   	stmt	: exp 
       		| print 
       		| attr
-      		| decl;
+      		| decl
+      		| methodCall;
 //      		| case1 	
 //      		| switch1 	
 //      		| loop 	
-//      		| methodCall 	
 //      		| objAcc
 //      		| control ;
 //      		| vector 
@@ -36,6 +36,11 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  BOOL #Bool
 	|  Num #Num_rule;
 	
+ 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd Begin (stmtList=stmt)* Return (returnExp=exp | returnID=ID)? Semicolon End ;
+  	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
+  	methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd;
+  	args 	: (ID Comma)* ID;
+  	
     decl	: type_=type varName=ID Semicolon #VarDecl
     			| type_=type (varName=ID Comma)* varName=ID Semicolon #VarMultDecl;
     			
@@ -59,8 +64,8 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   Print: 'print';
   Init : 'LHC+-';
   BOOL: 'true' | 'false';
-  Char : SQuote '\u0000'..'\uFFFE' SQuote;
-  String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
+  Void : 'void';
+  Return : 'return';
   Begin : '{'; 
   End : '}' ;
   ParBeg : '(' ;
@@ -85,18 +90,18 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   SQuote : '\'';
   Comma : ',' ;
   Dot : '.' ;
-  ID : IDChar (Num | IDChar)*; 
-  IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
+  Char : SQuote '\u0000'..'\uFFFE' SQuote;
+  String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
   Double : Integer '.' Integer | '.' Integer | Integer '.' ;
   Integer : Num+;
+  ID : IDChar (Num | IDChar)*; 
+  IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
   
 //  VectorBeg : '[' ;
 //  VectorEnd : ']' ;
 //  Class : 'class' ;
 //    Include : 'include';
-//  Void : 'void';
 //  Control : 'break' | 'continue' ;
-//  Return : 'return';
 //    Case : 'case' ;
 //  Default: 'default' ;
 //  Loop : 'for' ;
@@ -106,8 +111,6 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 //
 //    program	: Init ID (inclusion)*  Begin (decl)* (method)* End ;
 //  	inclusion: Include ID  ;
-// 	method	: (Void | (TypeC | TypeNC)) ID ParBeg (paramList)? ParEnd (( Begin (stmt)* End)| Semicolon) ;
-//  	paramList 	: (TypeC | TypeNC) ID ( Comma paramList )?;   	  		 
 //    vector	: (TypeC | TypeNC) ID VectorBeg Integer VectorEnd (rightSIDe)? Semicolon ;
 //    obj	: ID ID (rightSIDe)? Semicolon ;
 //    );
@@ -117,8 +120,6 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 //  	switch1 : Switch Begin (case1)+ End ;
 //  	loop : Loop ParBeg ((TypeC ID Equal Integer Semicolon bigExp1 Semicolon bigExp1 ParEnd Begin (stmt)* End)
 //      					|(bigExp1 ParEnd Begin (stmt)* End));
-//  	methodCall	: ID(Dot ID)? ParBeg (args)? ParEnd;
-//  	args 	: (ID Comma)* ID;
 //    objAcc	: ID Dot attr Semicolon ;  		
 //  	control : Control Semicolon 
 //      		| Return  (type2)? Semicolon ;

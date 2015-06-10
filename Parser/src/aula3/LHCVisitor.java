@@ -142,6 +142,30 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGreaterE_rule(LHCParser.GreaterE_ruleContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LHCParser#methodDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodDef(LHCParser.MethodDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#paramList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamList(LHCParser.ParamListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#methodCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodCall(LHCParser.MethodCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#args}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgs(LHCParser.ArgsContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code VarDecl}
 	 * labeled alternative in {@link LHCParser#decl}.
 	 * @param ctx the parse tree
