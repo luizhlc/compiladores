@@ -16,13 +16,26 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLessE_rule(@NotNull LHCParser.LessE_ruleContext ctx) { }
+	@Override public void enterVarMultDecl(@NotNull LHCParser.VarMultDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLessE_rule(@NotNull LHCParser.LessE_ruleContext ctx) { }
+	@Override public void exitVarMultDecl(@NotNull LHCParser.VarMultDeclContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariable(@NotNull LHCParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariable(@NotNull LHCParser.VariableContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -42,45 +55,6 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEqual_rule(@NotNull LHCParser.Equal_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEqual_rule(@NotNull LHCParser.Equal_ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPlus_rule(@NotNull LHCParser.Plus_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPlus_rule(@NotNull LHCParser.Plus_ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAnd_rule(@NotNull LHCParser.And_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAnd_rule(@NotNull LHCParser.And_ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterProgram(@NotNull LHCParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -88,6 +62,32 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProgram(@NotNull LHCParser.ProgramContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClean(@NotNull LHCParser.CleanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClean(@NotNull LHCParser.CleanContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType(@NotNull LHCParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType(@NotNull LHCParser.TypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -107,26 +107,52 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNum_rule(@NotNull LHCParser.Num_ruleContext ctx) { }
+	@Override public void enterAssignment(@NotNull LHCParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNum_rule(@NotNull LHCParser.Num_ruleContext ctx) { }
+	@Override public void exitAssignment(@NotNull LHCParser.AssignmentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrint(@NotNull LHCParser.PrintContext ctx) { }
+	@Override public void enterReal_(@NotNull LHCParser.Real_Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrint(@NotNull LHCParser.PrintContext ctx) { }
+	@Override public void exitReal_(@NotNull LHCParser.Real_Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInteger_(@NotNull LHCParser.Integer_Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInteger_(@NotNull LHCParser.Integer_Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarDecl(@NotNull LHCParser.VarDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarDecl(@NotNull LHCParser.VarDeclContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -153,19 +179,6 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNEqual__rule(@NotNull LHCParser.NEqual__ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTimes_rule(@NotNull LHCParser.Times_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -211,32 +224,6 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOr_rule(@NotNull LHCParser.Or_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOr_rule(@NotNull LHCParser.Or_ruleContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStmt(@NotNull LHCParser.StmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStmt(@NotNull LHCParser.StmtContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterGreaterE_rule(@NotNull LHCParser.GreaterE_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -244,6 +231,123 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGreaterE_rule(@NotNull LHCParser.GreaterE_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessE_rule(@NotNull LHCParser.LessE_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessE_rule(@NotNull LHCParser.LessE_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValue_(@NotNull LHCParser.Value_Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValue_(@NotNull LHCParser.Value_Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqual_rule(@NotNull LHCParser.Equal_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqual_rule(@NotNull LHCParser.Equal_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPlus_rule(@NotNull LHCParser.Plus_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPlus_rule(@NotNull LHCParser.Plus_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnd_rule(@NotNull LHCParser.And_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnd_rule(@NotNull LHCParser.And_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRightSide(@NotNull LHCParser.RightSideContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRightSide(@NotNull LHCParser.RightSideContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrint(@NotNull LHCParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrint(@NotNull LHCParser.PrintContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTimes_rule(@NotNull LHCParser.Times_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTimes_rule(@NotNull LHCParser.Times_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOr_rule(@NotNull LHCParser.Or_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOr_rule(@NotNull LHCParser.Or_ruleContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -3,19 +3,17 @@ grammar LHC;
 	options {language = Java; }
 
 program: Init Begin (stmt)* End;
-
-  	stmt	: exp 
-      		| print 
-      		| attr
-      		| decl;
+//Clean criado apenas para zerar a stack de types na verificacao de tipos.
+  	stmt	: exp Semicolon #Clean
+      		| print #Clean
+      		| attr#Clean
+      		| decl#Clean;
 //      		| case1 	
 //      		| switch1 	
 //      		| loop 	
 //      		| methodCall 	
-//      		| objAcc
-//      		| control ;
-//      		| vector 
-//      		| obj ;
+//      		| control 
+//      		| vector ;
 
 print: Print ParBeg argument=exp ParEnd Semicolon;
 	
@@ -33,8 +31,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  left=exp LessE right=exp #LessE_rule
 	|  left=exp GreaterE right=exp #GreaterE_rule
 	|  varName=ID #Variable
-	|  BOOL #Bool
-	|  Num #Num_rule;
+	|  value_=value #Value_;
 	
     decl	: type_=type varName=ID Semicolon #VarDecl
     			| type_=type (varName=ID Comma)* varName=ID Semicolon #VarMultDecl;
@@ -42,12 +39,13 @@ exp :  ParBeg exp ParEnd #ParExp_rule
     attr	: (type_=type)? varName=ID Gets rightSide_=rightSide Semicolon #Assignment;
 //    			| VectorBeg Integer VectorEnd rightSIDe Semicolon;
 
-  	rightSide	: exp | value | Quote String Quote;
+  	rightSide	: exp | Quote String Quote;
   	
-	value 	: Integer  
-      		| Double 
-      		| String
-      		| Char;
+	value 	: Integer #Integer_  
+      		| Double  #Real_
+      		| BOOL #Bool;
+   //   		| String #String_
+   //   		| Char #Char_;
       		
   type : StringType | IntegerType | DoubleType | BooleanType;
   StringType : 'string';
@@ -70,7 +68,6 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   Minus : '-';
   Times : '*';
   Divide : '/';
-  Num : ('0' .. '9')+ ;
   Or : '|' ;
   And: '&' ;
   Equal: '=''=';
@@ -85,15 +82,13 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   SQuote : '\'';
   Comma : ',' ;
   Dot : '.' ;
-  ID : IDChar (Num | IDChar)*; 
+  ID : IDChar (Integer | IDChar)*; 
   IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
-  Double : Integer '.' Integer | '.' Integer | Integer '.' ;
-  Integer : Num+;
+  Double : Integer '.' Integer;
+  Integer : ('0' .. '9')+;
   
 //  VectorBeg : '[' ;
 //  VectorEnd : ']' ;
-//  Class : 'class' ;
-//    Include : 'include';
 //  Void : 'void';
 //  Control : 'break' | 'continue' ;
 //  Return : 'return';
@@ -103,40 +98,21 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 //  Switch : 'switch' ;
 //    Increment : '++';
 //    Decrement : '--';
-//
-//    program	: Init ID (inclusion)*  Begin (decl)* (method)* End ;
+
 //  	inclusion: Include ID  ;
 // 	method	: (Void | (TypeC | TypeNC)) ID ParBeg (paramList)? ParEnd (( Begin (stmt)* End)| Semicolon) ;
 //  	paramList 	: (TypeC | TypeNC) ID ( Comma paramList )?;   	  		 
 //    vector	: (TypeC | TypeNC) ID VectorBeg Integer VectorEnd (rightSIDe)? Semicolon ;
-//    obj	: ID ID (rightSIDe)? Semicolon ;
 //    );
-//   //permite fazer int id = "temp";sintaticamente correto?
 //    case1 : Case ParBeg bigExp1 ParEnd Begin (stmt)* End (default1)?;
 //  	default1 : Default Begin (stmt)* End ;
 //  	switch1 : Switch Begin (case1)+ End ;
 //  	loop : Loop ParBeg ((TypeC ID Equal Integer Semicolon bigExp1 Semicolon bigExp1 ParEnd Begin (stmt)* End)
 //      					|(bigExp1 ParEnd Begin (stmt)* End));
 //  	methodCall	: ID(Dot ID)? ParBeg (args)? ParEnd;
-//  	args 	: (ID Comma)* ID;
-//    objAcc	: ID Dot attr Semicolon ;  		
+//  	args 	: (ID Comma)* ID;	
 //  	control : Control Semicolon 
-//      		| Return  (type2)? Semicolon ;
-//      		
-// 
-//
-//    bigExp1: bigExp1 Or bigExp2 	
-//    		| bigExp2; 			  		
-//    bigExp2: bigExp2 And bigExp3  		
-//    		| bigExp3;					
-//    bigExp3: bigExp3 OpcEq bigExp4	 	
-//    		| bigExp4;					
-//    bigExp4: bigExp4 OpcI bigExp5		
-//    		| bigExp5;					
-//    bigExp5: bigExp5 Opa1 bigExp6		
-//    		| bigExp6;					
-//    bigExp6: bigExp6 Opa2 bigExp7		
-//    		| bigExp7;					
+//      		| Return  (type2)? Semicolon ;		
 //    bigExp7: (Opl3|Increment|Decrement|Opa1) bigExp7		
 //    		| ParBeg bigExp1 ParEnd					
 //    		| (ID | Integer | Double | Bool);	

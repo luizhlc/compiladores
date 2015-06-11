@@ -27,7 +27,6 @@ public class Main {
 		LHCLexer lexer = new LHCLexer(input);
 		CommonTokenStream token = new CommonTokenStream(lexer);
 		LHCParser parser = new LHCParser(token);
-		
 		ParseTree tree = parser.program();
 		String instructions = new MyVisitor().visit(tree);
 		return createJasminFile(instructions);
