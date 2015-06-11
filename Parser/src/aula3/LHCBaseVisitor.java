@@ -151,6 +151,13 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitMethodCall(LHCParser.MethodCallContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitMethodDef(LHCParser.MethodDefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -159,13 +166,6 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitParamList(LHCParser.ParamListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMethodCall(LHCParser.MethodCallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

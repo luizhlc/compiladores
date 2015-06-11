@@ -5,7 +5,7 @@ grammar LHC;
 program: Init Begin (methodDef)* End;
 
   	stmt	: exp 
-      		| print 
+      		| print
       		| attr
       		| decl
       		| methodCall;
@@ -36,9 +36,9 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  BOOL #Bool
 	|  Num #Num_rule;
 	
- 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd Begin (stmtList=stmt)* Return (returnExp=exp | returnID=ID)? Semicolon End ;
+  	methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd Semicolon;
+ 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID))? End | Semicolon) ;
   	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
-  	methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd;
   	args 	: (ID Comma)* ID;
   	
     decl	: type_=type varName=ID Semicolon #VarDecl

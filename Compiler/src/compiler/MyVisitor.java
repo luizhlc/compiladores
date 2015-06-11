@@ -38,7 +38,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitMethodCall(MethodCallContext ctx) {
-		return "invokestatic JCode/" + ctx.funcName1.getText();
+		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()V";
 	}
 
 	@Override
@@ -66,11 +66,20 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 		}
 		
-		return  ".method public static main([Ljava/lang/String;)V\n" +
+		//temporary gambiarra
+		if(ctx.funcName.getText().equals("main"))
+			return  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
+			".limit locals 100\n" + 
+			".limit stack 100\n" + 
+			return_ +
+			"return\n" + 
+			".end method";	
+		
+		return  ".method public static "+ctx.funcName.getText()+"()V\n" +
 				".limit locals 100\n" + 
-				".limit stack\n" + 
+				".limit stack 100\n" + 
 				return_ +
-				"ireturn\n" + 
+				"return\n" + 
 				".end method";
 	}
 

@@ -1,0 +1,9 @@
+LHC+-{
+	void teste(){
+		print(2);
+	}
+	
+	void main(){
+		teste();
+	}
+}
