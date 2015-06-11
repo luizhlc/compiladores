@@ -1,6 +1,7 @@
 LHC+-{
 	void teste(){
-		print(2);
+		int a = 2*5;
+		print(a);
 	}
 	
 	void main(){

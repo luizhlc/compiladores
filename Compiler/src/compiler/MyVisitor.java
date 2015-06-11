@@ -24,6 +24,7 @@ import aula3.LHCParser.Num_ruleContext;
 import aula3.LHCParser.Or_ruleContext;
 import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
+import aula3.LHCParser.StmtContext;
 import aula3.LHCParser.Times_ruleContext;
 import aula3.LHCParser.VarDeclContext;
 import aula3.LHCParser.VarMultDeclContext;
@@ -40,13 +41,24 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	public String visitMethodCall(MethodCallContext ctx) {
 		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()V";
 	}
+	
+	@Override
+	public String visitStmt(StmtContext ctx) {
+		return super.visitStmt(ctx);
+	}
 
 	@Override
 	public String visitMethodDef(MethodDefContext ctx) {
 		String return_ = "";
 		
+		String instructions = "";
 		if(ctx.stmtList != null){
-			return_ = visitStmt(ctx.stmtList) + "\n";
+			for (int i = 0; i < ctx.getChildCount(); i++) {
+				ParseTree child = ctx.getChild(i);
+				if(child instanceof StmtContext)
+					instructions += visit(child) + "\n";
+			}
+			return_ += instructions;
 		}
 		
 		if(ctx.returnExp != null ){
