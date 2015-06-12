@@ -1,19 +1,14 @@
 .class public HelloWorld
 .super java/lang/Object 
 
-.method public static teste()I
-.limit locals 100
-.limit stack 100
-ldc 1
-ireturn
-.end method
 .method public static main([Ljava/lang/String;)V
 .limit locals 100
 .limit stack 100
-invokestatic HelloWorld/teste()I
+ldc2_w 2.3
+ldc2_w 2.3
+ldc2_w 3.0
+dmul
+dadd
 istore 0
-getstatic java/lang/System/out Ljava/io/PrintStream;
-iload 0
-invokevirtual java/io/PrintStream/println(I)V
 return
 .end method
