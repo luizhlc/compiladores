@@ -1,0 +1,12 @@
+LHC+-{
+
+	int teste(){
+		return true;
+	}
+	
+	void main(){
+		int i = teste();
+		print(i);
+	}
+	
+}

@@ -14,9 +14,11 @@ import aula3.LHCLexer;
 import aula3.LHCParser;
 
 public class Main {
+	
+	public static String ProgramName = "HelloWorld";
 
 	public static void main(String[] args) throws Exception{
-		ANTLRInputStream input = new ANTLRFileStream("code.lhc");
+		ANTLRInputStream input = new ANTLRFileStream(ProgramName+".lhc");
 		String output = compile(input);
 		
 		System.out.println(output);
@@ -29,13 +31,21 @@ public class Main {
 		LHCParser parser = new LHCParser(token);
 		
 		ParseTree tree = parser.program();
-		String instructions = new MyVisitor().visit(tree);
+		MyVisitor visitor = new MyVisitor();
+		String instructions = visitor.visit(tree);
+		if(!visitor.hasMainMethod()){
+			try {
+				throw new Exception("No main method... Are you sure you've picked up the right course?");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return createJasminFile(instructions);
 	}
 	
 	private static void createProgram(String program){
 		try {
-			File file = new File("./JCode.j");
+			File file = new File("./"+ProgramName+".c");
  
 			if (!file.exists()) {
 				file.createNewFile();
@@ -51,16 +61,9 @@ public class Main {
 	}
 
 	private static String createJasminFile(String instructions){
-		return ".class public JCode\n"+
+		return ".class public "+ProgramName+"\n"+
 			   ".super java/lang/Object \n"+
 			   "\n"+
-			   ".method public static main([Ljava/lang/String;)V\n"+
-		       "	.limit stack 100\n"+
-			   "	.limit locals 100\n"+
-			   "	\n"+
-			    instructions +"\n"+
-			   "	return\n"+
-			   "	\n"+
-			   ".end method\n";
+			    instructions;
 	}
 }
