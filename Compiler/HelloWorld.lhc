@@ -1,7 +1,8 @@
 LHC+-{
 
 	int teste(){
-		return true;
+		int x = 2;
+		return x;
 	}
 	
 	void main(){

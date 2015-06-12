@@ -27,7 +27,6 @@ import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.StmtContext;
 import aula3.LHCParser.Times_ruleContext;
-import aula3.LHCParser.Value_ruleContext;
 import aula3.LHCParser.VarDeclContext;
 import aula3.LHCParser.VarMultDeclContext;
 import aula3.LHCParser.VariableContext;
@@ -82,8 +81,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		methods.put(ctx.funcName.getText(), formatTypeName(ctx));
 		
 			
-		if(ctx.returnExp != null ){
-			return_ = visit(ctx.returnExp) + "\n";
+		if(ctx.returnExp != null && ctx.returnID == null){
+//			return_ += visit(ctx.returnExp) + "\n";
 			if(ctx.typeVoid != null){
 				try {
 					throw new Exception("line:" + ctx.typeVoid.getLine() + " Seriously? Trying to return a value in a void method? I don't get paid for that");
@@ -91,13 +90,20 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 					e.printStackTrace();
 				}
 			}
-		}else if(ctx.returnID != null){
-			return_ = visit((ParseTree) ctx.returnID) + "\n";
-			try {
-				throw new Exception("line:" + ctx.typeVoid.getLine() + " Seriously? Trying to return a value in a void method? I don't get paid for that");
-			} catch (Exception e) {
-				e.printStackTrace();
+		}
+		if(ctx.returnID != null){
+			Integer variable = variables.get(ctx.returnID.getText());
+			
+			if(variable == null){
+				try {
+					throw new Exception("line: "+ctx.returnID.getLine()+" If you can't program that language, please get out of the chair and let someone who does. What is that s*** you are returning?");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else{
+//				return_ += types.get(ctx.returnID.getText()).getTypePrefix() + "store " + variable + "\n";
 			}
+			
 		}
 		
 		//temporary gambiarra
@@ -184,24 +190,16 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visit(ctx.rightSide_);
 		Type var = types.get(ctx.varName.getText());
 		typeVerify_att(var);
-		if(type_st.peek()==Type.Double){
-			return  child+ "\n" +
-					"dstore " + variables.get(ctx.varName.getText());
-		}
-		return visit(ctx.rightSide_) + "\n" + "istore "
-				+ variables.get(ctx.varName.getText());
+		return  child+ "\n" 
+				+var.getTypePrefix()+"store " + variables.get(ctx.varName.getText());
 	}
 
 	public String visitPrint(PrintContext ctx) {
 		String child = visit(ctx.argument);
-		if(type_st.peek()==Type.Double){
+		Type type = type_st.peek();
 			return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
 					+ child + "\n"
-					+ "invokevirtual java/io/PrintStream/println(D)V";
-		}
-		return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
-				+ child + "\n"
-				+ "invokevirtual java/io/PrintStream/println(I)V";
+					+ "invokevirtual java/io/PrintStream/println("+type.getTypeParameter()+")V";
 	}
 
 	@Override

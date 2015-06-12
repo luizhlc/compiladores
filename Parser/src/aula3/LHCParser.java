@@ -859,8 +859,8 @@ public class LHCParser extends Parser {
 		public Token funcName;
 		public ParamListContext params;
 		public StmtContext stmtList;
-		public ExpContext returnExp;
 		public Token returnID;
+		public ExpContext returnExp;
 		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
 		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
 		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
@@ -971,13 +971,13 @@ public class LHCParser extends Parser {
 					case 1:
 						{
 						setState(129);
-						((MethodDefContext)_localctx).returnExp = exp(0);
+						((MethodDefContext)_localctx).returnID = match(ID);
 						}
 						break;
 					case 2:
 						{
 						setState(130);
-						((MethodDefContext)_localctx).returnID = match(ID);
+						((MethodDefContext)_localctx).returnExp = exp(0);
 						}
 						break;
 					}
@@ -1630,7 +1630,7 @@ public class LHCParser extends Parser {
 		"\17\2\2wy\5\16\b\2xw\3\2\2\2xy\3\2\2\2yz\3\2\2\2z\u008c\7\20\2\2{\177"+
 		"\7\r\2\2|~\5\4\3\2}|\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\177\u0080\3\2"+
 		"\2\2\u0080\u0088\3\2\2\2\u0081\177\3\2\2\2\u0082\u0085\7\f\2\2\u0083\u0086"+
-		"\5\n\6\2\u0084\u0086\7(\2\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086"+
+		"\7(\2\2\u0084\u0086\5\n\6\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086"+
 		"\u0087\3\2\2\2\u0087\u0089\7\21\2\2\u0088\u0082\3\2\2\2\u0088\u0089\3"+
 		"\2\2\2\u0089\u008a\3\2\2\2\u008a\u008d\7\16\2\2\u008b\u008d\7\21\2\2\u008c"+
 		"{\3\2\2\2\u008c\u008b\3\2\2\2\u008d\r\3\2\2\2\u008e\u008f\5\32\16\2\u008f"+

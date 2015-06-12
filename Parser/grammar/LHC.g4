@@ -20,6 +20,8 @@ program: Init Begin (methodDef)* End;
 print: Print ParBeg argument=exp ParEnd Semicolon;
 
 methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd Semicolon;
+
+returnID : returnID_=ID;
 	
 exp :  ParBeg exp ParEnd #ParExp_rule    
 	|  left=exp Or right=exp #Or_rule
@@ -37,7 +39,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  varName=ID #Variable
 	|  value_=value #Value_rule;
 	
- 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID) Semicolon)? End | Semicolon) ;
+ 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnID_=returnID | returnExp=exp) Semicolon)? End | Semicolon) ;
   	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
   	args 	: (ID Comma)* ID;
   	
