@@ -86,16 +86,24 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visit(ctx.rightSide_);
 		Type var = types.get(ctx.varName.getText());
 		typeVerify_att(var);
+		if(type_st.peek()==Type.Double){
+			return  child+ "\n" +
+					"dstore " + variables.get(ctx.varName.getText());
+		}
 		return  child+ "\n" +
 		"istore " + variables.get(ctx.varName.getText());	
 	}
 	
 	public String visitPrint(PrintContext ctx) {
 		String child = visit(ctx.argument);
-		String retorno = "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
+		if(type_st.peek()==Type.Double){
+			return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
+					+ child + "\n"
+					+ "invokevirtual java/io/PrintStream/println(D)V";
+		}
+		return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
 				+ child + "\n"
 				+ "invokevirtual java/io/PrintStream/println(I)V";
-		return retorno;
 	}
 
 	@Override
@@ -117,113 +125,180 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	public String visitEqual_rule(Equal_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_equality();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "ifeq Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmpeq Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitNEqual__rule(NEqual__ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_equality();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "ifne Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmpne Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitLess_rule(Less_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_comparison();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "iflt Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmplt Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitGreater_rule(Greater_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_comparison();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "ifgt Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmpgt Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitLessE_rule(LessE_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_comparison();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "ifle Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmple Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitGreaterE_rule(GreaterE_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_comparison();
-		String retorno = child+"\n"+
+		if(type_st.pop()==Type.Double){
+
+			return child+"\n"+
+				   "dcmpg" +"\n"
+				   + "ifge Label"+label +"\n"
+					+ "ldc 0" +"\n"
+					+"goto Exit"+label+"\n"
+					+"Label"+label+":"+"\n"
+					+"ldc 1"+"\n"
+					+"Exit"+label++ +":";
+		}
+		return child+"\n"+
 				"if_icmpge Label"+label +"\n"
 				+ "ldc 0" +"\n"
 				+"goto Exit"+label+"\n"
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-		return retorno;
 	}
 	
 	@Override
 	public String visitDivide_rule(Divide_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_Div();
-		String retorno = child + "\n" 
+		if(type_st.peek()==Type.Double){
+			return child + "\n" 
+					+ "ddiv";
+		}
+		return child + "\n" 
 				+ "idiv";
-		return retorno;
 	}
 
 	@Override
 	public String visitTimes_rule(Times_ruleContext ctx) {
 		String child = visitChildren(ctx);
 		typeVerify_simpleAritm();
-		
-		String retorno = child + "\n" 
+		if(type_st.peek()==Type.Double){
+			return child + "\n" 
+					+ "dmul";
+		}
+		return child + "\n" 
 				+ "imul";
-		return retorno;
 	}
 	
 	@Override
 	public String visitPlus_rule(Plus_ruleContext ctx) {
 		
 		String child = visitChildren(ctx);
-		typeVerify_simpleAritm();		
-		String retorno = child + "\n" 
+		typeVerify_simpleAritm();	
+		if(type_st.peek()==Type.Double){
+			return child + "\n" 
+					+ "dadd";
+		}
+		return child + "\n" 
 				+ "iadd";
-		return retorno;
 	}
 
 	@Override
@@ -231,20 +306,26 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		
 		String child = visitChildren(ctx);
 		typeVerify_simpleAritm();
-		String retorno = child + "\n" 
+		if(type_st.peek()==Type.Double){
+			return child + "\n" 
+					+ "dsub";
+		}
+		return child + "\n" 
 				+ "isub";
-		return retorno;
 	}
 	
 	@Override
 	public String visitVariable(VariableContext ctx) {
 		type_st.push(types.get(ctx.varName.getText()));
+		if(type_st.peek()==Type.Double){
+			return "dload " + variables.get(ctx.varName.getText());
+		}
 		return "iload " + variables.get(ctx.varName.getText());
 	}
 	@Override
 	public String visitReal_(Real_Context ctx) {
 		type_st.push(Type.Double);
-		String retorno = "ldc " + ctx.getText();
+		String retorno = "ldc2_w " + ctx.getText();
 		return retorno;
 	}
 	@Override
@@ -289,7 +370,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		case "string":
 			types.put(varName, Type.String);
 			break;	
-		case "boolean":
+		case "bool":
 			types.put(varName, Type.Boolean);
 			break;
 		case "char":
@@ -308,7 +389,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			type_st.push(Type.Integer);
 			return;
 		}
-		if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || (a==Type.Double&&b==Type.Integer)){
+		//if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || (a==Type.Double&&b==Type.Integer)){
+		if(a==Type.Double&&b==a){
 			type_st.push(Type.Double);
 			return;
 		}
@@ -321,7 +403,12 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void typeVerify_Div(){
 		Type a = type_st.pop();
 		Type b = type_st.pop();
-		if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
+		//if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
+		if( a==Type.Integer && b==a){
+			type_st.push(Type.Integer);
+			return;
+		}
+		if(a==Type.Double&&b==a ){
 			type_st.push(Type.Double);
 			return;
 		}
@@ -335,8 +422,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void typeVerify_comparison(){
 		Type a = type_st.pop();
 		Type b = type_st.pop();
-		if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
+		//if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double || a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
+		if(a==Type.Double&&b==a||a==Type.Integer && b==a){
 			type_st.push(Type.Boolean);
+			type_st.push(a);
 			return;
 		}
 		try {
@@ -349,8 +438,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void typeVerify_equality(){
 		Type a = type_st.pop();
 		Type b = type_st.pop();
-		if(a==Type.Double&&b==Type.Double || a==Type.Integer&&b==a || a==Type.Boolean&&a==b){
+		//if(a==Type.Double&&b==Type.Double || a==Type.Integer&&b==a || a==Type.Boolean&&a==b){
+		if(a==Type.Double&&b==a || a==Type.Integer&&b==a || a==Type.Boolean&&a==b){
 			type_st.push(Type.Boolean);
+			type_st.push(a);
 			return;
 		}
 		try {
@@ -378,9 +469,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		Type a = type_st.pop();
 		type_st.push(var);
 		if(var==a){
-			return;
-		}
-		if(var==Type.Double&&a==Type.Integer){
 			return;
 		}
 		

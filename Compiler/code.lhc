@@ -1,4 +1,8 @@
 LHC+-{
-	int a;
-	a = 4.3;
+	bool b = 4.3<4.2;
+	bool c = 4.3==4.3;
+	bool d = 4.3>=4.2;
+	print(b);
+	print(c);
+	print(d);
 }
