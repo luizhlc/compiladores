@@ -12,6 +12,7 @@ import aula3.LHCParser.And_ruleContext;
 import aula3.LHCParser.AssignmentContext;
 import aula3.LHCParser.Bool_ruleContext;
 import aula3.LHCParser.Divide_ruleContext;
+import aula3.LHCParser.Double_ruleContext;
 import aula3.LHCParser.Equal_ruleContext;
 import aula3.LHCParser.GreaterE_ruleContext;
 import aula3.LHCParser.Greater_ruleContext;
@@ -168,6 +169,15 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitAssignment(AssignmentContext ctx) {
+		if(variables.get(ctx.varName.getText()) != null && ctx.type_ != null){
+			try {
+				throw new Exception("line:" + ctx.varName.getLine() + " '"
+						+ ctx.varName.getText()
+						+ "' has already been declared, genius.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		if (ctx.type_ != null) {
 			variables.put(ctx.varName.getText(), variables.size());
 			storeType(ctx.type_.getText(), ctx.varName.getText());
@@ -181,6 +191,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				e.printStackTrace();
 			}
 		}
+		
 		String child = visit(ctx.rightSide_);
 		Type var = types.get(ctx.varName.getText());
 		typeVerify_att(var);
@@ -215,7 +226,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitOr_rule(Or_ruleContext ctx) {
-		typeVerify_logic();
+//		typeVerify_logic();
 		return visitChildren(ctx) + "\n" + "ior";
 	}
 
@@ -230,7 +241,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String child = visitChildren(ctx);
 		typeVerify_equality();
 		if(type_st.pop()==Type.Double){
-
 			return child+"\n"+
 				   "dcmpg" +"\n"
 				   + "ifeq Label"+label +"\n"
@@ -402,6 +412,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return "ldc 1";
 		return "ldc 0";
 	}
+	@Override
+	public String visitDouble_rule(Double_ruleContext ctx) {
+		type_st.push(Type.Double);
+		return "ldc2_w " + ctx.value_.getText();
+	}
 
 	@Override
 	protected String aggregateResult(String aggregate, String nextResult) {
@@ -445,6 +460,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return;
 		}
 		try {
+			type_st.push(Type.Double);
 			throw new Exception("line:" +1 + "You can't operate with types "+a+" and "+b+", genius.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -463,6 +479,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return;
 		}
 		try {
+			type_st.push(Type.Double);
 			throw new Exception("line:" +1 + "You can't operate with "+a+" and "+b+", genius.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -479,6 +496,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return;
 		}
 		try {
+			type_st.push(Type.Bool);
+			type_st.push(a);
 			throw new Exception("line:" +1 + "You can't operate with "+a+" and "+b+", genius.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -495,6 +514,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return;
 		}
 		try {
+			type_st.push(Type.Bool);
+			type_st.push(a);
 			throw new Exception("line:" +1 + "You can't operate with "+a+" and "+b+", genius.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -509,6 +530,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return;
 		}
 		try {
+			type_st.push(Type.Bool);
 			throw new Exception("line:" +1 + "You can't operate with "+a+" and "+b+", genius.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -523,6 +545,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		
 		try {
+			type_st.push(var);
 			throw new Exception("line:" +1 + "You can't attribute a "+a+" type to variable of "+var+" type, genius.\n");
 		} catch (Exception e) {
 			e.printStackTrace();
