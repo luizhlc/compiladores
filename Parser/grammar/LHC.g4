@@ -4,7 +4,7 @@ grammar LHC;
 
 program: Init Begin (methodDef)* End;
 
-  	stmt	: attr
+  	stmt	: attr 
       		| print
       		| exp
       		| decl
@@ -35,8 +35,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  left=exp LessE right=exp #LessE_rule
 	|  left=exp GreaterE right=exp #GreaterE_rule
 	|  varName=ID #Variable
-	|  BOOL #Bool
-	|  Num #Num_rule;
+	|  value_=value #Value_rule;
 	
  	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID) Semicolon)? End | Semicolon) ;
   	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
@@ -50,10 +49,11 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 
   	rightSide	: exp Semicolon | value | methodCall | Quote String Quote;
   	
-	value 	: Integer  
-      		| Double 
-      		| String
-      		| Char;
+	value 	: value_=Integer #Int_rule
+			| value_=Bool  #Bool_rule
+      		| value_=Double #Double_rule
+      		| value_=String #String_rule
+      		| value_=Char #Char_rule;
       		
   type : StringType | IntegerType | DoubleType | BooleanType;
   StringType : 'string';
@@ -64,7 +64,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   WS : ('\n'| '\t' | '\r' | ' ')+ -> skip ;
   Print: 'print';
   Init : 'LHC+-';
-  BOOL: 'true' | 'false';
+  Bool: 'true' | 'false';
   Void : 'void';
   Return : 'return';
   Begin : '{'; 
@@ -76,7 +76,8 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   Minus : '-';
   Times : '*';
   Divide : '/';
-  Num : ('0' .. '9')+ ;
+  Integer : ('0' .. '9')+ ;
+//  Num : ('0' .. '9')+ ;
   Or : '|' ;
   And: '&' ;
   Equal: '=''=';
@@ -94,8 +95,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   Char : SQuote '\u0000'..'\uFFFE' SQuote;
   String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
   Double : Integer '.' Integer | '.' Integer | Integer '.' ;
-  Integer : Num+;
-  ID : IDChar (Num | IDChar)*; 
+  ID : IDChar (Integer | IDChar)*; 
   IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;
   
 //  VectorBeg : '[' ;

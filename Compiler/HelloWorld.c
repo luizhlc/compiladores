@@ -4,7 +4,7 @@
 .method public static teste()I
 .limit locals 100
 .limit stack 100
-ldc 2
+ldc 1
 ireturn
 .end method
 .method public static main([Ljava/lang/String;)V

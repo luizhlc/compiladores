@@ -85,19 +85,12 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParExp_rule(LHCParser.ParExp_ruleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Num_rule}
+	 * Visit a parse tree produced by the {@code Value_rule}
 	 * labeled alternative in {@link LHCParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNum_rule(LHCParser.Num_ruleContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Bool}
-	 * labeled alternative in {@link LHCParser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBool(LHCParser.BoolContext ctx);
+	T visitValue_rule(LHCParser.Value_ruleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code NEqual__rule}
 	 * labeled alternative in {@link LHCParser#exp}.
@@ -193,11 +186,40 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRightSide(LHCParser.RightSideContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#value}.
+	 * Visit a parse tree produced by the {@code Int_rule}
+	 * labeled alternative in {@link LHCParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(LHCParser.ValueContext ctx);
+	T visitInt_rule(LHCParser.Int_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Bool_rule}
+	 * labeled alternative in {@link LHCParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBool_rule(LHCParser.Bool_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Double_rule}
+	 * labeled alternative in {@link LHCParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDouble_rule(LHCParser.Double_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code String_rule}
+	 * labeled alternative in {@link LHCParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString_rule(LHCParser.String_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Char_rule}
+	 * labeled alternative in {@link LHCParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitChar_rule(LHCParser.Char_ruleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#type}.
 	 * @param ctx the parse tree
