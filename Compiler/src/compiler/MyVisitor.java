@@ -36,15 +36,29 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	private HashMap<String, Integer> variables = new HashMap<>();
 	private HashMap<String, Type> types = new HashMap<>();
+	
+	private HashMap<String, Type> methods = new HashMap<>();
+	
+	private boolean hasMainMethod = false;
+	
+	public boolean hasMainMethod(){
+		return hasMainMethod;
+	}
 
 	@Override
 	public String visitMethodCall(MethodCallContext ctx) {
-		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()V";
+		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()" + methods.get(ctx.funcName1.getText()).getTypeParameter();
 	}
 	
 	@Override
 	public String visitStmt(StmtContext ctx) {
 		return super.visitStmt(ctx);
+	}
+	
+	private Type formatTypeName(MethodDefContext ctx){
+		if(ctx.typeVoid != null)
+			return Type.valueOf(ctx.typeVoid.getText().substring(0,1).toUpperCase() + ctx.typeVoid.getText().substring(1));
+		return Type.valueOf(ctx.type_.getText().substring(0,1).toUpperCase() + ctx.type_.getText().substring(1));
 	}
 
 	@Override
@@ -61,14 +75,18 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return_ += instructions;
 		}
 		
+		methods.put(ctx.funcName.getText(), formatTypeName(ctx));
+		
+			
 		if(ctx.returnExp != null ){
 			return_ = visit(ctx.returnExp) + "\n";
-			if(ctx.typeVoid != null)
+			if(ctx.typeVoid != null){
 				try {
 					throw new Exception("line:" + ctx.typeVoid.getLine() + " Seriously? Trying to return a value in a void method? I don't get paid for that");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
 		}else if(ctx.returnID != null){
 			return_ = visit((ParseTree) ctx.returnID) + "\n";
 			try {
@@ -79,19 +97,29 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		
 		//temporary gambiarra
-		if(ctx.funcName.getText().equals("main"))
+		if(ctx.funcName.getText().equals("main")){
+			if(hasMainMethod){
+				try {
+					throw new Exception("Another main method? You have no idea what you're doing, do you?");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else
+				hasMainMethod = true;
 			return  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
 			".limit locals 100\n" + 
 			".limit stack 100\n" + 
 			return_ +
 			"return\n" + 
 			".end method";	
+		}
 		
-		return  ".method public static "+ctx.funcName.getText()+"()V\n" +
+		Type type = this.formatTypeName(ctx);
+		return  ".method public static "+ctx.funcName.getText()+"()"+type.getTypeParameter()+"\n" +
 				".limit locals 100\n" + 
 				".limit stack 100\n" + 
 				return_ +
-				"return\n" + 
+				type.getTypePrefix()+"return\n" + 
 				".end method";
 	}
 
@@ -289,7 +317,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void storeType(String type, String varName) {
 		switch (type) {
 		case "int":
-			types.put(varName, Type.Integer);
+			types.put(varName, Type.Int);
 			break;
 		case "double":
 			types.put(varName, Type.Double);

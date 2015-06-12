@@ -1,10 +1,12 @@
 LHC+-{
-	void teste(){
-		int a = 2*5;
-		print(a);
+
+	int teste(){
+		return 2;
 	}
 	
 	void main(){
-		teste();
+		int i = teste();
+		print(i);
 	}
+	
 }

@@ -4,9 +4,9 @@ grammar LHC;
 
 program: Init Begin (methodDef)* End;
 
-  	stmt	: exp 
+  	stmt	: attr
       		| print
-      		| attr
+      		| exp
       		| decl
       		| methodCall;
 //      		| case1 	
@@ -18,6 +18,8 @@ program: Init Begin (methodDef)* End;
 //      		| obj ;
 
 print: Print ParBeg argument=exp ParEnd Semicolon;
+
+methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd Semicolon;
 	
 exp :  ParBeg exp ParEnd #ParExp_rule    
 	|  left=exp Or right=exp #Or_rule
@@ -36,18 +38,17 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  BOOL #Bool
 	|  Num #Num_rule;
 	
-  	methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd Semicolon;
- 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID))? End | Semicolon) ;
+ 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID) Semicolon)? End | Semicolon) ;
   	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
   	args 	: (ID Comma)* ID;
   	
     decl	: type_=type varName=ID Semicolon #VarDecl
     			| type_=type (varName=ID Comma)* varName=ID Semicolon #VarMultDecl;
     			
-    attr	: (type_=type)? varName=ID Gets rightSide_=rightSide Semicolon #Assignment;
+    attr	: (type_=type)? varName=ID Gets rightSide_=rightSide #Assignment;
 //    			| VectorBeg Integer VectorEnd rightSIDe Semicolon;
 
-  	rightSide	: exp | value | Quote String Quote;
+  	rightSide	: exp Semicolon | value | methodCall | Quote String Quote;
   	
 	value 	: Integer  
       		| Double 

@@ -31,7 +31,15 @@ public class Main {
 		LHCParser parser = new LHCParser(token);
 		
 		ParseTree tree = parser.program();
-		String instructions = new MyVisitor().visit(tree);
+		MyVisitor visitor = new MyVisitor();
+		String instructions = visitor.visit(tree);
+		if(!visitor.hasMainMethod()){
+			try {
+				throw new Exception("No main method... Are you sure you've picked up the right course?");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return createJasminFile(instructions);
 	}
 	
