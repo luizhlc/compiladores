@@ -60,6 +60,16 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	@Override
 	public String visitMethodCall(MethodCallContext ctx) {
 		type_st.push(methods.get(ctx.funcName1.getText()));
+		if(!methods.containsKey(ctx.funcName1.getText())){
+			try {
+				throw new Exception("Line: +"+ctx.start.getLine()+"\n Method "+ctx.funcName1.getText()+" undeclared");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "";
+			
+		}
 		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()" + methods.get(ctx.funcName1.getText()).getTypeParameter();
 	}
 	

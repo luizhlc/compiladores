@@ -1,16 +1,17 @@
 LHC+-{
-	
-	void main(){
-		
-		int a =2+2*3;
-		func();
-		print(a);
-		
-	}
 	int func(){
 		int b = 3*3;
 		print(b);
 		return b;
 	}
+	void main(){
+		
+		int a =2+2*3;
+		int c = func();
+		print(a);
+		
+	}
+	
+
 
 }
