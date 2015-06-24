@@ -22,11 +22,18 @@ ldc 2
 ldc 3
 imul
 iadd
-istore 1
+istore 0
 invokestatic HelloWorld/func()I
-istore 2
+istore 1
 getstatic java/lang/System/out Ljava/io/PrintStream;
+iload 0
 iload 1
+iadd
+invokevirtual java/io/PrintStream/println(I)V
+getstatic java/lang/System/out Ljava/io/PrintStream;
+iload 0
+invokestatic HelloWorld/func()I
+iadd
 invokevirtual java/io/PrintStream/println(I)V
 return
 .end method

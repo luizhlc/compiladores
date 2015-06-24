@@ -87,6 +87,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitMethodDef(MethodDefContext ctx) {
+		HashMap<String, Integer> oldVariables = variables;
+		variables = new HashMap<>();
 		String return_ = "";
 		
 		String instructions = "";
@@ -134,22 +136,26 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 		}
 		
+		String retorno;
 		if(ctx.funcName.getText().equals("main")){
-			return  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
+			retorno=  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
 					".limit locals 100\n" + 
 					".limit stack 100\n" + 
 					return_ +
 					"return\n" + 
 					".end method";		
 		}
-		
+		else{
 		Type type = this.formatTypeName(ctx);
-		return  ".method public static "+ctx.funcName.getText()+"()"+type.getTypeParameter()+"\n" +
+		retorno =  ".method public static "+ctx.funcName.getText()+"()"+type.getTypeParameter()+"\n" +
 				".limit locals 100\n" + 
 				".limit stack 100\n" + 
 				return_ +
 				type.getTypePrefix()+"return\n" + 
 				".end method";
+		}
+		variables = oldVariables;
+		return retorno;
 	}
 
 	@Override

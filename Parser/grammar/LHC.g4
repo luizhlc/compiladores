@@ -6,7 +6,7 @@ program: Init Begin (methodDef)* End;
 
   	stmt	: attr 
       		| print
-      		| exp
+      		| exp Semicolon
       		| decl;
 //      		| case1 	
 //      		| switch1 	
@@ -18,7 +18,7 @@ program: Init Begin (methodDef)* End;
 
 print: Print ParBeg argument=exp ParEnd Semicolon;
 
-methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd Semicolon;
+methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=args)? ParEnd ;
 	
 exp :  ParBeg exp ParEnd #ParExp_rule    
 	|  left=exp Or right=exp #Or_rule
@@ -49,7 +49,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 //    			| VectorBeg Integer VectorEnd rightSIDe Semicolon;
 
  // 	rightSide	: exp Semicolon | methodCall | Quote String Quote;
-  	rightSide	: exp Semicolon | methodCall;
+  	rightSide	: exp Semicolon ;
 	value 	: value_=Integer #Int_rule
 			| value_=Bool  #Bool_rule
       		| value_=Double #Double_rule;

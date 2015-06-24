@@ -1,14 +1,14 @@
 LHC+-{
 	int func(){
-		int b = 3*3;
-		print(b);
-		return b;
+		int a = 3*3;
+		print(a);
+		return a;
 	}
 	void main(){
-		
 		int a =2+2*3;
 		int c = func();
-		print(a);
+		print(a+c);
+		print(a+func());
 		
 	}
 	
