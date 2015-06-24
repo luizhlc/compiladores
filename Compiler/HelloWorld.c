@@ -27,14 +27,59 @@ ireturn
 .method public static main([Ljava/lang/String;)V
 .limit locals 100
 .limit stack 100
-ldc 2
-ldc 2
-ldc 3
-imul
-iadd
-istore 0
 ldc 5
-ldc2_w 5.3
-invokestatic HelloWorld/func(ID)I
+istore 0
+iload 0
+ldc 8
+if_icmpeq Label0
+ldc 0
+goto Exit0
+Label0:
+ldc 1
+Exit0:
+ifeq False0
+getstatic java/lang/System/out Ljava/io/PrintStream;
+ldc 1
+invokevirtual java/io/PrintStream/println(I)V
+goto ExitCase0
+False0:
+
+iload 0
+ldc 9
+if_icmpeq Label1
+ldc 0
+goto Exit1
+Label1:
+ldc 1
+Exit1:
+ifeq False1
+getstatic java/lang/System/out Ljava/io/PrintStream;
+ldc 2
+invokevirtual java/io/PrintStream/println(I)V
+goto ExitCase0
+False1:
+
+iload 0
+ldc 10
+ldc 1
+iadd
+if_icmpeq Label2
+ldc 0
+goto Exit2
+Label2:
+ldc 1
+Exit2:
+ifeq False2
+getstatic java/lang/System/out Ljava/io/PrintStream;
+ldc 3
+invokevirtual java/io/PrintStream/println(I)V
+goto ExitCase0
+False2:
+
+getstatic java/lang/System/out Ljava/io/PrintStream;
+ldc 4
+invokevirtual java/io/PrintStream/println(I)V
+ExitCase0:
+
 return
 .end method

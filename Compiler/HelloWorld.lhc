@@ -7,8 +7,21 @@ LHC+-{
 		return a;
 	}
 	void main(){
-		int a =2+2*3;
-		func(5,5.3);
+		int a =5;
+		switch {
+			case(a==8){
+				print(1);
+			}
+			case(a==9){
+				print(2);
+			}
+			case(a==(10+1)){
+				print(3);
+			}
+			default{
+				print(4);
+			}
+		};
 		
 	}
 	

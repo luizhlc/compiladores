@@ -41,6 +41,28 @@ public interface LHCListener extends ParseTreeListener {
 	void exitLess_rule(@NotNull LHCParser.Less_ruleContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link LHCParser#switch1}.
+	 * @param ctx the parse tree
+	 */
+	void enterSwitch1(@NotNull LHCParser.Switch1Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#switch1}.
+	 * @param ctx the parse tree
+	 */
+	void exitSwitch1(@NotNull LHCParser.Switch1Context ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link LHCParser#default_rule}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefault_rule(@NotNull LHCParser.Default_ruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#default_rule}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefault_rule(@NotNull LHCParser.Default_ruleContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link LHCParser#Bool_rule}.
 	 * @param ctx the parse tree
 	 */
@@ -325,6 +347,17 @@ public interface LHCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParamDecl(@NotNull LHCParser.ParamDeclContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link LHCParser#Case_rule}.
+	 * @param ctx the parse tree
+	 */
+	void enterCase_rule(@NotNull LHCParser.Case_ruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#Case_rule}.
+	 * @param ctx the parse tree
+	 */
+	void exitCase_rule(@NotNull LHCParser.Case_ruleContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link LHCParser#Or_rule}.

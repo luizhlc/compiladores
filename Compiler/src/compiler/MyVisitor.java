@@ -12,6 +12,8 @@ import aula3.LHCBaseVisitor;
 import aula3.LHCParser.And_ruleContext;
 import aula3.LHCParser.AssignmentContext;
 import aula3.LHCParser.Bool_ruleContext;
+import aula3.LHCParser.Case_ruleContext;
+import aula3.LHCParser.Default_ruleContext;
 import aula3.LHCParser.Divide_ruleContext;
 import aula3.LHCParser.Double_ruleContext;
 import aula3.LHCParser.Equal_ruleContext;
@@ -26,7 +28,6 @@ import aula3.LHCParser.Minus_ruleContext;
 import aula3.LHCParser.NEqual__ruleContext;
 import aula3.LHCParser.Or_ruleContext;
 import aula3.LHCParser.ParamDeclContext;
-import aula3.LHCParser.ParamListContext;
 import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.ProgramContext;
@@ -39,7 +40,8 @@ import aula3.LHCParser.VariableContext;
 public class MyVisitor extends LHCBaseVisitor<String> {
 
 	int label = 0;
-
+	int exitLabel=0;
+	int elseLabel=0;
 	Stack<Type> type_st = new Stack<Type>();
 	
 	private HashMap<String, Integer> variables = new HashMap<>();
@@ -47,6 +49,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	
 	private HashMap<String, Type> methods = new HashMap<>();
 	private HashMap<String, Vector<Type>> methods_par = new HashMap<>();
+	
+	@Override
 	public String visitProgram(ProgramContext ctx){
 		String child = visitChildren(ctx);
 		if(!methods.containsKey("main")){
@@ -59,101 +63,24 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return child;
 		
 	}
-	
-	@Override
-	public String visitMethodCall(MethodCallContext ctx) {
-		type_st.push(methods.get(ctx.funcName1.getText()));
-		if(!methods.containsKey(ctx.funcName1.getText())){
-			try {
-				throw new Exception("Line: +"+ctx.start.getLine()+"\n Method "+ctx.funcName1.getText()+" undeclared");
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return "";
-			
-		}
-		String instructions = "";
-		String argumentsInstructions = "";
-		if(ctx.argList!=null){
-			if(!methods_par.containsKey(ctx.funcName1.getText())){
-				try {
-					throw new Exception("Line: +"+ctx.start.getLine()+"\n ESSA FUNCAO NAO TEM PARAMETROS PORRA: 2h da manha");
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			argumentsInstructions = visit(ctx.argList);
-		}
-		Vector<Type> parametros_func = methods_par.get(ctx.funcName1.getText());
-		int count = parametros_func.size()-1;
-		instructions += argumentsInstructions + '\n';
-		instructions += "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "(";
-		StringBuilder parametros = new StringBuilder();
-		while(type_st.size()!=1){
-			Type atual = type_st.pop();
-			parametros.insert(0, atual.getTypeParameter() );
-			if(count<0){
-				try {
-					throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO SOBRANDO AI PORRA");
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if(parametros_func.get(count)!=atual){
-				try {
-					throw new Exception("Line: +"+ctx.start.getLine()+"\n VOCE NAO PODE PASSAR UM PARAMETRO "+atual.getType()+" SENDO QUE SE ESPERAVA UM "+parametros_func.get(count));
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			count--;
-		}
-		if(count!=-1){
-			try {
-				throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO FALTANDO AI PORRA");
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	    instructions+=parametros.toString()+")" + methods.get(ctx.funcName1.getText()).getTypeParameter();
-		return instructions;
-				
-	}
-	
 	@Override
 	public String visitStmt(StmtContext ctx) {
 		type_st.clear();
 		return super.visitStmt(ctx);
 	}
-	
-	private Type formatTypeName(MethodDefContext ctx){
-		if(ctx.typeVoid != null)
-			return Type.valueOf(ctx.typeVoid.getText().substring(0,1).toUpperCase() + ctx.typeVoid.getText().substring(1));
-		return Type.valueOf(ctx.type_.getText().substring(0,1).toUpperCase() + ctx.type_.getText().substring(1));
-	}
-
 	@Override
-	public String visitParamDecl(ParamDeclContext ctx){
-		if (variables.get(ctx.varName.getText()) == null) {
-			variables.put(ctx.varName.getText(), variables.size());
-			storeType(ctx.type_.getText(), ctx.varName.getText());
-		} else {
-			try {
-				throw new Exception("line:" + ctx.varName.getLine() + " '"
-						+ ctx.varName.getText()
-						+ "' has already been declared, genius.");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	public String visitPrint(PrintContext ctx) {
+		String child = visit(ctx.argument);
+		if(type_st.peek()==Type.Double){
+			return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
+					+ child + "\n"
+					+ "invokevirtual java/io/PrintStream/println(D)V";
 		}
-		return "";
+		return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
+				+ child + "\n"
+				+ "invokevirtual java/io/PrintStream/println(I)V";
 	}
+	
 	@Override
 	public String visitMethodDef(MethodDefContext ctx) {
 		HashMap<String, Integer> oldVariables = variables;
@@ -244,7 +171,138 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		variables = oldVariables;
 		return retorno;
 	}
+	@Override
+	public String visitMethodCall(MethodCallContext ctx) {
+		type_st.push(methods.get(ctx.funcName1.getText()));
+		if(!methods.containsKey(ctx.funcName1.getText())){
+			try {
+				throw new Exception("Line: +"+ctx.start.getLine()+"\n Method "+ctx.funcName1.getText()+" undeclared");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "";
+			
+		}
+		String instructions = "";
+		String argumentsInstructions = "";
+		if(ctx.argList!=null){
+			if(!methods_par.containsKey(ctx.funcName1.getText())){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n ESSA FUNCAO NAO TEM PARAMETROS PORRA: 2h da manha");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			argumentsInstructions = visit(ctx.argList);
+		}
+		Vector<Type> parametros_func = methods_par.get(ctx.funcName1.getText());
+		int count = parametros_func.size()-1;
+		instructions += argumentsInstructions + '\n';
+		instructions += "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "(";
+		StringBuilder parametros = new StringBuilder();
+		while(type_st.size()!=1){
+			Type atual = type_st.pop();
+			parametros.insert(0, atual.getTypeParameter() );
+			if(count<0){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO SOBRANDO AI PORRA");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(parametros_func.get(count)!=atual){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n VOCE NAO PODE PASSAR UM PARAMETRO "+atual.getType()+" SENDO QUE SE ESPERAVA UM "+parametros_func.get(count));
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			count--;
+		}
+		if(count!=-1){
+			try {
+				throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO FALTANDO AI PORRA");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	    instructions+=parametros.toString()+")" + methods.get(ctx.funcName1.getText()).getTypeParameter();
+		return instructions;
+				
+	}
+	@Override
+	public String visitParamDecl(ParamDeclContext ctx){
+		if (variables.get(ctx.varName.getText()) == null) {
+			variables.put(ctx.varName.getText(), variables.size());
+			storeType(ctx.type_.getText(), ctx.varName.getText());
+		} else {
+			try {
+				throw new Exception("line:" + ctx.varName.getLine() + " '"
+						+ ctx.varName.getText()
+						+ "' has already been declared, genius.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+	
+//	@Override
+//	public String visitSwitch1(Switch1Context ctx) {
+//		String return_=""; 
+//		return return_;
+//	}
+	@Override
+	public String visitCase_rule(Case_ruleContext ctx) {
+		String instructions="";
+		
+		String condition ="";
+		condition = visit(ctx.condition_);
+		if(type_st.pop()!=Type.Bool){
+			try {
+				throw new Exception("Line: "+ctx.start.getLine()+"\nComo vou saber se essa expressao eh verdadeira se nao retorna bool?");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
+		}
+		String return_ =condition+"\n";
+		return_+="ifeq False"+elseLabel+"\n";
+		if(ctx.stmtList != null){
+			for (int i = 0; i < ctx.getChildCount(); i++) {
+				ParseTree child = ctx.getChild(i);
+				if(child instanceof StmtContext)
+					instructions += visit(child) + "\n";
+			}
+			return_ += instructions;
+		}
+		return_+= "goto ExitCase"+exitLabel+"\n";
+		return_+="False"+elseLabel+++":\n";
+		return return_;
+	}
+
+	@Override
+	public String visitDefault_rule(Default_ruleContext ctx) {
+		String instructions="";
+		String return_="";
+		if(ctx.stmtList != null){
+			for (int i = 0; i < ctx.getChildCount(); i++) {
+				ParseTree child = ctx.getChild(i);
+				if(child instanceof StmtContext)
+					instructions += visit(child) + "\n";
+			}
+			return_ += instructions;
+		}
+		return_+= "ExitCase"+exitLabel+++":\n";
+		return return_;
+	}
+	
 	@Override
 	public String visitVarDecl(VarDeclContext ctx) {
 		if (variables.get(ctx.varName.getText()) == null) {
@@ -261,7 +319,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		return "";
 	}
-
 	@Override
 	public String visitVarMultDecl(VarMultDeclContext ctx) {
 		List<TerminalNode> l = ctx.ID();
@@ -283,7 +340,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		return "";
 	}
-
 	@Override
 	public String visitAssignment(AssignmentContext ctx) {
 		if(variables.get(ctx.varName.getText()) != null && ctx.type_ != null){
@@ -320,39 +376,16 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+ variables.get(ctx.varName.getText());
 	}
 
-	public String visitPrint(PrintContext ctx) {
-		String child = visit(ctx.argument);
-		if(type_st.peek()==Type.Double){
-			return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
-					+ child + "\n"
-					+ "invokevirtual java/io/PrintStream/println(D)V";
-		}
-		return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
-				+ child + "\n"
-				+ "invokevirtual java/io/PrintStream/println(I)V";
-	}
-
-	@Override
-	public String visitVariable(VariableContext ctx) {
-		type_st.push(types.get(ctx.varName.getText()));
-		if(type_st.peek()==Type.Double){
-			return "dload " + variables.get(ctx.varName.getText());
-		}
-		return "iload " + variables.get(ctx.varName.getText());
-	}
-
 	@Override
 	public String visitOr_rule(Or_ruleContext ctx) {
 //		typeVerify_logic();
 		return visitChildren(ctx) + "\n" + "ior";
 	}
-
 	@Override
 	public String visitAnd_rule(And_ruleContext ctx) {
 		typeVerify_logic(ctx.start.getLine());
 		return visitChildren(ctx) + "\n" + "iand";
 	}
-
 	@Override
 	public String visitEqual_rule(Equal_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -375,7 +408,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 	}
-
 	@Override
 	public String visitNEqual__rule(NEqual__ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -399,7 +431,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 	}
-
 	@Override
 	public String visitLess_rule(Less_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -408,7 +439,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+ ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++ + ":";
 		return retorno;
 	}
-
 	@Override
 	public String visitGreater_rule(Greater_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -417,7 +447,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+ ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++ + ":";
 		return retorno;
 	}
-	
 @Override
 	public String visitLessE_rule(LessE_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -441,7 +470,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
 	}
-	
 	@Override
 	public String visitGreaterE_rule(GreaterE_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -464,8 +492,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				+"Label"+label+":"+"\n"
 				+"ldc 1"+"\n"
 				+"Exit"+label++ +":";
-	}
-	
+	}	
 	@Override
 	public String visitDivide_rule(Divide_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -477,7 +504,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return child + "\n" 
 				+ "idiv";
 	}
-
 	@Override
 	public String visitTimes_rule(Times_ruleContext ctx) {
 		String child = visitChildren(ctx);
@@ -488,8 +514,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		return child + "\n" 
 				+ "imul";
-	}
-	
+	}	
 	@Override
 	public String visitPlus_rule(Plus_ruleContext ctx) {
 		
@@ -502,7 +527,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return child + "\n" 
 				+ "iadd";
 	}
-
 	@Override
 	public String visitMinus_rule(Minus_ruleContext ctx) {
 		
@@ -515,13 +539,20 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return child + "\n" 
 				+ "isub";
 	}
-
+	
+	@Override
+	public String visitVariable(VariableContext ctx) {
+		type_st.push(types.get(ctx.varName.getText()));
+		if(type_st.peek()==Type.Double){
+			return "dload " + variables.get(ctx.varName.getText());
+		}
+		return "iload " + variables.get(ctx.varName.getText());
+	}
 	@Override
 	public String visitInt_rule(Int_ruleContext ctx) {
 		type_st.push(Type.Int);
 		return "ldc " + ctx.value_.getText();
 	}
-	
 	@Override
 	public String visitBool_rule(Bool_ruleContext ctx) {
 		type_st.push(Type.Bool);
@@ -535,6 +566,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return "ldc2_w " + ctx.value_.getText();
 	}
 
+	
+	
 	@Override
 	protected String aggregateResult(String aggregate, String nextResult) {
 		if (aggregate == null) {
@@ -545,7 +578,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		return aggregate + "\n" + nextResult;
 	}
-
+	
 	private void storeType(String type, String varName) {
 		switch (type) {
 		case "int":
@@ -571,7 +604,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return Type.String;
 		}
 	}
-	
+	private Type formatTypeName(MethodDefContext ctx){
+		if(ctx.typeVoid != null)
+			return Type.valueOf(ctx.typeVoid.getText().substring(0,1).toUpperCase() + ctx.typeVoid.getText().substring(1));
+		return Type.valueOf(ctx.type_.getText().substring(0,1).toUpperCase() + ctx.type_.getText().substring(1));
+	}
 	
 	//Verificacao de tipos
 	private void typeVerify_simpleAritm(int l){

@@ -16,25 +16,27 @@ public class LHCParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		IntegerType=1, DoubleType=2, BooleanType=3, WS=4, Print=5, Init=6, Bool=7, 
-		Void=8, Return=9, Begin=10, End=11, ParBeg=12, ParEnd=13, Semicolon=14, 
-		Plus=15, Minus=16, Times=17, Divide=18, Integer=19, Or=20, And=21, Equal=22, 
-		NEqual=23, Less=24, LessE=25, Greater=26, GreaterE=27, Not=28, Gets=29, 
-		Quote=30, SQuote=31, Comma=32, Dot=33, Double=34, ID=35, IDChar=36;
+		Void=8, Return=9, Switch=10, Case=11, Default=12, Begin=13, End=14, ParBeg=15, 
+		ParEnd=16, Semicolon=17, Plus=18, Minus=19, Times=20, Divide=21, Integer=22, 
+		Or=23, And=24, Equal=25, NEqual=26, Less=27, LessE=28, Greater=29, GreaterE=30, 
+		Not=31, Gets=32, Quote=33, SQuote=34, Comma=35, Dot=36, Double=37, ID=38, 
+		IDChar=39;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'int'", "'double'", "'bool'", "WS", "'print'", "'LHC+-'", 
-		"Bool", "'void'", "'return'", "'{'", "'}'", "'('", "')'", "';'", "'+'", 
-		"'-'", "'*'", "'/'", "Integer", "'|'", "'&'", "Equal", "NEqual", "'<'", 
-		"LessE", "'>'", "GreaterE", "'!'", "'='", "'\"'", "'''", "','", "'.'", 
-		"Double", "ID", "IDChar"
+		"Bool", "'void'", "'return'", "'switch'", "'case'", "'default'", "'{'", 
+		"'}'", "'('", "')'", "';'", "'+'", "'-'", "'*'", "'/'", "Integer", "'|'", 
+		"'&'", "Equal", "NEqual", "'<'", "LessE", "'>'", "GreaterE", "'!'", "'='", 
+		"'\"'", "'''", "','", "'.'", "Double", "ID", "IDChar"
 	};
 	public static final int
-		RULE_program = 0, RULE_stmt = 1, RULE_print = 2, RULE_methodCall = 3, 
-		RULE_exp = 4, RULE_methodDef = 5, RULE_paramList = 6, RULE_paramDecl = 7, 
-		RULE_expressionList = 8, RULE_decl = 9, RULE_attr = 10, RULE_rightSide = 11, 
-		RULE_value = 12, RULE_type = 13;
+		RULE_program = 0, RULE_stmt = 1, RULE_print = 2, RULE_exp = 3, RULE_methodDef = 4, 
+		RULE_methodCall = 5, RULE_paramList = 6, RULE_paramDecl = 7, RULE_expressionList = 8, 
+		RULE_decl = 9, RULE_attr = 10, RULE_rightSide = 11, RULE_switch1 = 12, 
+		RULE_case1 = 13, RULE_default1 = 14, RULE_value = 15, RULE_type = 16;
 	public static final String[] ruleNames = {
-		"program", "stmt", "print", "methodCall", "exp", "methodDef", "paramList", 
-		"paramDecl", "expressionList", "decl", "attr", "rightSide", "value", "type"
+		"program", "stmt", "print", "exp", "methodDef", "methodCall", "paramList", 
+		"paramDecl", "expressionList", "decl", "attr", "rightSide", "switch1", 
+		"case1", "default1", "value", "type"
 	};
 
 	@Override
@@ -84,22 +86,22 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28); match(Init);
-			setState(29); match(Begin);
-			setState(33);
+			setState(34); match(Init);
+			setState(35); match(Begin);
+			setState(39);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Void))) != 0)) {
 				{
 				{
-				setState(30); methodDef();
+				setState(36); methodDef();
 				}
 				}
-				setState(35);
+				setState(41);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(36); match(End);
+			setState(42); match(End);
 			}
 		}
 		catch (RecognitionException re) {
@@ -124,6 +126,9 @@ public class LHCParser extends Parser {
 			return getRuleContext(DeclContext.class,0);
 		}
 		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public Switch1Context switch1() {
+			return getRuleContext(Switch1Context.class,0);
+		}
 		public PrintContext print() {
 			return getRuleContext(PrintContext.class,0);
 		}
@@ -142,34 +147,42 @@ public class LHCParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_stmt);
 		try {
-			setState(44);
+			setState(53);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(38); attr();
+				setState(44); attr();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(39); print();
+				setState(45); print();
 				}
 				break;
 
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(40); exp(0);
-				setState(41); match(Semicolon);
+				setState(46); exp(0);
+				setState(47); match(Semicolon);
 				}
 				break;
 
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(43); decl();
+				setState(49); decl();
+				}
+				break;
+
+			case 5:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(50); switch1();
+				setState(51); match(Semicolon);
 				}
 				break;
 			}
@@ -211,76 +224,11 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46); match(Print);
-			setState(47); match(ParBeg);
-			setState(48); ((PrintContext)_localctx).argument = exp(0);
-			setState(49); match(ParEnd);
-			setState(50); match(Semicolon);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class MethodCallContext extends ParserRuleContext {
-		public Token funcName1;
-		public Token funcName2;
-		public ExpressionListContext argList;
-		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
-		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
-		public ExpressionListContext expressionList() {
-			return getRuleContext(ExpressionListContext.class,0);
-		}
-		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
-		public TerminalNode ID(int i) {
-			return getToken(LHCParser.ID, i);
-		}
-		public TerminalNode Dot() { return getToken(LHCParser.Dot, 0); }
-		public MethodCallContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_methodCall; }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitMethodCall(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final MethodCallContext methodCall() throws RecognitionException {
-		MethodCallContext _localctx = new MethodCallContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_methodCall);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(52); ((MethodCallContext)_localctx).funcName1 = match(ID);
-			setState(55);
-			_la = _input.LA(1);
-			if (_la==Dot) {
-				{
-				setState(53); match(Dot);
-				setState(54); ((MethodCallContext)_localctx).funcName2 = match(ID);
-				}
-			}
-
-			setState(57); match(ParBeg);
-			setState(59);
-			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Bool) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
-				{
-				setState(58); ((MethodCallContext)_localctx).argList = expressionList();
-				}
-			}
-
-			setState(61); match(ParEnd);
+			setState(55); match(Print);
+			setState(56); match(ParBeg);
+			setState(57); ((PrintContext)_localctx).argument = exp(0);
+			setState(58); match(ParEnd);
+			setState(59); match(Semicolon);
 			}
 		}
 		catch (RecognitionException re) {
@@ -566,23 +514,23 @@ public class LHCParser extends Parser {
 		int _parentState = getState();
 		ExpContext _localctx = new ExpContext(_ctx, _parentState);
 		ExpContext _prevctx = _localctx;
-		int _startState = 8;
-		enterRecursionRule(_localctx, 8, RULE_exp, _p);
+		int _startState = 6;
+		enterRecursionRule(_localctx, 6, RULE_exp, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(71);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			setState(69);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
 				_localctx = new ParExp_ruleContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(64); match(ParBeg);
-				setState(65); exp(0);
-				setState(66); match(ParEnd);
+				setState(62); match(ParBeg);
+				setState(63); exp(0);
+				setState(64); match(ParEnd);
 				}
 				break;
 
@@ -591,7 +539,7 @@ public class LHCParser extends Parser {
 				_localctx = new VariableContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(68); ((VariableContext)_localctx).varName = match(ID);
+				setState(66); ((VariableContext)_localctx).varName = match(ID);
 				}
 				break;
 
@@ -600,7 +548,7 @@ public class LHCParser extends Parser {
 				_localctx = new Value_ruleContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(69); ((Value_ruleContext)_localctx).value_ = value();
+				setState(67); ((Value_ruleContext)_localctx).value_ = value();
 				}
 				break;
 
@@ -609,30 +557,30 @@ public class LHCParser extends Parser {
 				_localctx = new Method_ruleContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(70); ((Method_ruleContext)_localctx).method = methodCall();
+				setState(68); ((Method_ruleContext)_localctx).method = methodCall();
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(111);
+			setState(109);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(109);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+					setState(107);
+					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Or_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Or_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(73);
+						setState(71);
 						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
-						setState(74); match(Or);
-						setState(75); ((Or_ruleContext)_localctx).right = exp(16);
+						setState(72); match(Or);
+						setState(73); ((Or_ruleContext)_localctx).right = exp(16);
 						}
 						break;
 
@@ -641,10 +589,10 @@ public class LHCParser extends Parser {
 						_localctx = new And_ruleContext(new ExpContext(_parentctx, _parentState));
 						((And_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(76);
+						setState(74);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(77); match(And);
-						setState(78); ((And_ruleContext)_localctx).right = exp(15);
+						setState(75); match(And);
+						setState(76); ((And_ruleContext)_localctx).right = exp(15);
 						}
 						break;
 
@@ -653,10 +601,10 @@ public class LHCParser extends Parser {
 						_localctx = new Times_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Times_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(79);
+						setState(77);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(80); match(Times);
-						setState(81); ((Times_ruleContext)_localctx).right = exp(14);
+						setState(78); match(Times);
+						setState(79); ((Times_ruleContext)_localctx).right = exp(14);
 						}
 						break;
 
@@ -665,10 +613,10 @@ public class LHCParser extends Parser {
 						_localctx = new Divide_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Divide_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(82);
+						setState(80);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(83); match(Divide);
-						setState(84); ((Divide_ruleContext)_localctx).right = exp(13);
+						setState(81); match(Divide);
+						setState(82); ((Divide_ruleContext)_localctx).right = exp(13);
 						}
 						break;
 
@@ -677,10 +625,10 @@ public class LHCParser extends Parser {
 						_localctx = new Plus_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Plus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(85);
+						setState(83);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(86); match(Plus);
-						setState(87); ((Plus_ruleContext)_localctx).right = exp(12);
+						setState(84); match(Plus);
+						setState(85); ((Plus_ruleContext)_localctx).right = exp(12);
 						}
 						break;
 
@@ -689,10 +637,10 @@ public class LHCParser extends Parser {
 						_localctx = new Minus_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Minus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(88);
+						setState(86);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(89); match(Minus);
-						setState(90); ((Minus_ruleContext)_localctx).right = exp(11);
+						setState(87); match(Minus);
+						setState(88); ((Minus_ruleContext)_localctx).right = exp(11);
 						}
 						break;
 
@@ -701,10 +649,10 @@ public class LHCParser extends Parser {
 						_localctx = new Equal_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Equal_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(91);
+						setState(89);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(92); match(Equal);
-						setState(93); ((Equal_ruleContext)_localctx).right = exp(10);
+						setState(90); match(Equal);
+						setState(91); ((Equal_ruleContext)_localctx).right = exp(10);
 						}
 						break;
 
@@ -713,10 +661,10 @@ public class LHCParser extends Parser {
 						_localctx = new NEqual__ruleContext(new ExpContext(_parentctx, _parentState));
 						((NEqual__ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(94);
+						setState(92);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(95); match(NEqual);
-						setState(96); ((NEqual__ruleContext)_localctx).right = exp(9);
+						setState(93); match(NEqual);
+						setState(94); ((NEqual__ruleContext)_localctx).right = exp(9);
 						}
 						break;
 
@@ -725,10 +673,10 @@ public class LHCParser extends Parser {
 						_localctx = new Less_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Less_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(97);
+						setState(95);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(98); match(Less);
-						setState(99); ((Less_ruleContext)_localctx).right = exp(8);
+						setState(96); match(Less);
+						setState(97); ((Less_ruleContext)_localctx).right = exp(8);
 						}
 						break;
 
@@ -737,10 +685,10 @@ public class LHCParser extends Parser {
 						_localctx = new Greater_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Greater_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(100);
+						setState(98);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(101); match(Greater);
-						setState(102); ((Greater_ruleContext)_localctx).right = exp(7);
+						setState(99); match(Greater);
+						setState(100); ((Greater_ruleContext)_localctx).right = exp(7);
 						}
 						break;
 
@@ -749,10 +697,10 @@ public class LHCParser extends Parser {
 						_localctx = new LessE_ruleContext(new ExpContext(_parentctx, _parentState));
 						((LessE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(103);
+						setState(101);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(104); match(LessE);
-						setState(105); ((LessE_ruleContext)_localctx).right = exp(6);
+						setState(102); match(LessE);
+						setState(103); ((LessE_ruleContext)_localctx).right = exp(6);
 						}
 						break;
 
@@ -761,18 +709,18 @@ public class LHCParser extends Parser {
 						_localctx = new GreaterE_ruleContext(new ExpContext(_parentctx, _parentState));
 						((GreaterE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(106);
+						setState(104);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(107); match(GreaterE);
-						setState(108); ((GreaterE_ruleContext)_localctx).right = exp(5);
+						setState(105); match(GreaterE);
+						setState(106); ((GreaterE_ruleContext)_localctx).right = exp(5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(113);
+				setState(111);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
 			}
 		}
@@ -830,78 +778,143 @@ public class LHCParser extends Parser {
 
 	public final MethodDefContext methodDef() throws RecognitionException {
 		MethodDefContext _localctx = new MethodDefContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_methodDef);
+		enterRule(_localctx, 8, RULE_methodDef);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116);
+			setState(114);
 			switch (_input.LA(1)) {
 			case Void:
 				{
-				setState(114); ((MethodDefContext)_localctx).typeVoid = match(Void);
+				setState(112); ((MethodDefContext)_localctx).typeVoid = match(Void);
 				}
 				break;
 			case IntegerType:
 			case DoubleType:
 			case BooleanType:
 				{
-				setState(115); ((MethodDefContext)_localctx).type_ = type();
+				setState(113); ((MethodDefContext)_localctx).type_ = type();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(118); ((MethodDefContext)_localctx).funcName = match(ID);
-			setState(119); match(ParBeg);
-			setState(121);
+			setState(116); ((MethodDefContext)_localctx).funcName = match(ID);
+			setState(117); match(ParBeg);
+			setState(119);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) {
 				{
-				setState(120); ((MethodDefContext)_localctx).params = paramList();
+				setState(118); ((MethodDefContext)_localctx).params = paramList();
 				}
 			}
 
-			setState(123); match(ParEnd);
-			setState(139);
+			setState(121); match(ParEnd);
+			setState(137);
 			switch (_input.LA(1)) {
 			case Begin:
 				{
-				setState(124); match(Begin);
-				setState(128);
+				setState(122); match(Begin);
+				setState(126);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << Bool) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << Bool) | (1L << Switch) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
 					{
 					{
-					setState(125); ((MethodDefContext)_localctx).stmtList = stmt();
+					setState(123); ((MethodDefContext)_localctx).stmtList = stmt();
 					}
 					}
-					setState(130);
+					setState(128);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(135);
+				setState(133);
 				_la = _input.LA(1);
 				if (_la==Return) {
 					{
-					setState(131); match(Return);
-					setState(132); ((MethodDefContext)_localctx).returnExp = exp(0);
-					setState(133); match(Semicolon);
+					setState(129); match(Return);
+					setState(130); ((MethodDefContext)_localctx).returnExp = exp(0);
+					setState(131); match(Semicolon);
 					}
 				}
 
-				setState(137); match(End);
+				setState(135); match(End);
 				}
 				break;
 			case Semicolon:
 				{
-				setState(138); match(Semicolon);
+				setState(136); match(Semicolon);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MethodCallContext extends ParserRuleContext {
+		public Token funcName1;
+		public Token funcName2;
+		public ExpressionListContext argList;
+		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
+		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
+		public ExpressionListContext expressionList() {
+			return getRuleContext(ExpressionListContext.class,0);
+		}
+		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
+		public TerminalNode ID(int i) {
+			return getToken(LHCParser.ID, i);
+		}
+		public TerminalNode Dot() { return getToken(LHCParser.Dot, 0); }
+		public MethodCallContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_methodCall; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitMethodCall(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final MethodCallContext methodCall() throws RecognitionException {
+		MethodCallContext _localctx = new MethodCallContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_methodCall);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(139); ((MethodCallContext)_localctx).funcName1 = match(ID);
+			setState(142);
+			_la = _input.LA(1);
+			if (_la==Dot) {
+				{
+				setState(140); match(Dot);
+				setState(141); ((MethodCallContext)_localctx).funcName2 = match(ID);
+				}
+			}
+
+			setState(144); match(ParBeg);
+			setState(146);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Bool) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
+				{
+				setState(145); ((MethodCallContext)_localctx).argList = expressionList();
+				}
+			}
+
+			setState(148); match(ParEnd);
 			}
 		}
 		catch (RecognitionException re) {
@@ -945,18 +958,18 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(141); ((ParamListContext)_localctx).declarations = paramDecl();
-			setState(146);
+			setState(150); ((ParamListContext)_localctx).declarations = paramDecl();
+			setState(155);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Comma) {
 				{
 				{
-				setState(142); match(Comma);
-				setState(143); ((ParamListContext)_localctx).declarations = paramDecl();
+				setState(151); match(Comma);
+				setState(152); ((ParamListContext)_localctx).declarations = paramDecl();
 				}
 				}
-				setState(148);
+				setState(157);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -997,8 +1010,8 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(149); ((ParamDeclContext)_localctx).type_ = type();
-			setState(150); ((ParamDeclContext)_localctx).varName = match(ID);
+			setState(158); ((ParamDeclContext)_localctx).type_ = type();
+			setState(159); ((ParamDeclContext)_localctx).varName = match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1041,18 +1054,18 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152); exp(0);
-			setState(157);
+			setState(161); exp(0);
+			setState(166);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Comma) {
 				{
 				{
-				setState(153); match(Comma);
-				setState(154); exp(0);
+				setState(162); match(Comma);
+				setState(163); exp(0);
 				}
 				}
-				setState(159);
+				setState(168);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1123,15 +1136,15 @@ public class LHCParser extends Parser {
 		enterRule(_localctx, 18, RULE_decl);
 		try {
 			int _alt;
-			setState(175);
+			setState(184);
 			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				_localctx = new VarDeclContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(160); ((VarDeclContext)_localctx).type_ = type();
-				setState(161); ((VarDeclContext)_localctx).varName = match(ID);
-				setState(162); match(Semicolon);
+				setState(169); ((VarDeclContext)_localctx).type_ = type();
+				setState(170); ((VarDeclContext)_localctx).varName = match(ID);
+				setState(171); match(Semicolon);
 				}
 				break;
 
@@ -1139,25 +1152,25 @@ public class LHCParser extends Parser {
 				_localctx = new VarMultDeclContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(164); ((VarMultDeclContext)_localctx).type_ = type();
-				setState(169);
+				setState(173); ((VarMultDeclContext)_localctx).type_ = type();
+				setState(178);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 				while ( _alt!=2 && _alt!=-1 ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(165); ((VarMultDeclContext)_localctx).varName = match(ID);
-						setState(166); match(Comma);
+						setState(174); ((VarMultDeclContext)_localctx).varName = match(ID);
+						setState(175); match(Comma);
 						}
 						} 
 					}
-					setState(171);
+					setState(180);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 				}
-				setState(172); ((VarMultDeclContext)_localctx).varName = match(ID);
-				setState(173); match(Semicolon);
+				setState(181); ((VarMultDeclContext)_localctx).varName = match(ID);
+				setState(182); match(Semicolon);
 				}
 				break;
 			}
@@ -1212,17 +1225,17 @@ public class LHCParser extends Parser {
 			_localctx = new AssignmentContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(178);
+			setState(187);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) {
 				{
-				setState(177); ((AssignmentContext)_localctx).type_ = type();
+				setState(186); ((AssignmentContext)_localctx).type_ = type();
 				}
 			}
 
-			setState(180); ((AssignmentContext)_localctx).varName = match(ID);
-			setState(181); match(Gets);
-			setState(182); ((AssignmentContext)_localctx).rightSide_ = rightSide();
+			setState(189); ((AssignmentContext)_localctx).varName = match(ID);
+			setState(190); match(Gets);
+			setState(191); ((AssignmentContext)_localctx).rightSide_ = rightSide();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1258,8 +1271,216 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(184); exp(0);
-			setState(185); match(Semicolon);
+			setState(193); exp(0);
+			setState(194); match(Semicolon);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Switch1Context extends ParserRuleContext {
+		public Case1Context case_;
+		public Default1Context else_;
+		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
+		public TerminalNode Switch() { return getToken(LHCParser.Switch, 0); }
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public List<Case1Context> case1() {
+			return getRuleContexts(Case1Context.class);
+		}
+		public Case1Context case1(int i) {
+			return getRuleContext(Case1Context.class,i);
+		}
+		public Default1Context default1() {
+			return getRuleContext(Default1Context.class,0);
+		}
+		public Switch1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_switch1; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitSwitch1(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Switch1Context switch1() throws RecognitionException {
+		Switch1Context _localctx = new Switch1Context(_ctx, getState());
+		enterRule(_localctx, 24, RULE_switch1);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(196); match(Switch);
+			setState(197); match(Begin);
+			setState(199); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(198); ((Switch1Context)_localctx).case_ = case1();
+				}
+				}
+				setState(201); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==Case );
+			{
+			setState(203); ((Switch1Context)_localctx).else_ = default1();
+			}
+			setState(204); match(End);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Case1Context extends ParserRuleContext {
+		public Case1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_case1; }
+	 
+		public Case1Context() { }
+		public void copyFrom(Case1Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Case_ruleContext extends Case1Context {
+		public ExpContext condition_;
+		public StmtContext stmtList;
+		public ExpContext exp() {
+			return getRuleContext(ExpContext.class,0);
+		}
+		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
+		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
+		public StmtContext stmt(int i) {
+			return getRuleContext(StmtContext.class,i);
+		}
+		public TerminalNode Case() { return getToken(LHCParser.Case, 0); }
+		public List<StmtContext> stmt() {
+			return getRuleContexts(StmtContext.class);
+		}
+		public Case_ruleContext(Case1Context ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitCase_rule(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Case1Context case1() throws RecognitionException {
+		Case1Context _localctx = new Case1Context(_ctx, getState());
+		enterRule(_localctx, 26, RULE_case1);
+		int _la;
+		try {
+			_localctx = new Case_ruleContext(_localctx);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(206); match(Case);
+			setState(207); match(ParBeg);
+			setState(208); ((Case_ruleContext)_localctx).condition_ = exp(0);
+			setState(209); match(ParEnd);
+			setState(210); match(Begin);
+			setState(214);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << Bool) | (1L << Switch) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
+				{
+				{
+				setState(211); ((Case_ruleContext)_localctx).stmtList = stmt();
+				}
+				}
+				setState(216);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(217); match(End);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Default1Context extends ParserRuleContext {
+		public Default1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_default1; }
+	 
+		public Default1Context() { }
+		public void copyFrom(Default1Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Default_ruleContext extends Default1Context {
+		public StmtContext stmtList;
+		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public TerminalNode Default() { return getToken(LHCParser.Default, 0); }
+		public StmtContext stmt(int i) {
+			return getRuleContext(StmtContext.class,i);
+		}
+		public List<StmtContext> stmt() {
+			return getRuleContexts(StmtContext.class);
+		}
+		public Default_ruleContext(Default1Context ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitDefault_rule(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Default1Context default1() throws RecognitionException {
+		Default1Context _localctx = new Default1Context(_ctx, getState());
+		enterRule(_localctx, 28, RULE_default1);
+		int _la;
+		try {
+			_localctx = new Default_ruleContext(_localctx);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(219); match(Default);
+			setState(220); match(Begin);
+			setState(224);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << Bool) | (1L << Switch) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
+				{
+				{
+				setState(221); ((Default_ruleContext)_localctx).stmtList = stmt();
+				}
+				}
+				setState(226);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(227); match(End);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1317,29 +1538,29 @@ public class LHCParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_value);
+		enterRule(_localctx, 30, RULE_value);
 		try {
-			setState(190);
+			setState(232);
 			switch (_input.LA(1)) {
 			case Integer:
 				_localctx = new Int_ruleContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(187); ((Int_ruleContext)_localctx).value_ = match(Integer);
+				setState(229); ((Int_ruleContext)_localctx).value_ = match(Integer);
 				}
 				break;
 			case Bool:
 				_localctx = new Bool_ruleContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(188); ((Bool_ruleContext)_localctx).value_ = match(Bool);
+				setState(230); ((Bool_ruleContext)_localctx).value_ = match(Bool);
 				}
 				break;
 			case Double:
 				_localctx = new Double_ruleContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(189); ((Double_ruleContext)_localctx).value_ = match(Double);
+				setState(231); ((Double_ruleContext)_localctx).value_ = match(Double);
 				}
 				break;
 			default:
@@ -1374,12 +1595,12 @@ public class LHCParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_type);
+		enterRule(_localctx, 32, RULE_type);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
+			setState(234);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1400,7 +1621,7 @@ public class LHCParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 4: return exp_sempred((ExpContext)_localctx, predIndex);
+		case 3: return exp_sempred((ExpContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -1434,66 +1655,83 @@ public class LHCParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&\u00c5\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u00ef\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\3\2\3\2\7\2\"\n\2\f\2\16\2"+
-		"%\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3/\n\3\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\5\3\5\3\5\5\5:\n\5\3\5\3\5\5\5>\n\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\3\6\3\6\5\6J\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\7\6p\n\6\f\6\16\6s\13\6\3\7\3\7\5\7w\n\7\3\7"+
-		"\3\7\3\7\5\7|\n\7\3\7\3\7\3\7\7\7\u0081\n\7\f\7\16\7\u0084\13\7\3\7\3"+
-		"\7\3\7\3\7\5\7\u008a\n\7\3\7\3\7\5\7\u008e\n\7\3\b\3\b\3\b\7\b\u0093\n"+
-		"\b\f\b\16\b\u0096\13\b\3\t\3\t\3\t\3\n\3\n\3\n\7\n\u009e\n\n\f\n\16\n"+
-		"\u00a1\13\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13\u00aa\n\13\f\13\16"+
-		"\13\u00ad\13\13\3\13\3\13\3\13\5\13\u00b2\n\13\3\f\5\f\u00b5\n\f\3\f\3"+
-		"\f\3\f\3\f\3\r\3\r\3\r\3\16\3\16\3\16\5\16\u00c1\n\16\3\17\3\17\3\17\2"+
-		"\3\n\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\3\3\2\3\5\u00d7\2\36\3\2"+
-		"\2\2\4.\3\2\2\2\6\60\3\2\2\2\b\66\3\2\2\2\nI\3\2\2\2\fv\3\2\2\2\16\u008f"+
-		"\3\2\2\2\20\u0097\3\2\2\2\22\u009a\3\2\2\2\24\u00b1\3\2\2\2\26\u00b4\3"+
-		"\2\2\2\30\u00ba\3\2\2\2\32\u00c0\3\2\2\2\34\u00c2\3\2\2\2\36\37\7\b\2"+
-		"\2\37#\7\f\2\2 \"\5\f\7\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$&\3"+
-		"\2\2\2%#\3\2\2\2&\'\7\r\2\2\'\3\3\2\2\2(/\5\26\f\2)/\5\6\4\2*+\5\n\6\2"+
-		"+,\7\20\2\2,/\3\2\2\2-/\5\24\13\2.(\3\2\2\2.)\3\2\2\2.*\3\2\2\2.-\3\2"+
-		"\2\2/\5\3\2\2\2\60\61\7\7\2\2\61\62\7\16\2\2\62\63\5\n\6\2\63\64\7\17"+
-		"\2\2\64\65\7\20\2\2\65\7\3\2\2\2\669\7%\2\2\678\7#\2\28:\7%\2\29\67\3"+
-		"\2\2\29:\3\2\2\2:;\3\2\2\2;=\7\16\2\2<>\5\22\n\2=<\3\2\2\2=>\3\2\2\2>"+
-		"?\3\2\2\2?@\7\17\2\2@\t\3\2\2\2AB\b\6\1\2BC\7\16\2\2CD\5\n\6\2DE\7\17"+
-		"\2\2EJ\3\2\2\2FJ\7%\2\2GJ\5\32\16\2HJ\5\b\5\2IA\3\2\2\2IF\3\2\2\2IG\3"+
-		"\2\2\2IH\3\2\2\2Jq\3\2\2\2KL\f\21\2\2LM\7\26\2\2Mp\5\n\6\22NO\f\20\2\2"+
-		"OP\7\27\2\2Pp\5\n\6\21QR\f\17\2\2RS\7\23\2\2Sp\5\n\6\20TU\f\16\2\2UV\7"+
-		"\24\2\2Vp\5\n\6\17WX\f\r\2\2XY\7\21\2\2Yp\5\n\6\16Z[\f\f\2\2[\\\7\22\2"+
-		"\2\\p\5\n\6\r]^\f\13\2\2^_\7\30\2\2_p\5\n\6\f`a\f\n\2\2ab\7\31\2\2bp\5"+
-		"\n\6\13cd\f\t\2\2de\7\32\2\2ep\5\n\6\nfg\f\b\2\2gh\7\34\2\2hp\5\n\6\t"+
-		"ij\f\7\2\2jk\7\33\2\2kp\5\n\6\blm\f\6\2\2mn\7\35\2\2np\5\n\6\7oK\3\2\2"+
-		"\2oN\3\2\2\2oQ\3\2\2\2oT\3\2\2\2oW\3\2\2\2oZ\3\2\2\2o]\3\2\2\2o`\3\2\2"+
-		"\2oc\3\2\2\2of\3\2\2\2oi\3\2\2\2ol\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2"+
-		"\2r\13\3\2\2\2sq\3\2\2\2tw\7\n\2\2uw\5\34\17\2vt\3\2\2\2vu\3\2\2\2wx\3"+
-		"\2\2\2xy\7%\2\2y{\7\16\2\2z|\5\16\b\2{z\3\2\2\2{|\3\2\2\2|}\3\2\2\2}\u008d"+
-		"\7\17\2\2~\u0082\7\f\2\2\177\u0081\5\4\3\2\u0080\177\3\2\2\2\u0081\u0084"+
-		"\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083\u0089\3\2\2\2\u0084"+
-		"\u0082\3\2\2\2\u0085\u0086\7\13\2\2\u0086\u0087\5\n\6\2\u0087\u0088\7"+
-		"\20\2\2\u0088\u008a\3\2\2\2\u0089\u0085\3\2\2\2\u0089\u008a\3\2\2\2\u008a"+
-		"\u008b\3\2\2\2\u008b\u008e\7\r\2\2\u008c\u008e\7\20\2\2\u008d~\3\2\2\2"+
-		"\u008d\u008c\3\2\2\2\u008e\r\3\2\2\2\u008f\u0094\5\20\t\2\u0090\u0091"+
-		"\7\"\2\2\u0091\u0093\5\20\t\2\u0092\u0090\3\2\2\2\u0093\u0096\3\2\2\2"+
-		"\u0094\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095\17\3\2\2\2\u0096\u0094"+
-		"\3\2\2\2\u0097\u0098\5\34\17\2\u0098\u0099\7%\2\2\u0099\21\3\2\2\2\u009a"+
-		"\u009f\5\n\6\2\u009b\u009c\7\"\2\2\u009c\u009e\5\n\6\2\u009d\u009b\3\2"+
-		"\2\2\u009e\u00a1\3\2\2\2\u009f\u009d\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0"+
-		"\23\3\2\2\2\u00a1\u009f\3\2\2\2\u00a2\u00a3\5\34\17\2\u00a3\u00a4\7%\2"+
-		"\2\u00a4\u00a5\7\20\2\2\u00a5\u00b2\3\2\2\2\u00a6\u00ab\5\34\17\2\u00a7"+
-		"\u00a8\7%\2\2\u00a8\u00aa\7\"\2\2\u00a9\u00a7\3\2\2\2\u00aa\u00ad\3\2"+
-		"\2\2\u00ab\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00ae\3\2\2\2\u00ad"+
-		"\u00ab\3\2\2\2\u00ae\u00af\7%\2\2\u00af\u00b0\7\20\2\2\u00b0\u00b2\3\2"+
-		"\2\2\u00b1\u00a2\3\2\2\2\u00b1\u00a6\3\2\2\2\u00b2\25\3\2\2\2\u00b3\u00b5"+
-		"\5\34\17\2\u00b4\u00b3\3\2\2\2\u00b4\u00b5\3\2\2\2\u00b5\u00b6\3\2\2\2"+
-		"\u00b6\u00b7\7%\2\2\u00b7\u00b8\7\37\2\2\u00b8\u00b9\5\30\r\2\u00b9\27"+
-		"\3\2\2\2\u00ba\u00bb\5\n\6\2\u00bb\u00bc\7\20\2\2\u00bc\31\3\2\2\2\u00bd"+
-		"\u00c1\7\25\2\2\u00be\u00c1\7\t\2\2\u00bf\u00c1\7$\2\2\u00c0\u00bd\3\2"+
-		"\2\2\u00c0\u00be\3\2\2\2\u00c0\u00bf\3\2\2\2\u00c1\33\3\2\2\2\u00c2\u00c3"+
-		"\t\2\2\2\u00c3\35\3\2\2\2\24#.9=Ioqv{\u0082\u0089\u008d\u0094\u009f\u00ab"+
-		"\u00b1\u00b4\u00c0";
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\2\3\2\3\2\7\2(\n\2\f\2\16\2+\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\5\38\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\3\5\5\5H\n\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\7\5n\n\5\f\5\16\5q\13\5\3\6\3\6\5\6u\n\6\3\6\3\6"+
+		"\3\6\5\6z\n\6\3\6\3\6\3\6\7\6\177\n\6\f\6\16\6\u0082\13\6\3\6\3\6\3\6"+
+		"\3\6\5\6\u0088\n\6\3\6\3\6\5\6\u008c\n\6\3\7\3\7\3\7\5\7\u0091\n\7\3\7"+
+		"\3\7\5\7\u0095\n\7\3\7\3\7\3\b\3\b\3\b\7\b\u009c\n\b\f\b\16\b\u009f\13"+
+		"\b\3\t\3\t\3\t\3\n\3\n\3\n\7\n\u00a7\n\n\f\n\16\n\u00aa\13\n\3\13\3\13"+
+		"\3\13\3\13\3\13\3\13\3\13\7\13\u00b3\n\13\f\13\16\13\u00b6\13\13\3\13"+
+		"\3\13\3\13\5\13\u00bb\n\13\3\f\5\f\u00be\n\f\3\f\3\f\3\f\3\f\3\r\3\r\3"+
+		"\r\3\16\3\16\3\16\6\16\u00ca\n\16\r\16\16\16\u00cb\3\16\3\16\3\16\3\17"+
+		"\3\17\3\17\3\17\3\17\3\17\7\17\u00d7\n\17\f\17\16\17\u00da\13\17\3\17"+
+		"\3\17\3\20\3\20\3\20\7\20\u00e1\n\20\f\20\16\20\u00e4\13\20\3\20\3\20"+
+		"\3\21\3\21\3\21\5\21\u00eb\n\21\3\22\3\22\3\22\2\3\b\23\2\4\6\b\n\f\16"+
+		"\20\22\24\26\30\32\34\36 \"\2\3\3\2\3\5\u0102\2$\3\2\2\2\4\67\3\2\2\2"+
+		"\69\3\2\2\2\bG\3\2\2\2\nt\3\2\2\2\f\u008d\3\2\2\2\16\u0098\3\2\2\2\20"+
+		"\u00a0\3\2\2\2\22\u00a3\3\2\2\2\24\u00ba\3\2\2\2\26\u00bd\3\2\2\2\30\u00c3"+
+		"\3\2\2\2\32\u00c6\3\2\2\2\34\u00d0\3\2\2\2\36\u00dd\3\2\2\2 \u00ea\3\2"+
+		"\2\2\"\u00ec\3\2\2\2$%\7\b\2\2%)\7\17\2\2&(\5\n\6\2\'&\3\2\2\2(+\3\2\2"+
+		"\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\20\2\2-\3\3\2\2\2.8\5"+
+		"\26\f\2/8\5\6\4\2\60\61\5\b\5\2\61\62\7\23\2\2\628\3\2\2\2\638\5\24\13"+
+		"\2\64\65\5\32\16\2\65\66\7\23\2\2\668\3\2\2\2\67.\3\2\2\2\67/\3\2\2\2"+
+		"\67\60\3\2\2\2\67\63\3\2\2\2\67\64\3\2\2\28\5\3\2\2\29:\7\7\2\2:;\7\21"+
+		"\2\2;<\5\b\5\2<=\7\22\2\2=>\7\23\2\2>\7\3\2\2\2?@\b\5\1\2@A\7\21\2\2A"+
+		"B\5\b\5\2BC\7\22\2\2CH\3\2\2\2DH\7(\2\2EH\5 \21\2FH\5\f\7\2G?\3\2\2\2"+
+		"GD\3\2\2\2GE\3\2\2\2GF\3\2\2\2Ho\3\2\2\2IJ\f\21\2\2JK\7\31\2\2Kn\5\b\5"+
+		"\22LM\f\20\2\2MN\7\32\2\2Nn\5\b\5\21OP\f\17\2\2PQ\7\26\2\2Qn\5\b\5\20"+
+		"RS\f\16\2\2ST\7\27\2\2Tn\5\b\5\17UV\f\r\2\2VW\7\24\2\2Wn\5\b\5\16XY\f"+
+		"\f\2\2YZ\7\25\2\2Zn\5\b\5\r[\\\f\13\2\2\\]\7\33\2\2]n\5\b\5\f^_\f\n\2"+
+		"\2_`\7\34\2\2`n\5\b\5\13ab\f\t\2\2bc\7\35\2\2cn\5\b\5\nde\f\b\2\2ef\7"+
+		"\37\2\2fn\5\b\5\tgh\f\7\2\2hi\7\36\2\2in\5\b\5\bjk\f\6\2\2kl\7 \2\2ln"+
+		"\5\b\5\7mI\3\2\2\2mL\3\2\2\2mO\3\2\2\2mR\3\2\2\2mU\3\2\2\2mX\3\2\2\2m"+
+		"[\3\2\2\2m^\3\2\2\2ma\3\2\2\2md\3\2\2\2mg\3\2\2\2mj\3\2\2\2nq\3\2\2\2"+
+		"om\3\2\2\2op\3\2\2\2p\t\3\2\2\2qo\3\2\2\2ru\7\n\2\2su\5\"\22\2tr\3\2\2"+
+		"\2ts\3\2\2\2uv\3\2\2\2vw\7(\2\2wy\7\21\2\2xz\5\16\b\2yx\3\2\2\2yz\3\2"+
+		"\2\2z{\3\2\2\2{\u008b\7\22\2\2|\u0080\7\17\2\2}\177\5\4\3\2~}\3\2\2\2"+
+		"\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0087\3\2"+
+		"\2\2\u0082\u0080\3\2\2\2\u0083\u0084\7\13\2\2\u0084\u0085\5\b\5\2\u0085"+
+		"\u0086\7\23\2\2\u0086\u0088\3\2\2\2\u0087\u0083\3\2\2\2\u0087\u0088\3"+
+		"\2\2\2\u0088\u0089\3\2\2\2\u0089\u008c\7\20\2\2\u008a\u008c\7\23\2\2\u008b"+
+		"|\3\2\2\2\u008b\u008a\3\2\2\2\u008c\13\3\2\2\2\u008d\u0090\7(\2\2\u008e"+
+		"\u008f\7&\2\2\u008f\u0091\7(\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2\2"+
+		"\2\u0091\u0092\3\2\2\2\u0092\u0094\7\21\2\2\u0093\u0095\5\22\n\2\u0094"+
+		"\u0093\3\2\2\2\u0094\u0095\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\7\22"+
+		"\2\2\u0097\r\3\2\2\2\u0098\u009d\5\20\t\2\u0099\u009a\7%\2\2\u009a\u009c"+
+		"\5\20\t\2\u009b\u0099\3\2\2\2\u009c\u009f\3\2\2\2\u009d\u009b\3\2\2\2"+
+		"\u009d\u009e\3\2\2\2\u009e\17\3\2\2\2\u009f\u009d\3\2\2\2\u00a0\u00a1"+
+		"\5\"\22\2\u00a1\u00a2\7(\2\2\u00a2\21\3\2\2\2\u00a3\u00a8\5\b\5\2\u00a4"+
+		"\u00a5\7%\2\2\u00a5\u00a7\5\b\5\2\u00a6\u00a4\3\2\2\2\u00a7\u00aa\3\2"+
+		"\2\2\u00a8\u00a6\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9\23\3\2\2\2\u00aa\u00a8"+
+		"\3\2\2\2\u00ab\u00ac\5\"\22\2\u00ac\u00ad\7(\2\2\u00ad\u00ae\7\23\2\2"+
+		"\u00ae\u00bb\3\2\2\2\u00af\u00b4\5\"\22\2\u00b0\u00b1\7(\2\2\u00b1\u00b3"+
+		"\7%\2\2\u00b2\u00b0\3\2\2\2\u00b3\u00b6\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b4"+
+		"\u00b5\3\2\2\2\u00b5\u00b7\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00b8\7("+
+		"\2\2\u00b8\u00b9\7\23\2\2\u00b9\u00bb\3\2\2\2\u00ba\u00ab\3\2\2\2\u00ba"+
+		"\u00af\3\2\2\2\u00bb\25\3\2\2\2\u00bc\u00be\5\"\22\2\u00bd\u00bc\3\2\2"+
+		"\2\u00bd\u00be\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf\u00c0\7(\2\2\u00c0\u00c1"+
+		"\7\"\2\2\u00c1\u00c2\5\30\r\2\u00c2\27\3\2\2\2\u00c3\u00c4\5\b\5\2\u00c4"+
+		"\u00c5\7\23\2\2\u00c5\31\3\2\2\2\u00c6\u00c7\7\f\2\2\u00c7\u00c9\7\17"+
+		"\2\2\u00c8\u00ca\5\34\17\2\u00c9\u00c8\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb"+
+		"\u00c9\3\2\2\2\u00cb\u00cc\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd\u00ce\5\36"+
+		"\20\2\u00ce\u00cf\7\20\2\2\u00cf\33\3\2\2\2\u00d0\u00d1\7\r\2\2\u00d1"+
+		"\u00d2\7\21\2\2\u00d2\u00d3\5\b\5\2\u00d3\u00d4\7\22\2\2\u00d4\u00d8\7"+
+		"\17\2\2\u00d5\u00d7\5\4\3\2\u00d6\u00d5\3\2\2\2\u00d7\u00da\3\2\2\2\u00d8"+
+		"\u00d6\3\2\2\2\u00d8\u00d9\3\2\2\2\u00d9\u00db\3\2\2\2\u00da\u00d8\3\2"+
+		"\2\2\u00db\u00dc\7\20\2\2\u00dc\35\3\2\2\2\u00dd\u00de\7\16\2\2\u00de"+
+		"\u00e2\7\17\2\2\u00df\u00e1\5\4\3\2\u00e0\u00df\3\2\2\2\u00e1\u00e4\3"+
+		"\2\2\2\u00e2\u00e0\3\2\2\2\u00e2\u00e3\3\2\2\2\u00e3\u00e5\3\2\2\2\u00e4"+
+		"\u00e2\3\2\2\2\u00e5\u00e6\7\20\2\2\u00e6\37\3\2\2\2\u00e7\u00eb\7\30"+
+		"\2\2\u00e8\u00eb\7\t\2\2\u00e9\u00eb\7\'\2\2\u00ea\u00e7\3\2\2\2\u00ea"+
+		"\u00e8\3\2\2\2\u00ea\u00e9\3\2\2\2\u00eb!\3\2\2\2\u00ec\u00ed\t\2\2\2"+
+		"\u00ed#\3\2\2\2\27)\67Gmoty\u0080\u0087\u008b\u0090\u0094\u009d\u00a8"+
+		"\u00b4\u00ba\u00bd\u00cb\u00d8\u00e2\u00ea";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

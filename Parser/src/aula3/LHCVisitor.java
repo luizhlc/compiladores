@@ -33,6 +33,20 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitLess_rule(@NotNull LHCParser.Less_ruleContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link LHCParser#switch1}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitch1(@NotNull LHCParser.Switch1Context ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#default_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefault_rule(@NotNull LHCParser.Default_ruleContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link LHCParser#Bool_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -213,6 +227,13 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParamDecl(@NotNull LHCParser.ParamDeclContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#Case_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCase_rule(@NotNull LHCParser.Case_ruleContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#Or_rule}.

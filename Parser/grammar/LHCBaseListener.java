@@ -55,6 +55,32 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSwitch1(@NotNull LHCParser.Switch1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSwitch1(@NotNull LHCParser.Switch1Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefault_rule(@NotNull LHCParser.Default_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefault_rule(@NotNull LHCParser.Default_ruleContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBool_rule(@NotNull LHCParser.Bool_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -387,6 +413,19 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParamDecl(@NotNull LHCParser.ParamDeclContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCase_rule(@NotNull LHCParser.Case_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCase_rule(@NotNull LHCParser.Case_ruleContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
