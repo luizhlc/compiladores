@@ -166,13 +166,6 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitRightSide(@NotNull LHCParser.RightSideContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#args}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArgs(@NotNull LHCParser.ArgsContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link LHCParser#Value_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -185,6 +178,13 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrint(@NotNull LHCParser.PrintContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#expressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionList(@NotNull LHCParser.ExpressionListContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#Double_rule}.
@@ -206,6 +206,13 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParamList(@NotNull LHCParser.ParamListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link LHCParser#paramDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamDecl(@NotNull LHCParser.ParamDeclContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#Or_rule}.

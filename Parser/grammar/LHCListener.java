@@ -250,17 +250,6 @@ public interface LHCListener extends ParseTreeListener {
 	void exitRightSide(@NotNull LHCParser.RightSideContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link LHCParser#args}.
-	 * @param ctx the parse tree
-	 */
-	void enterArgs(@NotNull LHCParser.ArgsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LHCParser#args}.
-	 * @param ctx the parse tree
-	 */
-	void exitArgs(@NotNull LHCParser.ArgsContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link LHCParser#Value_rule}.
 	 * @param ctx the parse tree
 	 */
@@ -281,6 +270,17 @@ public interface LHCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(@NotNull LHCParser.PrintContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link LHCParser#expressionList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionList(@NotNull LHCParser.ExpressionListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#expressionList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionList(@NotNull LHCParser.ExpressionListContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link LHCParser#Double_rule}.
@@ -314,6 +314,17 @@ public interface LHCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParamList(@NotNull LHCParser.ParamListContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link LHCParser#paramDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterParamDecl(@NotNull LHCParser.ParamDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LHCParser#paramDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitParamDecl(@NotNull LHCParser.ParamDeclContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link LHCParser#Or_rule}.

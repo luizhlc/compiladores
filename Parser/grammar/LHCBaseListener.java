@@ -302,19 +302,6 @@ public class LHCBaseListener implements LHCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArgs(@NotNull LHCParser.ArgsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArgs(@NotNull LHCParser.ArgsContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterValue_rule(@NotNull LHCParser.Value_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -335,6 +322,19 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrint(@NotNull LHCParser.PrintContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpressionList(@NotNull LHCParser.ExpressionListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionList(@NotNull LHCParser.ExpressionListContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -374,6 +374,19 @@ public class LHCBaseListener implements LHCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParamList(@NotNull LHCParser.ParamListContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParamDecl(@NotNull LHCParser.ParamDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParamDecl(@NotNull LHCParser.ParamDeclContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -3,6 +3,7 @@ package compiler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -24,6 +25,7 @@ import aula3.LHCParser.MethodDefContext;
 import aula3.LHCParser.Minus_ruleContext;
 import aula3.LHCParser.NEqual__ruleContext;
 import aula3.LHCParser.Or_ruleContext;
+import aula3.LHCParser.ParamDeclContext;
 import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.ProgramContext;
@@ -43,7 +45,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private HashMap<String, Type> types = new HashMap<>();
 	
 	private HashMap<String, Type> methods = new HashMap<>();
-	
+	private HashMap<String, Vector<Type>> methods_par = new HashMap<>();
 	public String visitProgram(ProgramContext ctx){
 		String child = visitChildren(ctx);
 		if(!methods.containsKey("main")){
@@ -70,7 +72,57 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return "";
 			
 		}
-		return "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "()" + methods.get(ctx.funcName1.getText()).getTypeParameter();
+		String instructions = "";
+		String argumentsInstructions = "";
+		if(ctx.argList!=null){
+			if(!methods_par.containsKey(ctx.funcName1.getText())){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n ESSA FUNCAO NAO TEM PARAMETROS PORRA: 2h da manha");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			argumentsInstructions = visit(ctx.argList);
+		}
+		Vector<Type> parametros_func = methods_par.get(ctx.funcName1.getText());
+		int count = parametros_func.size()-1;
+		instructions += argumentsInstructions + '\n';
+		instructions += "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "(";
+		StringBuilder parametros = new StringBuilder();
+		while(type_st.size()!=1){
+			Type atual = type_st.pop();
+			parametros.insert(0, atual.getTypeParameter() );
+			if(count<0){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO SOBRANDO AI PORRA");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(parametros_func.get(count)!=atual){
+				try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n VOCE NAO PODE PASSAR UM PARAMETRO "+atual.getType()+" SENDO QUE SE ESPERAVA UM "+parametros_func.get(count));
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			count--;
+		}
+		if(count!=-1){
+			try {
+				throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO FALTANDO AI PORRA");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	    instructions+=parametros.toString()+")" + methods.get(ctx.funcName1.getText()).getTypeParameter();
+		return instructions;
+				
 	}
 	
 	@Override
@@ -136,7 +188,9 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 		}
 		
+		
 		String retorno;
+		
 		if(ctx.funcName.getText().equals("main")){
 			retorno=  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
 					".limit locals 100\n" + 
@@ -146,8 +200,21 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 					".end method";		
 		}
 		else{
-		Type type = this.formatTypeName(ctx);
-		retorno =  ".method public static "+ctx.funcName.getText()+"()"+type.getTypeParameter()+"\n" +
+			Vector<Type> parametros = new Vector<Type>();
+			Type type = this.formatTypeName(ctx);
+			String assinatura=".method public static "+ctx.funcName.getText()+"(" ;
+			if(ctx.params!= null){
+				for (int i = 0; i < ctx.params.getChildCount(); i++) {
+					ParseTree child = ctx.params.getChild(i);
+					if(child instanceof ParamDeclContext){
+						assinatura += checkType(child.getChild(0).getText()).getTypeParameter() + "";
+						parametros.add(checkType(child.getChild(0).getText()));
+					}
+				}
+			}
+			methods_par.put(ctx.funcName.getText(),parametros);
+		
+		retorno = assinatura+")"+type.getTypeParameter()+"\n" +
 				".limit locals 100\n" + 
 				".limit stack 100\n" + 
 				return_ +
@@ -472,6 +539,16 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			break;
 		default:
 			break;
+		}
+	}
+	private Type checkType(String type) {
+		switch (type) {
+		case "int":
+			return Type.Int;
+		case "double":
+			return Type.Double;
+		default:
+			return Type.String;
 		}
 	}
 	
