@@ -1,6 +1,6 @@
 LHC+-{
 	int func(int a, double j){
-		int c = 3.4*a;
+		int c = 3+4*a;
 		print(a);
 		print(c);
 		print(a+c);

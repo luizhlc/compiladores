@@ -26,6 +26,7 @@ import aula3.LHCParser.Minus_ruleContext;
 import aula3.LHCParser.NEqual__ruleContext;
 import aula3.LHCParser.Or_ruleContext;
 import aula3.LHCParser.ParamDeclContext;
+import aula3.LHCParser.ParamListContext;
 import aula3.LHCParser.Plus_ruleContext;
 import aula3.LHCParser.PrintContext;
 import aula3.LHCParser.ProgramContext;
@@ -138,11 +139,30 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	}
 
 	@Override
+	public String visitParamDecl(ParamDeclContext ctx){
+		if (variables.get(ctx.varName.getText()) == null) {
+			variables.put(ctx.varName.getText(), variables.size());
+			storeType(ctx.type_.getText(), ctx.varName.getText());
+		} else {
+			try {
+				throw new Exception("line:" + ctx.varName.getLine() + " '"
+						+ ctx.varName.getText()
+						+ "' has already been declared, genius.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+	@Override
 	public String visitMethodDef(MethodDefContext ctx) {
 		HashMap<String, Integer> oldVariables = variables;
 		variables = new HashMap<>();
 		String return_ = "";
-		
+		if(ctx.params!=null){
+			visit(ctx.params);
+		}
+		type_st.clear();
 		String instructions = "";
 		if(ctx.stmtList != null){
 			for (int i = 0; i < ctx.getChildCount(); i++) {

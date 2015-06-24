@@ -5,11 +5,21 @@
 .limit locals 100
 .limit stack 100
 ldc 3
-ldc 3
+ldc 4
+iload 0
 imul
-istore 0
+iadd
+istore 2
 getstatic java/lang/System/out Ljava/io/PrintStream;
 iload 0
+invokevirtual java/io/PrintStream/println(I)V
+getstatic java/lang/System/out Ljava/io/PrintStream;
+iload 2
+invokevirtual java/io/PrintStream/println(I)V
+getstatic java/lang/System/out Ljava/io/PrintStream;
+iload 0
+iload 2
+iadd
 invokevirtual java/io/PrintStream/println(I)V
 iload 0
 ireturn
@@ -23,7 +33,8 @@ ldc 3
 imul
 iadd
 istore 0
-
-invokestatic HelloWorld/func()I
+ldc 5
+ldc2_w 5.3
+invokestatic HelloWorld/func(ID)I
 return
 .end method
