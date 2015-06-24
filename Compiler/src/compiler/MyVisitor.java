@@ -80,6 +80,14 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		String return_ = "";
 		
 		String instructions = "";
+		if(ctx.stmtList != null){
+			for (int i = 0; i < ctx.getChildCount(); i++) {
+				ParseTree child = ctx.getChild(i);
+				if(child instanceof StmtContext)
+					instructions += visit(child) + "\n";
+			}
+			return_ += instructions;
+		}
 		if(!methods.containsKey(ctx.funcName.getText())){
 			methods.put(ctx.funcName.getText(), formatTypeName(ctx));
 		}
@@ -90,16 +98,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				e.printStackTrace();
 			}
 		}
-		
-		if(ctx.stmtList != null){
-			for (int i = 0; i < ctx.getChildCount(); i++) {
-				ParseTree child = ctx.getChild(i);
-				if(child instanceof StmtContext)
-					instructions += visit(child) + "\n";
-			}
-			return_ += instructions;
-		}
-		
 		
 		if(ctx.returnExp != null ){
 			if(ctx.typeVoid != null){
@@ -116,7 +114,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 					e.printStackTrace();
 				}
 			}
-			return_ = visit(ctx.returnExp) + "\n";
+			return_ += visit(ctx.returnExp) + "\n";
 			if(!ctx.type_.getText().equals(type_st.peek().getType())){
 				try {
 					throw new Exception("line:" + ctx.Return().getSymbol().getLine() + "\n"+type_st.peek().getType()+" return??? ... You need to return a "+ctx.type_.getText()+" in a "+ctx.type_.getText()+" method.");
@@ -126,13 +124,13 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 		}
 		
-		if(ctx.funcName.getText()=="main"){
+		if(ctx.funcName.getText().equals("main")){
 			return  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
-			".limit locals 100\n" + 
-			".limit stack 100\n" + 
-			return_ +
-			"return\n" + 
-			".end method";	
+					".limit locals 100\n" + 
+					".limit stack 100\n" + 
+					return_ +
+					"return\n" + 
+					".end method";		
 		}
 		
 		Type type = this.formatTypeName(ctx);
