@@ -1,6 +1,12 @@
 LHC+-{
 	
 	void main(){
-		int a =2.3+2.3*3.0;
+		
+		double a =2.3+2.3*3.0;
 	}
+	void func(){
+		double b = 2.3;
+		return b;
+	}
+
 }

@@ -14,18 +14,25 @@ public class LHCParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		BOOL=1, WS=2, Print=3, Init=4, Begin=5, End=6, ParBeg=7, ParEnd=8, Semicolon=9, 
-		Plus=10, Minus=11, Times=12, Divide=13, Num=14, Or=15, And=16, Equal=17, 
-		NEqual=18, Less=19, LessE=20, Greater=21, GreaterE=22, Not=23;
+		IntegerType=1, DoubleType=2, BooleanType=3, WS=4, Print=5, Init=6, Bool=7, 
+		Void=8, Return=9, Begin=10, End=11, ParBeg=12, ParEnd=13, Semicolon=14, 
+		Plus=15, Minus=16, Times=17, Divide=18, Integer=19, Or=20, And=21, Equal=22, 
+		NEqual=23, Less=24, LessE=25, Greater=26, GreaterE=27, Not=28, Gets=29, 
+		Quote=30, SQuote=31, Comma=32, Dot=33, Double=34, ID=35, IDChar=36;
 	public static final String[] tokenNames = {
-		"<INVALID>", "BOOL", "WS", "'print'", "'LHC+-'", "'{'", "'}'", "'('", 
-		"')'", "';'", "'+'", "'-'", "'*'", "'/'", "Num", "'|'", "'&'", "Equal", 
-		"NEqual", "'<'", "LessE", "'>'", "GreaterE", "'!'"
+		"<INVALID>", "'int'", "'double'", "'bool'", "WS", "'print'", "'LHC+-'", 
+		"Bool", "'void'", "'return'", "'{'", "'}'", "'('", "')'", "';'", "'+'", 
+		"'-'", "'*'", "'/'", "Integer", "'|'", "'&'", "Equal", "NEqual", "'<'", 
+		"LessE", "'>'", "GreaterE", "'!'", "'='", "'\"'", "'''", "','", "'.'", 
+		"Double", "ID", "IDChar"
 	};
 	public static final int
-		RULE_program = 0, RULE_stmt = 1, RULE_print = 2, RULE_exp = 3;
+		RULE_program = 0, RULE_stmt = 1, RULE_print = 2, RULE_methodCall = 3, 
+		RULE_exp = 4, RULE_methodDef = 5, RULE_paramList = 6, RULE_args = 7, RULE_decl = 8, 
+		RULE_attr = 9, RULE_rightSide = 10, RULE_value = 11, RULE_type = 12;
 	public static final String[] ruleNames = {
-		"program", "stmt", "print", "exp"
+		"program", "stmt", "print", "methodCall", "exp", "methodDef", "paramList", 
+		"args", "decl", "attr", "rightSide", "value", "type"
 	};
 
 	@Override
@@ -49,12 +56,12 @@ public class LHCParser extends Parser {
 	}
 	public static class ProgramContext extends ParserRuleContext {
 		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
-		public TerminalNode End() { return getToken(LHCParser.End, 0); }
-		public StmtContext stmt(int i) {
-			return getRuleContext(StmtContext.class,i);
+		public List<MethodDefContext> methodDef() {
+			return getRuleContexts(MethodDefContext.class);
 		}
-		public List<StmtContext> stmt() {
-			return getRuleContexts(StmtContext.class);
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public MethodDefContext methodDef(int i) {
+			return getRuleContext(MethodDefContext.class,i);
 		}
 		public TerminalNode Init() { return getToken(LHCParser.Init, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
@@ -78,22 +85,22 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(8); match(Init);
-			setState(9); match(Begin);
-			setState(13);
+			setState(26); match(Init);
+			setState(27); match(Begin);
+			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << Print) | (1L << ParBeg) | (1L << Num))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Void))) != 0)) {
 				{
 				{
-				setState(10); stmt();
+				setState(28); methodDef();
 				}
 				}
-				setState(15);
+				setState(33);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(16); match(End);
+			setState(34); match(End);
 			}
 		}
 		catch (RecognitionException re) {
@@ -111,15 +118,14 @@ public class LHCParser extends Parser {
 		public ExpContext exp() {
 			return getRuleContext(ExpContext.class,0);
 		}
-		public PrintContext print(int i) {
-			return getRuleContext(PrintContext.class,i);
+		public AttrContext attr() {
+			return getRuleContext(AttrContext.class,0);
 		}
-		public List<TerminalNode> Semicolon() { return getTokens(LHCParser.Semicolon); }
-		public TerminalNode Semicolon(int i) {
-			return getToken(LHCParser.Semicolon, i);
+		public DeclContext decl() {
+			return getRuleContext(DeclContext.class,0);
 		}
-		public List<PrintContext> print() {
-			return getRuleContexts(PrintContext.class);
+		public PrintContext print() {
+			return getRuleContext(PrintContext.class,0);
 		}
 		public StmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -139,44 +145,35 @@ public class LHCParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_stmt);
 		try {
-			int _alt;
-			setState(26);
-			switch (_input.LA(1)) {
-			case BOOL:
-			case ParBeg:
-			case Num:
+			setState(40);
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(18); exp(0);
+				setState(36); attr();
 				}
 				break;
-			case Print:
+
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(22); 
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
-				do {
-					switch (_alt) {
-					case 1:
-						{
-						{
-						setState(19); print();
-						setState(20); match(Semicolon);
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					setState(24); 
-					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
-				} while ( _alt!=2 && _alt!=-1 );
+				setState(37); print();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(38); exp(0);
+				}
+				break;
+
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(39); decl();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -198,6 +195,7 @@ public class LHCParser extends Parser {
 		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
 		public TerminalNode Print() { return getToken(LHCParser.Print, 0); }
 		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
 		public PrintContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -218,10 +216,81 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28); match(Print);
-			setState(29); match(ParBeg);
-			setState(30); ((PrintContext)_localctx).argument = exp(0);
-			setState(31); match(ParEnd);
+			setState(42); match(Print);
+			setState(43); match(ParBeg);
+			setState(44); ((PrintContext)_localctx).argument = exp(0);
+			setState(45); match(ParEnd);
+			setState(46); match(Semicolon);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MethodCallContext extends ParserRuleContext {
+		public Token funcName1;
+		public Token funcName2;
+		public ArgsContext argList;
+		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
+		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
+		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public TerminalNode ID(int i) {
+			return getToken(LHCParser.ID, i);
+		}
+		public TerminalNode Dot() { return getToken(LHCParser.Dot, 0); }
+		public ArgsContext args() {
+			return getRuleContext(ArgsContext.class,0);
+		}
+		public MethodCallContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_methodCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterMethodCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitMethodCall(this);
+		}
+	}
+
+	public final MethodCallContext methodCall() throws RecognitionException {
+		MethodCallContext _localctx = new MethodCallContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_methodCall);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(48); ((MethodCallContext)_localctx).funcName1 = match(ID);
+			setState(51);
+			_la = _input.LA(1);
+			if (_la==Dot) {
+				{
+				setState(49); match(Dot);
+				setState(50); ((MethodCallContext)_localctx).funcName2 = match(ID);
+				}
+			}
+
+			setState(53); match(ParBeg);
+			setState(55);
+			_la = _input.LA(1);
+			if (_la==ID) {
+				{
+				setState(54); ((MethodCallContext)_localctx).argList = args();
+				}
+			}
+
+			setState(57); match(ParEnd);
+			setState(58); match(Semicolon);
 			}
 		}
 		catch (RecognitionException re) {
@@ -264,6 +333,19 @@ public class LHCParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitLessE_rule(this);
+		}
+	}
+	public static class VariableContext extends ExpContext {
+		public Token varName;
+		public TerminalNode ID() { return getToken(LHCParser.ID, 0); }
+		public VariableContext(ExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitVariable(this);
 		}
 	}
 	public static class Less_ruleContext extends ExpContext {
@@ -362,28 +444,34 @@ public class LHCParser extends Parser {
 			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitParExp_rule(this);
 		}
 	}
-	public static class Num_ruleContext extends ExpContext {
-		public TerminalNode Num() { return getToken(LHCParser.Num, 0); }
-		public Num_ruleContext(ExpContext ctx) { copyFrom(ctx); }
+	public static class Value_ruleContext extends ExpContext {
+		public ValueContext value_;
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
+		public Value_ruleContext(ExpContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterNum_rule(this);
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterValue_rule(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitNum_rule(this);
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitValue_rule(this);
 		}
 	}
-	public static class BoolContext extends ExpContext {
-		public TerminalNode BOOL() { return getToken(LHCParser.BOOL, 0); }
-		public BoolContext(ExpContext ctx) { copyFrom(ctx); }
+	public static class Method_ruleContext extends ExpContext {
+		public MethodCallContext method;
+		public MethodCallContext methodCall() {
+			return getRuleContext(MethodCallContext.class,0);
+		}
+		public Method_ruleContext(ExpContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterBool(this);
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterMethod_rule(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitBool(this);
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitMethod_rule(this);
 		}
 	}
 	public static class NEqual__ruleContext extends ExpContext {
@@ -536,64 +624,73 @@ public class LHCParser extends Parser {
 		int _parentState = getState();
 		ExpContext _localctx = new ExpContext(_ctx, _parentState);
 		ExpContext _prevctx = _localctx;
-		int _startState = 6;
-		enterRecursionRule(_localctx, 6, RULE_exp, _p);
+		int _startState = 8;
+		enterRecursionRule(_localctx, 8, RULE_exp, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40);
-			switch (_input.LA(1)) {
-			case ParBeg:
+			setState(68);
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
 				{
 				_localctx = new ParExp_ruleContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(34); match(ParBeg);
-				setState(35); exp(0);
-				setState(36); match(ParEnd);
+				setState(61); match(ParBeg);
+				setState(62); exp(0);
+				setState(63); match(ParEnd);
 				}
 				break;
-			case BOOL:
+
+			case 2:
 				{
-				_localctx = new BoolContext(_localctx);
+				_localctx = new VariableContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(38); match(BOOL);
+				setState(65); ((VariableContext)_localctx).varName = match(ID);
 				}
 				break;
-			case Num:
+
+			case 3:
 				{
-				_localctx = new Num_ruleContext(_localctx);
+				_localctx = new Value_ruleContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(39); match(Num);
+				setState(66); ((Value_ruleContext)_localctx).value_ = value();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+
+			case 4:
+				{
+				_localctx = new Method_ruleContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(67); ((Method_ruleContext)_localctx).method = methodCall();
+				}
+				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(80);
+			setState(108);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(78);
-					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+					setState(106);
+					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Or_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Or_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(42);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(43); match(Or);
-						setState(44); ((Or_ruleContext)_localctx).right = exp(15);
+						setState(70);
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						setState(71); match(Or);
+						setState(72); ((Or_ruleContext)_localctx).right = exp(16);
 						}
 						break;
 
@@ -602,10 +699,10 @@ public class LHCParser extends Parser {
 						_localctx = new And_ruleContext(new ExpContext(_parentctx, _parentState));
 						((And_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(45);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(46); match(And);
-						setState(47); ((And_ruleContext)_localctx).right = exp(14);
+						setState(73);
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						setState(74); match(And);
+						setState(75); ((And_ruleContext)_localctx).right = exp(15);
 						}
 						break;
 
@@ -614,10 +711,10 @@ public class LHCParser extends Parser {
 						_localctx = new Times_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Times_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(48);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(49); match(Times);
-						setState(50); ((Times_ruleContext)_localctx).right = exp(13);
+						setState(76);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						setState(77); match(Times);
+						setState(78); ((Times_ruleContext)_localctx).right = exp(14);
 						}
 						break;
 
@@ -626,10 +723,10 @@ public class LHCParser extends Parser {
 						_localctx = new Divide_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Divide_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(51);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(52); match(Divide);
-						setState(53); ((Divide_ruleContext)_localctx).right = exp(12);
+						setState(79);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(80); match(Divide);
+						setState(81); ((Divide_ruleContext)_localctx).right = exp(13);
 						}
 						break;
 
@@ -638,10 +735,10 @@ public class LHCParser extends Parser {
 						_localctx = new Plus_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Plus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(54);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(55); match(Plus);
-						setState(56); ((Plus_ruleContext)_localctx).right = exp(11);
+						setState(82);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						setState(83); match(Plus);
+						setState(84); ((Plus_ruleContext)_localctx).right = exp(12);
 						}
 						break;
 
@@ -650,10 +747,10 @@ public class LHCParser extends Parser {
 						_localctx = new Minus_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Minus_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(57);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(58); match(Minus);
-						setState(59); ((Minus_ruleContext)_localctx).right = exp(10);
+						setState(85);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(86); match(Minus);
+						setState(87); ((Minus_ruleContext)_localctx).right = exp(11);
 						}
 						break;
 
@@ -662,10 +759,10 @@ public class LHCParser extends Parser {
 						_localctx = new Equal_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Equal_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(60);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(61); match(Equal);
-						setState(62); ((Equal_ruleContext)_localctx).right = exp(9);
+						setState(88);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(89); match(Equal);
+						setState(90); ((Equal_ruleContext)_localctx).right = exp(10);
 						}
 						break;
 
@@ -674,10 +771,10 @@ public class LHCParser extends Parser {
 						_localctx = new NEqual__ruleContext(new ExpContext(_parentctx, _parentState));
 						((NEqual__ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(63);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(64); match(NEqual);
-						setState(65); ((NEqual__ruleContext)_localctx).right = exp(8);
+						setState(91);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(92); match(NEqual);
+						setState(93); ((NEqual__ruleContext)_localctx).right = exp(9);
 						}
 						break;
 
@@ -686,10 +783,10 @@ public class LHCParser extends Parser {
 						_localctx = new Less_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Less_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(66);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(67); match(Less);
-						setState(68); ((Less_ruleContext)_localctx).right = exp(7);
+						setState(94);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(95); match(Less);
+						setState(96); ((Less_ruleContext)_localctx).right = exp(8);
 						}
 						break;
 
@@ -698,10 +795,10 @@ public class LHCParser extends Parser {
 						_localctx = new Greater_ruleContext(new ExpContext(_parentctx, _parentState));
 						((Greater_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(69);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(70); match(Greater);
-						setState(71); ((Greater_ruleContext)_localctx).right = exp(6);
+						setState(97);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(98); match(Greater);
+						setState(99); ((Greater_ruleContext)_localctx).right = exp(7);
 						}
 						break;
 
@@ -710,10 +807,10 @@ public class LHCParser extends Parser {
 						_localctx = new LessE_ruleContext(new ExpContext(_parentctx, _parentState));
 						((LessE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(72);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(73); match(LessE);
-						setState(74); ((LessE_ruleContext)_localctx).right = exp(5);
+						setState(100);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(101); match(LessE);
+						setState(102); ((LessE_ruleContext)_localctx).right = exp(6);
 						}
 						break;
 
@@ -722,18 +819,18 @@ public class LHCParser extends Parser {
 						_localctx = new GreaterE_ruleContext(new ExpContext(_parentctx, _parentState));
 						((GreaterE_ruleContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(75);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(76); match(GreaterE);
-						setState(77); ((GreaterE_ruleContext)_localctx).right = exp(4);
+						setState(103);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(104); match(GreaterE);
+						setState(105); ((GreaterE_ruleContext)_localctx).right = exp(5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(82);
+				setState(110);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -748,65 +845,716 @@ public class LHCParser extends Parser {
 		return _localctx;
 	}
 
+	public static class MethodDefContext extends ParserRuleContext {
+		public Token typeVoid;
+		public TypeContext type_;
+		public Token funcName;
+		public ParamListContext params;
+		public StmtContext stmtList;
+		public ExpContext returnExp;
+		public ExpContext exp() {
+			return getRuleContext(ExpContext.class,0);
+		}
+		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
+		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
+		public TerminalNode ParBeg() { return getToken(LHCParser.ParBeg, 0); }
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public List<StmtContext> stmt() {
+			return getRuleContexts(StmtContext.class);
+		}
+		public TerminalNode ID() { return getToken(LHCParser.ID, 0); }
+		public ParamListContext paramList() {
+			return getRuleContext(ParamListContext.class,0);
+		}
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public TerminalNode Void() { return getToken(LHCParser.Void, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public StmtContext stmt(int i) {
+			return getRuleContext(StmtContext.class,i);
+		}
+		public TerminalNode Return() { return getToken(LHCParser.Return, 0); }
+		public MethodDefContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_methodDef; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterMethodDef(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitMethodDef(this);
+		}
+	}
+
+	public final MethodDefContext methodDef() throws RecognitionException {
+		MethodDefContext _localctx = new MethodDefContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_methodDef);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(113);
+			switch (_input.LA(1)) {
+			case Void:
+				{
+				setState(111); ((MethodDefContext)_localctx).typeVoid = match(Void);
+				}
+				break;
+			case IntegerType:
+			case DoubleType:
+			case BooleanType:
+				{
+				setState(112); ((MethodDefContext)_localctx).type_ = type();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			setState(115); ((MethodDefContext)_localctx).funcName = match(ID);
+			setState(116); match(ParBeg);
+			setState(118);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) {
+				{
+				setState(117); ((MethodDefContext)_localctx).params = paramList();
+				}
+			}
+
+			setState(120); match(ParEnd);
+			setState(136);
+			switch (_input.LA(1)) {
+			case Begin:
+				{
+				setState(121); match(Begin);
+				setState(125);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType) | (1L << Print) | (1L << Bool) | (1L << ParBeg) | (1L << Integer) | (1L << Double) | (1L << ID))) != 0)) {
+					{
+					{
+					setState(122); ((MethodDefContext)_localctx).stmtList = stmt();
+					}
+					}
+					setState(127);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(132);
+				_la = _input.LA(1);
+				if (_la==Return) {
+					{
+					setState(128); match(Return);
+					setState(129); ((MethodDefContext)_localctx).returnExp = exp(0);
+					setState(130); match(Semicolon);
+					}
+				}
+
+				setState(134); match(End);
+				}
+				break;
+			case Semicolon:
+				{
+				setState(135); match(Semicolon);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ParamListContext extends ParserRuleContext {
+		public TypeContext type_;
+		public Token varName;
+		public ParamListContext params;
+		public TerminalNode ID() { return getToken(LHCParser.ID, 0); }
+		public ParamListContext paramList() {
+			return getRuleContext(ParamListContext.class,0);
+		}
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode Comma() { return getToken(LHCParser.Comma, 0); }
+		public ParamListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_paramList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterParamList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitParamList(this);
+		}
+	}
+
+	public final ParamListContext paramList() throws RecognitionException {
+		ParamListContext _localctx = new ParamListContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_paramList);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(138); ((ParamListContext)_localctx).type_ = type();
+			setState(139); ((ParamListContext)_localctx).varName = match(ID);
+			setState(142);
+			_la = _input.LA(1);
+			if (_la==Comma) {
+				{
+				setState(140); match(Comma);
+				setState(141); ((ParamListContext)_localctx).params = paramList();
+				}
+			}
+
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ArgsContext extends ParserRuleContext {
+		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
+		public TerminalNode Comma(int i) {
+			return getToken(LHCParser.Comma, i);
+		}
+		public TerminalNode ID(int i) {
+			return getToken(LHCParser.ID, i);
+		}
+		public List<TerminalNode> Comma() { return getTokens(LHCParser.Comma); }
+		public ArgsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_args; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterArgs(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitArgs(this);
+		}
+	}
+
+	public final ArgsContext args() throws RecognitionException {
+		ArgsContext _localctx = new ArgsContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_args);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(148);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+			while ( _alt!=2 && _alt!=-1 ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(144); match(ID);
+					setState(145); match(Comma);
+					}
+					} 
+				}
+				setState(150);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+			}
+			setState(151); match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DeclContext extends ParserRuleContext {
+		public DeclContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_decl; }
+	 
+		public DeclContext() { }
+		public void copyFrom(DeclContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class VarMultDeclContext extends DeclContext {
+		public TypeContext type_;
+		public Token varName;
+		public List<TerminalNode> ID() { return getTokens(LHCParser.ID); }
+		public TerminalNode Comma(int i) {
+			return getToken(LHCParser.Comma, i);
+		}
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode ID(int i) {
+			return getToken(LHCParser.ID, i);
+		}
+		public List<TerminalNode> Comma() { return getTokens(LHCParser.Comma); }
+		public VarMultDeclContext(DeclContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterVarMultDecl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitVarMultDecl(this);
+		}
+	}
+	public static class VarDeclContext extends DeclContext {
+		public TypeContext type_;
+		public Token varName;
+		public TerminalNode ID() { return getToken(LHCParser.ID, 0); }
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public VarDeclContext(DeclContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterVarDecl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitVarDecl(this);
+		}
+	}
+
+	public final DeclContext decl() throws RecognitionException {
+		DeclContext _localctx = new DeclContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_decl);
+		try {
+			int _alt;
+			setState(168);
+			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+			case 1:
+				_localctx = new VarDeclContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(153); ((VarDeclContext)_localctx).type_ = type();
+				setState(154); ((VarDeclContext)_localctx).varName = match(ID);
+				setState(155); match(Semicolon);
+				}
+				break;
+
+			case 2:
+				_localctx = new VarMultDeclContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(157); ((VarMultDeclContext)_localctx).type_ = type();
+				setState(162);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
+				while ( _alt!=2 && _alt!=-1 ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(158); ((VarMultDeclContext)_localctx).varName = match(ID);
+						setState(159); match(Comma);
+						}
+						} 
+					}
+					setState(164);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
+				}
+				setState(165); ((VarMultDeclContext)_localctx).varName = match(ID);
+				setState(166); match(Semicolon);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AttrContext extends ParserRuleContext {
+		public AttrContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_attr; }
+	 
+		public AttrContext() { }
+		public void copyFrom(AttrContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class AssignmentContext extends AttrContext {
+		public TypeContext type_;
+		public Token varName;
+		public RightSideContext rightSide_;
+		public TerminalNode Gets() { return getToken(LHCParser.Gets, 0); }
+		public TerminalNode ID() { return getToken(LHCParser.ID, 0); }
+		public RightSideContext rightSide() {
+			return getRuleContext(RightSideContext.class,0);
+		}
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public AssignmentContext(AttrContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitAssignment(this);
+		}
+	}
+
+	public final AttrContext attr() throws RecognitionException {
+		AttrContext _localctx = new AttrContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_attr);
+		int _la;
+		try {
+			_localctx = new AssignmentContext(_localctx);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(171);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) {
+				{
+				setState(170); ((AssignmentContext)_localctx).type_ = type();
+				}
+			}
+
+			setState(173); ((AssignmentContext)_localctx).varName = match(ID);
+			setState(174); match(Gets);
+			setState(175); ((AssignmentContext)_localctx).rightSide_ = rightSide();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RightSideContext extends ParserRuleContext {
+		public ExpContext exp() {
+			return getRuleContext(ExpContext.class,0);
+		}
+		public TerminalNode Semicolon() { return getToken(LHCParser.Semicolon, 0); }
+		public MethodCallContext methodCall() {
+			return getRuleContext(MethodCallContext.class,0);
+		}
+		public RightSideContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_rightSide; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterRightSide(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitRightSide(this);
+		}
+	}
+
+	public final RightSideContext rightSide() throws RecognitionException {
+		RightSideContext _localctx = new RightSideContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_rightSide);
+		try {
+			setState(181);
+			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(177); exp(0);
+				setState(178); match(Semicolon);
+				}
+				break;
+
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(180); methodCall();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ValueContext extends ParserRuleContext {
+		public ValueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_value; }
+	 
+		public ValueContext() { }
+		public void copyFrom(ValueContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Double_ruleContext extends ValueContext {
+		public Token value_;
+		public TerminalNode Double() { return getToken(LHCParser.Double, 0); }
+		public Double_ruleContext(ValueContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterDouble_rule(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitDouble_rule(this);
+		}
+	}
+	public static class Bool_ruleContext extends ValueContext {
+		public Token value_;
+		public TerminalNode Bool() { return getToken(LHCParser.Bool, 0); }
+		public Bool_ruleContext(ValueContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterBool_rule(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitBool_rule(this);
+		}
+	}
+	public static class Int_ruleContext extends ValueContext {
+		public Token value_;
+		public TerminalNode Integer() { return getToken(LHCParser.Integer, 0); }
+		public Int_ruleContext(ValueContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterInt_rule(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitInt_rule(this);
+		}
+	}
+
+	public final ValueContext value() throws RecognitionException {
+		ValueContext _localctx = new ValueContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_value);
+		try {
+			setState(186);
+			switch (_input.LA(1)) {
+			case Integer:
+				_localctx = new Int_ruleContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(183); ((Int_ruleContext)_localctx).value_ = match(Integer);
+				}
+				break;
+			case Bool:
+				_localctx = new Bool_ruleContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(184); ((Bool_ruleContext)_localctx).value_ = match(Bool);
+				}
+				break;
+			case Double:
+				_localctx = new Double_ruleContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(185); ((Double_ruleContext)_localctx).value_ = match(Double);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class TypeContext extends ParserRuleContext {
+		public TerminalNode DoubleType() { return getToken(LHCParser.DoubleType, 0); }
+		public TerminalNode IntegerType() { return getToken(LHCParser.IntegerType, 0); }
+		public TerminalNode BooleanType() { return getToken(LHCParser.BooleanType, 0); }
+		public TypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LHCListener ) ((LHCListener)listener).exitType(this);
+		}
+	}
+
+	public final TypeContext type() throws RecognitionException {
+		TypeContext _localctx = new TypeContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_type);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(188);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerType) | (1L << DoubleType) | (1L << BooleanType))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			consume();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 3: return exp_sempred((ExpContext)_localctx, predIndex);
+		case 4: return exp_sempred((ExpContext)_localctx, predIndex);
 		}
 		return true;
 	}
 	private boolean exp_sempred(ExpContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return precpred(_ctx, 14);
+		case 0: return precpred(_ctx, 15);
 
-		case 1: return precpred(_ctx, 13);
+		case 1: return precpred(_ctx, 14);
 
-		case 2: return precpred(_ctx, 12);
+		case 2: return precpred(_ctx, 13);
 
-		case 3: return precpred(_ctx, 11);
+		case 3: return precpred(_ctx, 12);
 
-		case 4: return precpred(_ctx, 10);
+		case 4: return precpred(_ctx, 11);
 
-		case 5: return precpred(_ctx, 9);
+		case 5: return precpred(_ctx, 10);
 
-		case 6: return precpred(_ctx, 8);
+		case 6: return precpred(_ctx, 9);
 
-		case 7: return precpred(_ctx, 7);
+		case 7: return precpred(_ctx, 8);
 
-		case 8: return precpred(_ctx, 6);
+		case 8: return precpred(_ctx, 7);
 
-		case 9: return precpred(_ctx, 5);
+		case 9: return precpred(_ctx, 6);
 
-		case 10: return precpred(_ctx, 4);
+		case 10: return precpred(_ctx, 5);
 
-		case 11: return precpred(_ctx, 3);
+		case 11: return precpred(_ctx, 4);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31V\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\7\2\16\n\2\f\2\16\2\21\13\2\3\2\3\2\3\3"+
-		"\3\3\3\3\3\3\6\3\31\n\3\r\3\16\3\32\5\3\35\n\3\3\4\3\4\3\4\3\4\3\4\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\5\5+\n\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5Q\n\5\f\5\16\5T\13\5\3\5\2\3"+
-		"\b\6\2\4\6\b\2\2b\2\n\3\2\2\2\4\34\3\2\2\2\6\36\3\2\2\2\b*\3\2\2\2\n\13"+
-		"\7\6\2\2\13\17\7\7\2\2\f\16\5\4\3\2\r\f\3\2\2\2\16\21\3\2\2\2\17\r\3\2"+
-		"\2\2\17\20\3\2\2\2\20\22\3\2\2\2\21\17\3\2\2\2\22\23\7\b\2\2\23\3\3\2"+
-		"\2\2\24\35\5\b\5\2\25\26\5\6\4\2\26\27\7\13\2\2\27\31\3\2\2\2\30\25\3"+
-		"\2\2\2\31\32\3\2\2\2\32\30\3\2\2\2\32\33\3\2\2\2\33\35\3\2\2\2\34\24\3"+
-		"\2\2\2\34\30\3\2\2\2\35\5\3\2\2\2\36\37\7\5\2\2\37 \7\t\2\2 !\5\b\5\2"+
-		"!\"\7\n\2\2\"\7\3\2\2\2#$\b\5\1\2$%\7\t\2\2%&\5\b\5\2&\'\7\n\2\2\'+\3"+
-		"\2\2\2(+\7\3\2\2)+\7\20\2\2*#\3\2\2\2*(\3\2\2\2*)\3\2\2\2+R\3\2\2\2,-"+
-		"\f\20\2\2-.\7\21\2\2.Q\5\b\5\21/\60\f\17\2\2\60\61\7\22\2\2\61Q\5\b\5"+
-		"\20\62\63\f\16\2\2\63\64\7\16\2\2\64Q\5\b\5\17\65\66\f\r\2\2\66\67\7\17"+
-		"\2\2\67Q\5\b\5\1689\f\f\2\29:\7\f\2\2:Q\5\b\5\r;<\f\13\2\2<=\7\r\2\2="+
-		"Q\5\b\5\f>?\f\n\2\2?@\7\23\2\2@Q\5\b\5\13AB\f\t\2\2BC\7\24\2\2CQ\5\b\5"+
-		"\nDE\f\b\2\2EF\7\25\2\2FQ\5\b\5\tGH\f\7\2\2HI\7\27\2\2IQ\5\b\5\bJK\f\6"+
-		"\2\2KL\7\26\2\2LQ\5\b\5\7MN\f\5\2\2NO\7\30\2\2OQ\5\b\5\6P,\3\2\2\2P/\3"+
-		"\2\2\2P\62\3\2\2\2P\65\3\2\2\2P8\3\2\2\2P;\3\2\2\2P>\3\2\2\2PA\3\2\2\2"+
-		"PD\3\2\2\2PG\3\2\2\2PJ\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2"+
-		"S\t\3\2\2\2TR\3\2\2\2\b\17\32\34*PR";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&\u00c1\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\7\2 \n\2\f\2\16\2#\13\2\3\2"+
+		"\3\2\3\3\3\3\3\3\3\3\5\3+\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\5\5"+
+		"\66\n\5\3\5\3\5\5\5:\n\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5"+
+		"\6G\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
+		"\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
+		"\3\6\3\6\3\6\7\6m\n\6\f\6\16\6p\13\6\3\7\3\7\5\7t\n\7\3\7\3\7\3\7\5\7"+
+		"y\n\7\3\7\3\7\3\7\7\7~\n\7\f\7\16\7\u0081\13\7\3\7\3\7\3\7\3\7\5\7\u0087"+
+		"\n\7\3\7\3\7\5\7\u008b\n\7\3\b\3\b\3\b\3\b\5\b\u0091\n\b\3\t\3\t\7\t\u0095"+
+		"\n\t\f\t\16\t\u0098\13\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\7\n\u00a3"+
+		"\n\n\f\n\16\n\u00a6\13\n\3\n\3\n\3\n\5\n\u00ab\n\n\3\13\5\13\u00ae\n\13"+
+		"\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\5\f\u00b8\n\f\3\r\3\r\3\r\5\r\u00bd"+
+		"\n\r\3\16\3\16\3\16\2\3\n\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2"+
+		"\3\5\u00d5\2\34\3\2\2\2\4*\3\2\2\2\6,\3\2\2\2\b\62\3\2\2\2\nF\3\2\2\2"+
+		"\fs\3\2\2\2\16\u008c\3\2\2\2\20\u0096\3\2\2\2\22\u00aa\3\2\2\2\24\u00ad"+
+		"\3\2\2\2\26\u00b7\3\2\2\2\30\u00bc\3\2\2\2\32\u00be\3\2\2\2\34\35\7\b"+
+		"\2\2\35!\7\f\2\2\36 \5\f\7\2\37\36\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3"+
+		"\2\2\2\"$\3\2\2\2#!\3\2\2\2$%\7\r\2\2%\3\3\2\2\2&+\5\24\13\2\'+\5\6\4"+
+		"\2(+\5\n\6\2)+\5\22\n\2*&\3\2\2\2*\'\3\2\2\2*(\3\2\2\2*)\3\2\2\2+\5\3"+
+		"\2\2\2,-\7\7\2\2-.\7\16\2\2./\5\n\6\2/\60\7\17\2\2\60\61\7\20\2\2\61\7"+
+		"\3\2\2\2\62\65\7%\2\2\63\64\7#\2\2\64\66\7%\2\2\65\63\3\2\2\2\65\66\3"+
+		"\2\2\2\66\67\3\2\2\2\679\7\16\2\28:\5\20\t\298\3\2\2\29:\3\2\2\2:;\3\2"+
+		"\2\2;<\7\17\2\2<=\7\20\2\2=\t\3\2\2\2>?\b\6\1\2?@\7\16\2\2@A\5\n\6\2A"+
+		"B\7\17\2\2BG\3\2\2\2CG\7%\2\2DG\5\30\r\2EG\5\b\5\2F>\3\2\2\2FC\3\2\2\2"+
+		"FD\3\2\2\2FE\3\2\2\2Gn\3\2\2\2HI\f\21\2\2IJ\7\26\2\2Jm\5\n\6\22KL\f\20"+
+		"\2\2LM\7\27\2\2Mm\5\n\6\21NO\f\17\2\2OP\7\23\2\2Pm\5\n\6\20QR\f\16\2\2"+
+		"RS\7\24\2\2Sm\5\n\6\17TU\f\r\2\2UV\7\21\2\2Vm\5\n\6\16WX\f\f\2\2XY\7\22"+
+		"\2\2Ym\5\n\6\rZ[\f\13\2\2[\\\7\30\2\2\\m\5\n\6\f]^\f\n\2\2^_\7\31\2\2"+
+		"_m\5\n\6\13`a\f\t\2\2ab\7\32\2\2bm\5\n\6\ncd\f\b\2\2de\7\34\2\2em\5\n"+
+		"\6\tfg\f\7\2\2gh\7\33\2\2hm\5\n\6\bij\f\6\2\2jk\7\35\2\2km\5\n\6\7lH\3"+
+		"\2\2\2lK\3\2\2\2lN\3\2\2\2lQ\3\2\2\2lT\3\2\2\2lW\3\2\2\2lZ\3\2\2\2l]\3"+
+		"\2\2\2l`\3\2\2\2lc\3\2\2\2lf\3\2\2\2li\3\2\2\2mp\3\2\2\2nl\3\2\2\2no\3"+
+		"\2\2\2o\13\3\2\2\2pn\3\2\2\2qt\7\n\2\2rt\5\32\16\2sq\3\2\2\2sr\3\2\2\2"+
+		"tu\3\2\2\2uv\7%\2\2vx\7\16\2\2wy\5\16\b\2xw\3\2\2\2xy\3\2\2\2yz\3\2\2"+
+		"\2z\u008a\7\17\2\2{\177\7\f\2\2|~\5\4\3\2}|\3\2\2\2~\u0081\3\2\2\2\177"+
+		"}\3\2\2\2\177\u0080\3\2\2\2\u0080\u0086\3\2\2\2\u0081\177\3\2\2\2\u0082"+
+		"\u0083\7\13\2\2\u0083\u0084\5\n\6\2\u0084\u0085\7\20\2\2\u0085\u0087\3"+
+		"\2\2\2\u0086\u0082\3\2\2\2\u0086\u0087\3\2\2\2\u0087\u0088\3\2\2\2\u0088"+
+		"\u008b\7\r\2\2\u0089\u008b\7\20\2\2\u008a{\3\2\2\2\u008a\u0089\3\2\2\2"+
+		"\u008b\r\3\2\2\2\u008c\u008d\5\32\16\2\u008d\u0090\7%\2\2\u008e\u008f"+
+		"\7\"\2\2\u008f\u0091\5\16\b\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2\2\2"+
+		"\u0091\17\3\2\2\2\u0092\u0093\7%\2\2\u0093\u0095\7\"\2\2\u0094\u0092\3"+
+		"\2\2\2\u0095\u0098\3\2\2\2\u0096\u0094\3\2\2\2\u0096\u0097\3\2\2\2\u0097"+
+		"\u0099\3\2\2\2\u0098\u0096\3\2\2\2\u0099\u009a\7%\2\2\u009a\21\3\2\2\2"+
+		"\u009b\u009c\5\32\16\2\u009c\u009d\7%\2\2\u009d\u009e\7\20\2\2\u009e\u00ab"+
+		"\3\2\2\2\u009f\u00a4\5\32\16\2\u00a0\u00a1\7%\2\2\u00a1\u00a3\7\"\2\2"+
+		"\u00a2\u00a0\3\2\2\2\u00a3\u00a6\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a4\u00a5"+
+		"\3\2\2\2\u00a5\u00a7\3\2\2\2\u00a6\u00a4\3\2\2\2\u00a7\u00a8\7%\2\2\u00a8"+
+		"\u00a9\7\20\2\2\u00a9\u00ab\3\2\2\2\u00aa\u009b\3\2\2\2\u00aa\u009f\3"+
+		"\2\2\2\u00ab\23\3\2\2\2\u00ac\u00ae\5\32\16\2\u00ad\u00ac\3\2\2\2\u00ad"+
+		"\u00ae\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\u00b0\7%\2\2\u00b0\u00b1\7\37"+
+		"\2\2\u00b1\u00b2\5\26\f\2\u00b2\25\3\2\2\2\u00b3\u00b4\5\n\6\2\u00b4\u00b5"+
+		"\7\20\2\2\u00b5\u00b8\3\2\2\2\u00b6\u00b8\5\b\5\2\u00b7\u00b3\3\2\2\2"+
+		"\u00b7\u00b6\3\2\2\2\u00b8\27\3\2\2\2\u00b9\u00bd\7\25\2\2\u00ba\u00bd"+
+		"\7\t\2\2\u00bb\u00bd\7$\2\2\u00bc\u00b9\3\2\2\2\u00bc\u00ba\3\2\2\2\u00bc"+
+		"\u00bb\3\2\2\2\u00bd\31\3\2\2\2\u00be\u00bf\t\2\2\2\u00bf\33\3\2\2\2\25"+
+		"!*\659Flnsx\177\u0086\u008a\u0090\u0096\u00a4\u00aa\u00ad\u00b7\u00bc";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

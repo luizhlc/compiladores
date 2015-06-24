@@ -7,8 +7,7 @@ program: Init Begin (methodDef)* End;
   	stmt	: attr 
       		| print
       		| exp
-      		| decl
-      		| methodCall;
+      		| decl;
 //      		| case1 	
 //      		| switch1 	
 //      		| loop 	
@@ -35,9 +34,11 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	|  left=exp LessE right=exp #LessE_rule
 	|  left=exp GreaterE right=exp #GreaterE_rule
 	|  varName=ID #Variable
-	|  value_=value #Value_rule;
+	|  value_=value #Value_rule
+	|  method=methodCall #Method_rule;
 	
- 	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID) Semicolon)? End | Semicolon) ;
+ 	//methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return (returnExp=exp | returnID=ID) Semicolon)? End | Semicolon) ;
+  	methodDef	: (typeVoid=Void | type_=type) funcName=ID ParBeg (params=paramList)? ParEnd (Begin (stmtList=stmt)* (Return returnExp=exp Semicolon)? End | Semicolon) ;
   	paramList 	: type_=type varName=ID ( Comma params=paramList )?;   	  		 
   	args 	: (ID Comma)* ID;
   	
@@ -47,16 +48,17 @@ exp :  ParBeg exp ParEnd #ParExp_rule
     attr	: (type_=type)? varName=ID Gets rightSide_=rightSide #Assignment;
 //    			| VectorBeg Integer VectorEnd rightSIDe Semicolon;
 
-  	rightSide	: exp Semicolon | value | methodCall | Quote String Quote;
-  	
+ // 	rightSide	: exp Semicolon | methodCall | Quote String Quote;
+  	rightSide	: exp Semicolon | methodCall;
 	value 	: value_=Integer #Int_rule
 			| value_=Bool  #Bool_rule
-      		| value_=Double #Double_rule
-      		| value_=String #String_rule
-      		| value_=Char #Char_rule;
+      		| value_=Double #Double_rule;
+      		//| value_=String #String_rule
+      		//| value_=Char #Char_rule;
       		
-  type : StringType | IntegerType | DoubleType | BooleanType;
-  StringType : 'string';
+ // type : StringType | IntegerType | DoubleType | BooleanType;
+  type : IntegerType | DoubleType | BooleanType;
+ //StringType : 'string';
   IntegerType : 'int';
   DoubleType : 'double';
   BooleanType : 'bool';
@@ -92,8 +94,8 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   SQuote : '\'';
   Comma : ',' ;
   Dot : '.' ;
-  Char : SQuote '\u0000'..'\uFFFE' SQuote;
-  String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
+  //Char : SQuote '\u0000'..'\uFFFE' SQuote;
+  //String : Quote ('\u0000'..'\u0021'|'\u0023'..'\uFFFE')* Quote;
   Double : Integer '.' Integer | '.' Integer | Integer '.' ;
   ID : IDChar (Integer | IDChar)*; 
   IDChar : ('a' .. 'z') | ('A' .. 'Z') | '_' ;

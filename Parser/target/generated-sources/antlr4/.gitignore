@@ -14,3 +14,5 @@
 /LHCBaseListener.java
 /LHCListener.java
 /LHCParser.java
+/LHCLexer.java
+/LHCLexer.tokens
