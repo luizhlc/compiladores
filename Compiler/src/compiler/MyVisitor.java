@@ -91,14 +91,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		}
 		type_st.clear();
 		String instructions = "";
-		if(ctx.stmtList != null){
-			for (int i = 0; i < ctx.getChildCount(); i++) {
-				ParseTree child = ctx.getChild(i);
-				if(child instanceof StmtContext)
-					instructions += visit(child) + "\n";
-			}
-			return_ += instructions;
-		}
+		String retorno;
+		//verifica se a funcao foi declarada
 		if(!methods.containsKey(ctx.funcName.getText())){
 			methods.put(ctx.funcName.getText(), formatTypeName(ctx));
 		}
@@ -109,42 +103,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 				e.printStackTrace();
 			}
 		}
-		
-		if(ctx.returnExp != null ){
-			if(ctx.typeVoid != null){
-				try {
-					throw new Exception("line:" + ctx.typeVoid.getLine() + "\nSeriously? Trying to return a value in a void method? I don't get paid for that");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if(ctx.returnExp.getText().equals("void")){
-				try {
-					throw new Exception("line:" + ctx.type_.getStart().getLine() + "\n... you need to return something in a "+ctx.type_+" method.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			return_ += visit(ctx.returnExp) + "\n";
-			if(!ctx.type_.getText().equals(type_st.peek().getType())){
-				try {
-					throw new Exception("line:" + ctx.Return().getSymbol().getLine() + "\n"+type_st.peek().getType()+" return??? ... You need to return a "+ctx.type_.getText()+" in a "+ctx.type_.getText()+" method.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		
-		String retorno;
-		
 		if(ctx.funcName.getText().equals("main")){
 			retorno=  ".method public static "+ctx.funcName.getText()+"([Ljava/lang/String;)V\n" +
 					".limit locals 100\n" + 
-					".limit stack 100\n" + 
-					return_ +
-					"return\n" + 
-					".end method";		
+					".limit stack 100\n";
 		}
 		else{
 			Vector<Type> parametros = new Vector<Type>();
@@ -163,11 +125,64 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		
 		retorno = assinatura+")"+type.getTypeParameter()+"\n" +
 				".limit locals 100\n" + 
-				".limit stack 100\n" + 
-				return_ +
+				".limit stack 100\n";
+		}
+		
+		
+		
+		//visita stmt
+		if(ctx.stmtList != null){
+			for (int i = 0; i < ctx.getChildCount(); i++) {
+				ParseTree child = ctx.getChild(i);
+				if(child instanceof StmtContext)
+					instructions += visit(child) + "\n";
+			}
+			return_ += instructions;
+		}
+		
+		//verifica retorno
+		if(ctx.returnExp != null ){
+			if(ctx.typeVoid != null){
+				try {
+					throw new Exception("line:" + ctx.typeVoid.getLine() + "\nSeriously? Trying to return a value in a void method? I don't get paid for that");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(ctx.returnExp.getText().equals("void")){
+				try {
+					throw new Exception("line:" + ctx.type_.getStart().getLine() + "\n... you need to return something in a "+ctx.type_+" method.");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			//intrução de retorno
+			return_ += visit(ctx.returnExp) + "\n";
+			if(!ctx.type_.getText().equals(type_st.peek().getType())){
+				try {
+					throw new Exception("line:" + ctx.Return().getSymbol().getLine() + "\n"+type_st.peek().getType()+" return??? ... You need to return a "+ctx.type_.getText()+" in a "+ctx.type_.getText()+" method.");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		//verifica se é main
+		if(ctx.funcName.getText().equals("main")){
+			retorno+= return_ +
+					"return\n" + 
+					".end method";		
+		}
+		else{	
+				Type type = this.formatTypeName(ctx);
+				retorno += return_ +
 				type.getTypePrefix()+"return\n" + 
 				".end method";
 		}
+		
+		
 		variables = oldVariables;
 		return retorno;
 	}
@@ -184,6 +199,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			return "";
 			
 		}
+		int num_par = ctx.argList.par.size();
+	   
 		String instructions = "";
 		String argumentsInstructions = "";
 		if(ctx.argList!=null){
@@ -197,40 +214,39 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 			argumentsInstructions = visit(ctx.argList);
 		}
+
 		Vector<Type> parametros_func = methods_par.get(ctx.funcName1.getText());
-		int count = parametros_func.size()-1;
-		instructions += argumentsInstructions + '\n';
-		instructions += "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "(";
-		StringBuilder parametros = new StringBuilder();
-		while(type_st.size()!=1){
-			Type atual = type_st.pop();
-			parametros.insert(0, atual.getTypeParameter() );
-			if(count<0){
-				try {
+		 if(num_par>parametros_func.size()){
+			 try {
 					throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO SOBRANDO AI PORRA");
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-			if(parametros_func.get(count)!=atual){
+		 }
+		 if(num_par<parametros_func.size()){
+			 try {
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO FALTANDO AI PORRA");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		 }
+		instructions += argumentsInstructions + '\n';
+		instructions += "invokestatic "+Main.ProgramName+"/" + ctx.funcName1.getText() + "(";
+		StringBuilder parametros = new StringBuilder();
+		while(num_par!=0){
+			Type atual = type_st.pop();
+			parametros.insert(0, atual.getTypeParameter() );
+			if(parametros_func.get(num_par-1)!=atual){
 				try {
-					throw new Exception("Line: +"+ctx.start.getLine()+"\n VOCE NAO PODE PASSAR UM PARAMETRO "+atual.getType()+" SENDO QUE SE ESPERAVA UM "+parametros_func.get(count));
+					throw new Exception("Line: +"+ctx.start.getLine()+"\n VOCE NAO PODE PASSAR UM PARAMETRO "+atual.getType()+" SENDO QUE SE ESPERAVA UM "+parametros_func.get(num_par));
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
-			count--;
-		}
-		if(count!=-1){
-			try {
-				throw new Exception("Line: +"+ctx.start.getLine()+"\n TEM PARAMETRO FALTANDO AI PORRA");
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			num_par--;
 		}
 	    instructions+=parametros.toString()+")" + methods.get(ctx.funcName1.getText()).getTypeParameter();
 		return instructions;
@@ -270,7 +286,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
 		String return_ =condition+"\n";
 		return_+="ifeq False"+elseLabel+"\n";

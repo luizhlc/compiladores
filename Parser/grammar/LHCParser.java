@@ -1094,6 +1094,8 @@ public class LHCParser extends Parser {
 	}
 
 	public static class ExpressionListContext extends ParserRuleContext {
+		public ExpContext exp;
+		public List<ExpContext> par = new ArrayList<ExpContext>();
 		public List<ExpContext> exp() {
 			return getRuleContexts(ExpContext.class);
 		}
@@ -1125,7 +1127,8 @@ public class LHCParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(161); exp(0);
+			setState(161); ((ExpressionListContext)_localctx).exp = exp(0);
+			((ExpressionListContext)_localctx).par.add(((ExpressionListContext)_localctx).exp);
 			setState(166);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -1133,7 +1136,8 @@ public class LHCParser extends Parser {
 				{
 				{
 				setState(162); match(Comma);
-				setState(163); exp(0);
+				setState(163); ((ExpressionListContext)_localctx).exp = exp(0);
+				((ExpressionListContext)_localctx).par.add(((ExpressionListContext)_localctx).exp);
 				}
 				}
 				setState(168);
