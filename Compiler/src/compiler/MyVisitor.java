@@ -90,26 +90,27 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 		String code = "";
 
-		Integer LoopBody = 1;
 		variables.put(ctx.id_.getText(), variables.size());
 
-		if (ctx.id_ == null) {// while
+		String condition = visit(ctx.condition) + "\n";
 
-		} else {// for
+		String initialVal = ctx.int_const.getText();
 
-			String initialVal = ctx.int_const.getText();
+		code += "ldc " + initialVal + "\n";
+		code += "istore " + variables.get(ctx.id_.getText()) + "\n";
+		
+		code += "LoopBody:" + "\n";
+		code += condition + "\n";
+		code += "ifeq Exit" + "\n";
 
-			code += "ldc " + initialVal + "\n";
-			code += "istore " + variables.get(ctx.id_.getText()) + "\n";
-			code += "LoopBody:" + "\n";
+		//instructions
 
-			code += "goto LoopBody" + "\n";
-
-			code += "iload " + variables.get(ctx.id_.getText()) + "\n";
-			code += "ldc " + ctx.incre_const.getText() + "\n";
-			code += "iadd" + "\n";
-			code += "istore " + variables.get(ctx.id_.getText()) + "\n";
-		}
+		code += "iload " + variables.get(ctx.id_.getText()) + "\n";
+		code += "ldc " + ctx.incre_const.getText() + "\n";
+		code += "iadd" + "\n";
+		code += "istore " + variables.get(ctx.id_.getText()) + "\n";
+		code += "goto LoopBody" + "\n";
+		code += "Exit:" + "\n";
 
 		return code;
 	}
