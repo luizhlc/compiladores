@@ -1637,6 +1637,43 @@ public class LHCParser extends Parser {
 	}
 
 	public static class LoopContext extends ParserRuleContext {
+		public LoopContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_loop; }
+	 
+		public LoopContext() { }
+		public void copyFrom(LoopContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class WhileContext extends LoopContext {
+		public ExpContext condition;
+		public StmtContext stmts;
+		public ControlContext control_;
+		public TerminalNode ParEnd() { return getToken(LHCParser.ParEnd, 0); }
+		public TerminalNode Begin() { return getToken(LHCParser.Begin, 0); }
+		public TerminalNode End() { return getToken(LHCParser.End, 0); }
+		public ExpContext exp() {
+			return getRuleContext(ExpContext.class,0);
+		}
+		public List<StmtContext> stmt() {
+			return getRuleContexts(StmtContext.class);
+		}
+		public StmtContext stmt(int i) {
+			return getRuleContext(StmtContext.class,i);
+		}
+		public ControlContext control() {
+			return getRuleContext(ControlContext.class,0);
+		}
+		public WhileContext(LoopContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitWhile(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ForRuleContext extends LoopContext {
 		public Token id_;
 		public Token int_const;
 		public ExpContext condition;
@@ -1676,13 +1713,10 @@ public class LHCParser extends Parser {
 		public ControlContext control() {
 			return getRuleContext(ControlContext.class,0);
 		}
-		public LoopContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_loop; }
+		public ForRuleContext(LoopContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitLoop(this);
+			if ( visitor instanceof LHCVisitor ) return ((LHCVisitor<? extends T>)visitor).visitForRule(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1692,37 +1726,38 @@ public class LHCParser extends Parser {
 		enterRule(_localctx, 30, RULE_loop);
 		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(234);
-			match(For);
-			setState(235);
-			match(ParBeg);
 			setState(273);
 			switch (_input.LA(1)) {
-			case IntegerType:
+			case For:
+				_localctx = new ForRuleContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(234);
+				match(For);
+				setState(235);
+				match(ParBeg);
 				{
 				{
 				setState(236);
 				match(IntegerType);
 				setState(237);
-				((LoopContext)_localctx).id_ = match(ID);
+				((ForRuleContext)_localctx).id_ = match(ID);
 				setState(238);
 				match(Gets);
 				setState(239);
-				((LoopContext)_localctx).int_const = match(Integer);
+				((ForRuleContext)_localctx).int_const = match(Integer);
 				setState(240);
 				match(Semicolon);
 				setState(241);
-				((LoopContext)_localctx).condition = exp(0);
+				((ForRuleContext)_localctx).condition = exp(0);
 				setState(242);
 				match(Semicolon);
 				setState(243);
-				((LoopContext)_localctx).id_increment = match(ID);
+				((ForRuleContext)_localctx).id_increment = match(ID);
 				setState(244);
 				match(Plus);
 				setState(245);
-				((LoopContext)_localctx).incre_const = match(Integer);
+				((ForRuleContext)_localctx).incre_const = match(Integer);
 				setState(246);
 				match(ParEnd);
 				setState(247);
@@ -1734,7 +1769,7 @@ public class LHCParser extends Parser {
 					{
 					{
 					setState(248);
-					((LoopContext)_localctx).stmts = stmt();
+					((ForRuleContext)_localctx).stmts = stmt();
 					}
 					}
 					setState(253);
@@ -1746,12 +1781,13 @@ public class LHCParser extends Parser {
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Return) | (1L << Break) | (1L << Continue))) != 0)) {
 					{
 					setState(254);
-					((LoopContext)_localctx).control_ = control();
+					((ForRuleContext)_localctx).control_ = control();
 					}
 				}
 
 				setState(257);
 				match(End);
+				}
 				}
 				}
 				break;
@@ -1760,10 +1796,12 @@ public class LHCParser extends Parser {
 			case Integer:
 			case Double:
 			case ID:
+				_localctx = new WhileContext(_localctx);
+				enterOuterAlt(_localctx, 2);
 				{
 				{
 				setState(259);
-				((LoopContext)_localctx).condition = exp(0);
+				((WhileContext)_localctx).condition = exp(0);
 				setState(260);
 				match(ParEnd);
 				setState(261);
@@ -1775,7 +1813,7 @@ public class LHCParser extends Parser {
 					{
 					{
 					setState(262);
-					((LoopContext)_localctx).stmts = stmt();
+					((WhileContext)_localctx).stmts = stmt();
 					}
 					}
 					setState(267);
@@ -1787,7 +1825,7 @@ public class LHCParser extends Parser {
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Return) | (1L << Break) | (1L << Continue))) != 0)) {
 					{
 					setState(268);
-					((LoopContext)_localctx).control_ = control();
+					((WhileContext)_localctx).control_ = control();
 					}
 				}
 
@@ -1798,7 +1836,6 @@ public class LHCParser extends Parser {
 				break;
 			default:
 				throw new NoViableAltException(this);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -2081,7 +2118,7 @@ public class LHCParser extends Parser {
 		"\30\32\34\36 \"$&\2\4\3\2()\3\2\3\6\u013f\2(\3\2\2\2\4<\3\2\2\2\6>\3\2"+
 		"\2\2\bL\3\2\2\2\ny\3\2\2\2\f\u0092\3\2\2\2\16\u009d\3\2\2\2\20\u00a5\3"+
 		"\2\2\2\22\u00a8\3\2\2\2\24\u00bf\3\2\2\2\26\u00c2\3\2\2\2\30\u00c8\3\2"+
-		"\2\2\32\u00cb\3\2\2\2\34\u00d5\3\2\2\2\36\u00e2\3\2\2\2 \u00ec\3\2\2\2"+
+		"\2\2\32\u00cb\3\2\2\2\34\u00d5\3\2\2\2\36\u00e2\3\2\2\2 \u0113\3\2\2\2"+
 		"\"\u011c\3\2\2\2$\u0121\3\2\2\2&\u0123\3\2\2\2()\7\t\2\2)-\7\20\2\2*,"+
 		"\5\n\6\2+*\3\2\2\2,/\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\60\3\2\2\2/-\3\2\2\2"+
 		"\60\61\7\21\2\2\61\3\3\2\2\2\62=\5\26\f\2\63=\5\6\4\2\64\65\5\b\5\2\65"+
@@ -2134,7 +2171,7 @@ public class LHCParser extends Parser {
 		"\u00e7\7\20\2\2\u00e4\u00e6\5\4\3\2\u00e5\u00e4\3\2\2\2\u00e6\u00e9\3"+
 		"\2\2\2\u00e7\u00e5\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00ea\3\2\2\2\u00e9"+
 		"\u00e7\3\2\2\2\u00ea\u00eb\7\21\2\2\u00eb\37\3\2\2\2\u00ec\u00ed\7*\2"+
-		"\2\u00ed\u0113\7\22\2\2\u00ee\u00ef\7\4\2\2\u00ef\u00f0\7.\2\2\u00f0\u00f1"+
+		"\2\u00ed\u00ee\7\22\2\2\u00ee\u00ef\7\4\2\2\u00ef\u00f0\7.\2\2\u00f0\u00f1"+
 		"\7#\2\2\u00f1\u00f2\7\31\2\2\u00f2\u00f3\7\24\2\2\u00f3\u00f4\5\b\5\2"+
 		"\u00f4\u00f5\7\24\2\2\u00f5\u00f6\7.\2\2\u00f6\u00f7\7\25\2\2\u00f7\u00f8"+
 		"\7\31\2\2\u00f8\u00f9\7\23\2\2\u00f9\u00fd\7\20\2\2\u00fa\u00fc\5\4\3"+
@@ -2146,7 +2183,7 @@ public class LHCParser extends Parser {
 		"\3\2\2\2\u010b\u0109\3\2\2\2\u010b\u010c\3\2\2\2\u010c\u010f\3\2\2\2\u010d"+
 		"\u010b\3\2\2\2\u010e\u0110\5\"\22\2\u010f\u010e\3\2\2\2\u010f\u0110\3"+
 		"\2\2\2\u0110\u0111\3\2\2\2\u0111\u0112\7\21\2\2\u0112\u0114\3\2\2\2\u0113"+
-		"\u00ee\3\2\2\2\u0113\u0105\3\2\2\2\u0114!\3\2\2\2\u0115\u0116\t\2\2\2"+
+		"\u00ec\3\2\2\2\u0113\u0105\3\2\2\2\u0114!\3\2\2\2\u0115\u0116\t\2\2\2"+
 		"\u0116\u011d\7\24\2\2\u0117\u0119\7\f\2\2\u0118\u011a\5&\24\2\u0119\u0118"+
 		"\3\2\2\2\u0119\u011a\3\2\2\2\u011a\u011b\3\2\2\2\u011b\u011d\7\24\2\2"+
 		"\u011c\u0115\3\2\2\2\u011c\u0117\3\2\2\2\u011d#\3\2\2\2\u011e\u0122\7"+

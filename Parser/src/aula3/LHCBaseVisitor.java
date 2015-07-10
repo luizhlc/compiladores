@@ -235,7 +235,14 @@ public class LHCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LH
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoop(LHCParser.LoopContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForRule(LHCParser.ForRuleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitWhile(LHCParser.WhileContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

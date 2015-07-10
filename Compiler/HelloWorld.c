@@ -19,6 +19,10 @@ ldc 1
 Exit0:
 
 ifeq Exit
+iload 0
+ldc 2
+iadd
+istore 0
 iload 1
 ldc 1
 iadd

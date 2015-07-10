@@ -219,11 +219,19 @@ public interface LHCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefault_rule(LHCParser.Default_ruleContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LHCParser#loop}.
+	 * Visit a parse tree produced by the {@code ForRule}
+	 * labeled alternative in {@link LHCParser#loop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLoop(LHCParser.LoopContext ctx);
+	T visitForRule(LHCParser.ForRuleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code While}
+	 * labeled alternative in {@link LHCParser#loop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhile(LHCParser.WhileContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LHCParser#control}.
 	 * @param ctx the parse tree

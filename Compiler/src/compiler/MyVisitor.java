@@ -17,6 +17,7 @@ import aula3.LHCParser.Default_ruleContext;
 import aula3.LHCParser.Divide_ruleContext;
 import aula3.LHCParser.Double_ruleContext;
 import aula3.LHCParser.Equal_ruleContext;
+import aula3.LHCParser.ForRuleContext;
 import aula3.LHCParser.GreaterE_ruleContext;
 import aula3.LHCParser.Greater_ruleContext;
 import aula3.LHCParser.Int_ruleContext;
@@ -86,11 +87,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	}
 
 	@Override
-	public String visitLoop(LoopContext ctx) {
-
+	public String visitForRule(ForRuleContext ctx) {
 		String code = "";
 
 		variables.put(ctx.id_.getText(), variables.size());
+		type_st.push(Type.Int);
 
 		String condition = visit(ctx.condition) + "\n";
 
@@ -104,7 +105,12 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		code += "ifeq Exit" + "\n";
 
 		//instructions
-
+		for (int i = 0; i < ctx.getChildCount(); i++) {
+			ParseTree child = ctx.getChild(i);
+			if(child instanceof StmtContext)
+				code += visit(child) + "\n";
+		}
+		
 		code += "iload " + variables.get(ctx.id_.getText()) + "\n";
 		code += "ldc " + ctx.incre_const.getText() + "\n";
 		code += "iadd" + "\n";
@@ -601,10 +607,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitVariable(VariableContext ctx) {
-		if (types.get(ctx.varName.getText()) == null) {
+		if (variables.get(ctx.varName.getText()) == null) {
 			try {
 				throw new Exception("Line: +" + ctx.start.getLine()
-						+ "\n VOCE AINDA NÃƒO DECLAROU A VARIÃ�VEL "
+						+ "\n VOCE AINDA NÃO DECLAROU A VARIÁVEL "
 						+ ctx.varName.getText());
 
 			} catch (Exception e) {
@@ -736,6 +742,8 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		Type b = type_st.pop();
 		// if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double ||
 		// a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
+		if(a == null || b == null)
+			return;
 		if (a == Type.Double && b == a || a == Type.Int && b == a) {
 			type_st.push(Type.Bool);
 			type_st.push(a);
