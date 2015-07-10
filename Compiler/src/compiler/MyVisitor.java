@@ -456,14 +456,16 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitOr_rule(Or_ruleContext ctx) {
+		String ret = visitChildren(ctx) + "\n" + "ior";
 		typeVerify_logic(ctx.start.getLine());
-		return visitChildren(ctx) + "\n" + "ior";
+		return ret;
 	}
 
 	@Override
 	public String visitAnd_rule(And_ruleContext ctx) {
+		String ret = visitChildren(ctx) + "\n" + "iand";
 		typeVerify_logic(ctx.start.getLine());
-		return visitChildren(ctx) + "\n" + "iand";
+		return ret;
 	}
 
 	@Override
