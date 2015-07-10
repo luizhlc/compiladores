@@ -22,6 +22,7 @@ import aula3.LHCParser.Greater_ruleContext;
 import aula3.LHCParser.Int_ruleContext;
 import aula3.LHCParser.LessE_ruleContext;
 import aula3.LHCParser.Less_ruleContext;
+import aula3.LHCParser.LoopContext;
 import aula3.LHCParser.MethodCallContext;
 import aula3.LHCParser.MethodDefContext;
 import aula3.LHCParser.Minus_ruleContext;
@@ -63,11 +64,13 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return child;
 		
 	}
+	
 	@Override
 	public String visitStmt(StmtContext ctx) {
 		type_st.clear();
 		return super.visitStmt(ctx);
 	}
+	
 	@Override
 	public String visitPrint(PrintContext ctx) {
 		String child = visit(ctx.argument);
@@ -79,6 +82,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return "getstatic java/lang/System/out Ljava/io/PrintStream;" + "\n"
 				+ child + "\n"
 				+ "invokevirtual java/io/PrintStream/println(I)V";
+	}
+	
+	@Override
+	public String visitLoop(LoopContext ctx) {
+		return "";
 	}
 	
 	@Override
@@ -253,11 +261,6 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		return "";
 	}
 	
-//	@Override
-//	public String visitSwitch1(Switch1Context ctx) {
-//		String return_=""; 
-//		return return_;
-//	}
 	@Override
 	public String visitCase_rule(Case_ruleContext ctx) {
 		String instructions="";

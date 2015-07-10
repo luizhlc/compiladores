@@ -7,24 +7,10 @@ LHC+-{
 		return a;
 	}
 	void main(){
-		int a =5;
-		switch {
-			case(a==8){
-				print(1);
-			}
-			case(a==9){
-				print(2);
-			}
-			case(a==(10+1)){
-				print(3);
-			}
-			default{
-				print(4);
-			}
-		};
-		
+		int a = 0;
+		for(int i = 0; i < 2; i+1){
+			a = a + 2;
+		}
+		print(a);
 	}
-	
-
-
 }

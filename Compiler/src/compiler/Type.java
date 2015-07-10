@@ -3,7 +3,7 @@ package compiler;
 public enum Type {
 	Int("int","I","i"),
 	Double("double","D","d"),
-	Bool("bool","B","b"),
+	Bool("bool","I","i"),
 	String("string","S","s"),
 	Char("char","C","c"),
 	Void("void","V","");
