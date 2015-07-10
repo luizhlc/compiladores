@@ -35,7 +35,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
   	methodCall	: funcName1=ID (Dot funcName2=ID)? ParBeg (argList=expressionList)? ParEnd ;
   	paramList 	: declarations=paramDecl ( Comma declarations=paramDecl )*;   	  		 
   	paramDecl : type_=type varName=ID;
-  	expressionList : exp (Comma exp)*;
+  	expressionList : par+=exp (Comma par+=exp)*;
     decl	: type_=type varName=ID Semicolon #VarDecl
     			| type_=type (varName=ID Comma)* varName=ID Semicolon #VarMultDecl;
     			

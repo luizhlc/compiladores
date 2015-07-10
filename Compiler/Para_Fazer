@@ -1,0 +1,9 @@
+Para arrumar
+	se uma variavel for declarada e nada for atribuído a ela, ela pode ser usada em operações aritmética
+		- compila corretamente;
+		- jasmin nao executa;
+	Case sempre precisa de default, mesmo que defaul seja vazio
+		- não é simplesmente alterar a gramática. A geração de código do case precisa do default para terminar.
+	Case não pode ter return
+		- tentar transferir return para stmt;
+	FAZER LOOP!!!!
