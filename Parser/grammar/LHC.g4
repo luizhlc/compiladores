@@ -45,7 +45,7 @@ exp :  ParBeg exp ParEnd #ParExp_rule
 	switch1 : Switch Begin (case_=case1)+ (else_=default1) End ;
     case1 : Case ParBeg condition_=exp ParEnd Begin (stmtList=stmt)* End #Case_rule;
 	default1 : Default Begin (stmtList=stmt)* End #default_rule;
-	loop : For ParBeg ((type_=type id_=ID Equal int_const=Integer Semicolon condition=exp Semicolon increment=exp ParEnd Begin (stmts=stmt)* control_=control? End)
+	loop : For ParBeg ((IntegerType id_=ID Gets int_const=Integer Semicolon condition=exp Semicolon id_increment=ID Plus incre_const=Integer ParEnd Begin (stmts=stmt)* control_=control? End)
       					|(condition=exp ParEnd Begin (stmts=stmt)* control_=control? End));
   	control : (Break | Continue) Semicolon 
       		| Return  (type_=type)? Semicolon ;

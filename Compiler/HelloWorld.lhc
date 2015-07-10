@@ -1,36 +1,13 @@
 LHC+-{
-<<<<<<< HEAD
-	int func(int a, double j){
-		int c = 3+4*a;
-		print(a);
-		print(c);
-		print(a+c);
-		return a;
-	}
+	
 	void main(){
 		int a = 0;
-		for(int i = 0; i < 2; i+1){
-			a = a + 2;
-		}
-		print(a);
-=======
-	int fat(int a){
-		int gambs;
 		switch{
-			case(a==0){
-				gambs = 1;
+			case(4 < 2){
+				a = 10;
 			}
-			default{
-				gambs = a * fat(a-1);
-			}
+			default{}
 		};
-		return gambs;
-		
-		
-	}
-	void main(){
-		int a = fat(5);
-		print(a);	
->>>>>>> 8876405be6abf7261fd0db2b6ab7d3431843ed9c
+		print(a);
 	}
 }
