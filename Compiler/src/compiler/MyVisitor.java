@@ -197,7 +197,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 					e.printStackTrace();
 				}
 			}
-			// intru��o de retorno
+			// intruï¿½ï¿½o de retorno
 			return_ += visit(ctx.returnExp) + "\n";
 			if (!ctx.type_.getText().equals(type_st.peek().getType())) {
 				try {
@@ -213,7 +213,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 			}
 		}
 
-		// verifica se � main
+		// verifica se ï¿½ main
 		if (ctx.funcName.getText().equals("main")) {
 			retorno += return_ + "return\n" + ".end method";
 		} else {
@@ -449,7 +449,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 
 	@Override
 	public String visitOr_rule(Or_ruleContext ctx) {
-		// typeVerify_logic();
+		typeVerify_logic(ctx.start.getLine());
 		return visitChildren(ctx) + "\n" + "ior";
 	}
 
@@ -493,19 +493,35 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	@Override
 	public String visitLess_rule(Less_ruleContext ctx) {
 		String child = visitChildren(ctx);
-		String retorno = child + "\n" + "if_icmplt Label" + label + "\n"
+		typeVerify_comparison(ctx.start.getLine());
+		if (type_st.pop() == Type.Double) {
+
+			return child + "\n" + "dcmpg" + "\n" + "iflt Label" + label + "\n"
+					+ "ldc 0" + "\n" + "goto Exit" + label + "\n" + "Label"
+					+ label + ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++
+					+ ":";
+		}
+		return child + "\n" + "if_icmplt Label" + label + "\n"
 				+ "ldc 0" + "\n" + "goto Exit" + label + "\n" + "Label" + label
 				+ ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++ + ":";
-		return retorno;
+		
 	}
 
 	@Override
 	public String visitGreater_rule(Greater_ruleContext ctx) {
 		String child = visitChildren(ctx);
-		String retorno = child + "\n" + "if_icmpgt Label" + label + "\n"
+		typeVerify_comparison(ctx.start.getLine());
+		if (type_st.pop() == Type.Double) {
+			return child + "\n" + "dcmpg" + "\n" + "ifgt Label" + label + "\n"
+					+ "ldc 0" + "\n" + "goto Exit" + label + "\n" + "Label"
+					+ label + ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++
+					+ ":";
+					
+		}
+		return child + "\n" + "if_icmpgt Label" + label + "\n"
 				+ "ldc 0" + "\n" + "goto Exit" + label + "\n" + "Label" + label
 				+ ":" + "\n" + "ldc 1" + "\n" + "Exit" + label++ + ":";
-		return retorno;
+		
 	}
 
 	@Override
@@ -587,7 +603,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		if (types.get(ctx.varName.getText()) == null) {
 			try {
 				throw new Exception("Line: +" + ctx.start.getLine()
-						+ "\n VOCE AINDA NÃO DECLAROU A VARIÁVEL "
+						+ "\n VOCE AINDA NÃƒO DECLAROU A VARIÃ�VEL "
 						+ ctx.varName.getText());
 
 			} catch (Exception e) {
