@@ -4,34 +4,22 @@
 .method public static main([Ljava/lang/String;)V
 .limit locals 100
 .limit stack 100
-ldc 1
-istore 0
-ldc 0
-istore 1
-LoopBody:
-iload 1
-ldc 5
-if_icmplt Label0
-ldc 0
-goto Exit0
-Label0:
-ldc 1
-Exit0:
-
-ifeq Exit
-iload 0
-iload 1
-dmul
-istore 0
-iload 1
-ldc 1
+ldc 2
+ldc 2
 iadd
+istore 0
+ldc 3
 istore 1
-goto LoopBody
-Exit:
-
-getstatic java/lang/System/out Ljava/io/PrintStream;
 iload 0
+iload 1
+imul
+ldc 3
+iadd
+istore 2
+getstatic java/lang/System/out Ljava/io/PrintStream;
+iload 2
+ldc 2
+iadd
 invokevirtual java/io/PrintStream/println(I)V
 return
 .end method

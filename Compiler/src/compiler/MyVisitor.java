@@ -261,7 +261,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 					throw new Exception(
 							"Line: +"
 									+ ctx.start.getLine()
-									+ "\n ESSA FUNCAO NAO TEM PARAMETROS PORRA: 2h da manha");
+									+ "\n ESSA FUNCAO NAO TEM PARAMETROS *******: 2h da manha");
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -274,7 +274,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		if (num_par > parametros_func.size()) {
 			try {
 				throw new Exception("Line: +" + ctx.start.getLine()
-						+ "\n TEM PARAMETRO SOBRANDO AI PORRA");
+						+ "\n TEM PARAMETRO SOBRANDO AI ******");
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -283,7 +283,7 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		if (num_par < parametros_func.size()) {
 			try {
 				throw new Exception("Line: +" + ctx.start.getLine()
-						+ "\n TEM PARAMETRO FALTANDO AI PORRA");
+						+ "\n TEM PARAMETRO FALTANDO AI *****");
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -697,6 +697,17 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void typeVerify_simpleAritm(int l) {
 		Type a = type_st.pop();
 		Type b = type_st.pop();
+		
+		if(a != null && b == null){
+			type_st.push(a);
+			return;
+		}
+		
+		if(b != null && a == null){
+			type_st.push(b);
+			return;
+		}
+		
 		if (a == Type.Int && b == a) {
 			type_st.push(Type.Int);
 			return;
@@ -744,8 +755,10 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		Type b = type_st.pop();
 		// if(a==Type.Double&&b==a || a==Type.Integer&&b==Type.Double ||
 		// a==Type.Double&&b==Type.Integer || a==Type.Integer && b==a){
-		if(a == null || b == null)
+		if(a != null || b == null){
+			type_st.push(a);
 			return;
+		}
 		if (a == Type.Double && b == a || a == Type.Int && b == a) {
 			type_st.push(Type.Bool);
 			type_st.push(a);
@@ -787,6 +800,17 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 	private void typeVerify_logic(int l) {
 		Type a = type_st.pop();
 		Type b = type_st.pop();
+		
+		if(a != null & b == null){
+			type_st.push(a);
+			return;
+		}
+		
+		if(a == null & b != null){
+			type_st.push(b);
+			return;
+		}
+		
 		if (a == Type.Bool && b == a) {
 			type_st.push(Type.Bool);
 			return;
@@ -805,6 +829,11 @@ public class MyVisitor extends LHCBaseVisitor<String> {
 		Type a = type_st.pop();
 		type_st.push(var);
 		if (var == a) {
+			return;
+		}
+		
+		if(var == null){
+			type_st.push(var);
 			return;
 		}
 
